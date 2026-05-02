@@ -1,0 +1,762 @@
+CMAKE_BUILD_TYPE=Release
+CMake Warning at CMakeLists.txt:157 (message):
+  LLAMA_CURL is deprecated and will be ignored
+Call Stack (most recent call first):
+  CMakeLists.txt:171 (llama_option_depr)
+
+
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: aarch64
+-- GGML_SYSTEM_ARCH: ARM
+-- Including CPU backend
+-- ARM detected
+-- Checking for ARM features using flags:
+--   -march=armv8-a
+-- Adding CPU backend variant ggml-cpu: -march=armv8-a 
+-- CUDA Toolkit found
+-- Using CMAKE_CUDA_ARCHITECTURES=50;61 CMAKE_CUDA_ARCHITECTURES_NATIVE=53-real
+-- Could NOT find NCCL (missing: NCCL_LIBRARY NCCL_INCLUDE_DIR) 
+-- Warning: NCCL not found, performance for multiple CUDA GPUs will be suboptimal
+-- CUDA host compiler is GNU 8.5.0
+-- Including CUDA backend
+-- ggml version: 0.10.2
+-- ggml commit:  0cc455dc2
+-- Fetching LibreSSL version 4.3.1
+-- Generating embedded license file for target: llama-common
+-- Configuring done (1.5s)
+-- Generating done (2.1s)
+-- Build files have been written to: /home/diikorr/llama.cpp-b9006/build
+[  0%] Building CXX object common/CMakeFiles/llama-common-base.dir/build-info.cpp.o
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[  0%] Linking CXX static library libllama-common-base.a
+[  0%] Built target llama-common-base
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/bio_ssl.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/d1_both.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/d1_lib.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/d1_pkt.c.o
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/d1_srtp.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/pqueue.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/s3_cbc.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/s3_lib.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_asn1.c.o
+[  0%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_both.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_cert.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_ciph.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_ciphers.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_clnt.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_err.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_init.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_kex.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_lib.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_methods.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_pkt.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_rsa.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_seclevel.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_sess.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_sigalgs.c.o
+[  1%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_srvr.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_stat.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_tlsext.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_transcript.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_txt.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/ssl_versions.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/t1_enc.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/t1_lib.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls_buffer.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls_content.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls_key_share.c.o
+[  2%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls_lib.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls12_key_schedule.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls12_lib.c.o
+[  2%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls12_record_layer.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_client.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_error.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_handshake.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_handshake_msg.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_key_schedule.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_legacy.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_lib.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_quic.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_record.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_record_layer.c.o
+[  4%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl_obj.dir/tls13_server.c.o
+[  4%] Built target ssl_obj
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/arch/aarch64/crypto_cpu_caps_linux.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/crypto_err.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/crypto_ex_data.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/crypto_init.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/crypto_legacy.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/crypto_memory.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/aes/aes.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/aes/aes_core.c.o
+[  4%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_bitstr.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_enum.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_int.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_mbstr.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_object.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_octet.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_pkey.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_print.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_pubkey.c.o
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_strex.c.o
+[  5%] Linking CXX shared library ../../bin/libggml-base.so
+[  5%] Built target ggml-base
+[  5%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/empty.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/freezero.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/getprogname_linux.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/reallocarray.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/recallocarray.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/strlcat.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/strlcpy.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/strtonum.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/syslog_r.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/arc4random.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/arc4random_uniform.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/timingsafe_bcmp.c.o
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/compat_obj.dir/compat/timingsafe_memcmp.c.o
+[  6%] Built target compat_obj
+[  6%] Built target sha256
+[  6%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_string.c.o
+[  8%] Built target xxhash
+[  8%] Built target sha1
+[  8%] Built target llama-llava-cli
+[  8%] Built target llama-gemma3-cli
+[  8%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_strnid.c.o
+[  9%] Built target llama-minicpmv-cli
+[ 10%] Built target llama-qwen2vl-cli
+[ 10%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_time.c.o
+[ 10%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_time_posix.c.o
+[ 10%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_time_tm.c.o
+[ 10%] Linking CUDA shared library ../../../bin/libggml-cuda.so
+[ 10%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_type.c.o
+[ 12%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/a_utf8.c.o
+[ 12%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_err.c.o
+[ 12%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_gen.c.o
+[ 24%] Built target ggml-cuda
+[ 24%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_item.c.o
+[ 24%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_lib.c.o
+[ 24%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_old.c.o
+[ 24%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_old_lib.c.o
+[ 24%] Linking CXX shared library ../../bin/libggml-cpu.so
+[ 24%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_par.c.o
+[ 27%] Built target ggml-cpu
+[ 27%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn1_types.c.o
+[ 27%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn_mime.c.o
+[ 27%] Linking CXX shared library ../../bin/libggml.so
+[ 27%] Built target ggml
+[ 27%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/asn_moid.c.o
+[ 27%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/bio_asn1.c.o
+[ 27%] Linking CXX shared library ../bin/libllama.so
+[ 27%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/bio_ndef.c.o
+[ 27%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/p5_pbe.c.o
+[ 28%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/p5_pbev2.c.o
+[ 41%] Built target llama
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/p8_pkey.c.o
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/t_crl.c.o
+[ 41%] Linking CXX executable ../../bin/llama-gguf-hash
+[ 41%] Built target llama-gguf-hash
+[ 41%] Linking CXX executable ../../bin/llama-gguf
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/t_req.c.o
+[ 41%] Built target llama-gguf
+[ 41%] Linking CXX executable ../../bin/llama-simple
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/t_spki.c.o
+[ 41%] Built target llama-simple
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/t_x509.c.o
+[ 41%] Linking CXX executable ../../bin/llama-simple-chat
+[ 41%] Built target llama-simple-chat
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/t_x509a.c.o
+[ 41%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_dec.c.o
+[ 41%] Linking CXX shared library ../../bin/libmtmd.so
+[ 44%] Built target mtmd
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_enc.c.o
+[ 44%] Linking C executable ../bin/test-c
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_fre.c.o
+[ 44%] Built target test-c
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_new.c.o
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_prn.c.o
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_typ.c.o
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/tasn_utl.c.o
+[ 44%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_algor.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_attrib.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_bignum.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_crl.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_exten.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_long.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_name.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_pubkey.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_req.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_sig.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_spki.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_val.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_x509.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/asn1/x_x509a.c.o
+[ 45%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bf/blowfish.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/b_dump.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/b_print.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/b_sock.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bf_buff.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bf_nbio.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bf_null.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bio_cb.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bio_err.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bio_lib.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bio_meth.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_acpt.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_bio.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_conn.c.o
+[ 47%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_dgram.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_fd.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_file.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_mem.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_null.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/bss_sock.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_add.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_add_sub.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_bpsw.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_const.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_convert.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_ctx.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_div.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_err.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_exp.c.o
+[ 48%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_gcd.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_isqrt.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_kron.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_lib.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_mod.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_mod_sqrt.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_mod_words.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_mont.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_mul.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_prime.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_primitives.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_print.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_rand.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_recp.c.o
+[ 50%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_shift.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_small_primes.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_sqr.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bn/bn_word.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/buffer/buf_err.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/buffer/buffer.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bytestring/bs_ber.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bytestring/bs_cbb.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bytestring/bs_cbs.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/camellia/camellia.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cast/cast.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/chacha/chacha.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cmac/cm_ameth.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cmac/cm_pmeth.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cmac/cmac.c.o
+[ 51%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_asn1.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_att.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_dd.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_enc.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_env.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_err.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_ess.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_io.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_kari.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_lib.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_pwri.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_sd.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/cms/cms_smime.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/conf/conf_api.c.o
+[ 52%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/conf/conf_def.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/conf/conf_err.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/conf/conf_lib.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/conf/conf_mod.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/conf/conf_sap.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_b64.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_err.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_log.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_oct.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_policy.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_prn.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_sct.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_sct_ctx.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_vfy.c.o
+[ 54%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ct/ct_x509v3.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/curve25519/curve25519-generic.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/curve25519/curve25519.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/des/des.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/des/des_cksum.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/des/des_enc.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/des/des_fcrypt.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/des/des_key.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_ameth.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_asn1.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_check.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_err.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_gen.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_key.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_lib.c.o
+[ 55%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dh/dh_pmeth.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_ameth.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_asn1.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_err.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_gen.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_key.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_lib.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_meth.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_ossl.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_pmeth.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/dsa/dsa_prn.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_ameth.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_asn1.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_convert.c.o
+[ 56%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_curve.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_err.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_field.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_key.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_lib.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_mult.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ec_pmeth.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/eck_prn.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ecp_hp_methods.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ecp_methods.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ec/ecx_methods.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ecdh/ecdh.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ecdsa/ecdsa.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/engine/engine_stubs.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/err/err.c.o
+[ 58%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/err/err_all.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/err/err_prn.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/bio_b64.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/bio_enc.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/bio_md.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_aes.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_bf.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_camellia.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_cast.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_chacha.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_chacha20poly1305.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_des.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_des3.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_idea.c.o
+[ 59%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_null.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_rc2.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_rc4.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_sm4.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/e_xcbc_d.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_aead.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_cipher.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_digest.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_encode.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_err.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_key.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_names.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_pbe.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/evp_pkey.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_md4.c.o
+[ 60%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_md5.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_md5_sha1.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_null.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_ripemd.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_sha1.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_sha3.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_sigver.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/m_sm3.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/p_legacy.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/p_lib.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/p_sign.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/p_verify.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/pmeth_fn.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/pmeth_gn.c.o
+[ 62%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/evp/pmeth_lib.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/hkdf/hkdf.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/hmac/hm_ameth.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/hmac/hm_pmeth.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/hmac/hmac.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/idea/idea.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/kdf/hkdf_evp.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/kdf/kdf_err.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/kdf/tls1_prf.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/lhash/lhash.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/md4/md4.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/md5/md5.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/mlkem/mlkem.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/mlkem/mlkem_internal.c.o
+[ 63%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/mlkem/mlkem_key.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/cbc128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/ccm128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/cfb128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/ctr128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/gcm128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/ofb128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/modes/xts128.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/objects/obj_dat.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/objects/obj_err.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/objects/obj_lib.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/objects/obj_xref.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_asn.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_cl.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_err.c.o
+[ 64%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_ext.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_ht.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_lib.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_prn.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_srv.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ocsp/ocsp_vfy.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_all.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_err.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_info.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_lib.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_oth.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_pk8.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_pkey.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_sign.c.o
+[ 66%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_x509.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pem_xaux.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pem/pvkfmt.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_add.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_asn.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_attr.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_crt.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_decr.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_init.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_key.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_kiss.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_mutl.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_npas.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_p8d.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_p8e.c.o
+[ 67%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_sbag.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/p12_utl.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs12/pk12err.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pk7_asn1.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pk7_attr.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pk7_doit.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pk7_lib.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pk7_mime.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pk7_smime.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/pkcs7/pkcs7err.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/poly1305/poly1305.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rand/rand_err.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rand/rand_lib.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rand/randfile.c.o
+[ 68%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rc2/rc2.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rc4/rc4.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ripemd/ripemd.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_ameth.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_asn1.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_blinding.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_chk.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_eay.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_err.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_gen.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_lib.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_meth.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_none.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_oaep.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_pk1.c.o
+[ 70%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_pmeth.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_prn.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_pss.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_saos.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_sign.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/rsa/rsa_x931.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/sha/sha1.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/sha/sha256.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/sha/sha3.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/sha/sha512.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/sm3/sm3.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/sm4/sm4.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/stack/stack.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_asn1.c.o
+[ 71%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_conf.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_err.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_lib.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_req_print.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_req_utils.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_rsp_print.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_rsp_sign.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_rsp_utils.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_rsp_verify.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ts/ts_verify_ctx.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/txt_db/txt_db.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ui/ui_err.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ui/ui_lib.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ui/ui_null.c.o
+[ 72%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/by_dir.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/by_file.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/by_mem.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_addr.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_akey.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_akeya.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_alt.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_asid.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_att.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_bcons.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_bitst.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_cmp.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_conf.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_constraints.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_cpols.c.o
+[ 74%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_crld.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_d2.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_def.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_err.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_ext.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_extku.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_genn.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_ia5.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_info.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_int.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_issuer_cache.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_lib.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_lu.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_ncons.c.o
+[ 75%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_obj.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_ocsp.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_pcons.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_pku.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_pmaps.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_policy.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_prn.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_purp.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_r2x.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_req.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_set.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_siginfo.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_skey.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_trs.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_txt.c.o
+[ 77%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_utl.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_v3.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_verify.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_vfy.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509_vpm.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509cset.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509name.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509rset.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509spki.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x509type.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/x509/x_all.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/crypto_lock.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/bio/b_posix.c.o
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto_obj.dir/ui/ui_openssl.c.o
+[ 78%] Built target crypto_obj
+[ 78%] Building C object _deps/libressl-build/crypto/CMakeFiles/crypto.dir/empty.c.o
+[ 78%] Linking C static library libcrypto.a
+[ 78%] Built target crypto
+[ 78%] Building C object _deps/libressl-build/ssl/CMakeFiles/ssl.dir/empty.c.o
+[ 78%] Linking C static library libssl.a
+[ 78%] Built target ssl
+[ 78%] Building CXX object vendor/cpp-httplib/CMakeFiles/cpp-httplib.dir/httplib.cpp.o
+[ 78%] Linking CXX static library libcpp-httplib.a
+[ 78%] Built target cpp-httplib
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/chat-auto-parser-generator.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/arg.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/chat-auto-parser-helpers.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/chat-diff-analyzer.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/chat-peg-parser.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/chat.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/common.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/console.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/debug.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/download.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/fit.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/hf-cache.cpp.o
+[ 78%] Building CXX object common/CMakeFiles/llama-common.dir/json-partial.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/json-schema-to-grammar.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/llguidance.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/log.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/ngram-cache.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/ngram-map.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/ngram-mod.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/peg-parser.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/preset.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/regex-partial.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/reasoning-budget.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/sampling.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/speculative.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/unicode.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/lexer.cpp.o
+[ 79%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/parser.cpp.o
+[ 81%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/runtime.cpp.o
+[ 81%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/value.cpp.o
+[ 81%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/string.cpp.o
+[ 81%] Building CXX object common/CMakeFiles/llama-common.dir/jinja/caps.cpp.o
+[ 81%] Building CXX object common/CMakeFiles/llama-common.dir/__/license.cpp.o
+[ 81%] Linking CXX shared library ../bin/libllama-common.so
+[ 81%] Built target llama-common
+[ 81%] Linking CXX executable ../bin/test-tokenizer-0
+[ 81%] Linking CXX executable ../bin/test-sampling
+[ 81%] Built target test-tokenizer-0
+[ 81%] Built target test-sampling
+[ 82%] Linking CXX executable ../bin/test-reasoning-budget
+[ 82%] Linking CXX executable ../bin/test-grammar-parser
+[ 82%] Built target test-reasoning-budget
+[ 82%] Built target test-grammar-parser
+[ 82%] Linking CXX executable ../bin/test-grammar-integration
+[ 82%] Linking CXX executable ../bin/test-llama-grammar
+[ 82%] Built target test-llama-grammar
+[ 82%] Built target test-grammar-integration
+[ 82%] Linking CXX executable ../bin/test-json-schema-to-grammar
+[ 82%] Built target server-context
+[ 82%] Linking CXX executable ../bin/test-quantize-stats
+[ 83%] Built target test-json-schema-to-grammar
+[ 83%] Linking CXX executable ../bin/test-gbnf-validator
+[ 83%] Built target test-quantize-stats
+[ 83%] Linking CXX executable ../bin/test-tokenizer-1-bpe
+[ 83%] Built target test-gbnf-validator
+[ 83%] Linking CXX executable ../bin/test-tokenizer-1-spm
+[ 83%] Built target test-tokenizer-1-bpe
+[ 83%] Linking CXX executable ../bin/test-llama-archs
+[ 83%] Built target test-tokenizer-1-spm
+[ 83%] Built target test-llama-archs
+[ 83%] Linking CXX executable ../bin/test-chat-peg-parser
+[ 83%] Linking CXX executable ../bin/test-jinja
+[ 83%] Built target test-chat-peg-parser
+[ 83%] Built target test-jinja
+[ 83%] Linking CXX executable ../bin/test-chat-auto-parser
+[ 83%] Linking CXX executable ../bin/test-chat-template
+[ 85%] Built target test-chat-auto-parser
+[ 85%] Built target test-chat-template
+[ 85%] Linking CXX executable ../bin/test-json-partial
+[ 85%] Linking CXX executable ../bin/test-log
+[ 85%] Built target test-json-partial
+[ 85%] Built target test-log
+[ 85%] Linking CXX executable ../bin/test-regex-partial
+[ 86%] Linking CXX executable ../bin/test-peg-parser
+[ 86%] Built target test-regex-partial
+[ 87%] Linking CXX executable ../bin/test-thread-safety
+[ 87%] Built target test-peg-parser
+[ 87%] Linking CXX executable ../bin/test-arg-parser
+[ 87%] Built target test-thread-safety
+[ 87%] Linking CXX executable ../bin/test-opt
+[ 87%] Built target test-arg-parser
+[ 87%] Linking CXX executable ../bin/test-gguf
+[ 87%] Built target test-opt
+[ 87%] Linking CXX executable ../bin/test-backend-ops
+[ 87%] Built target test-gguf
+[ 87%] Linking CXX executable ../bin/test-model-load-cancel
+[ 89%] Built target test-backend-ops
+[ 89%] Built target test-model-load-cancel
+[ 89%] Linking CXX executable ../bin/test-autorelease
+[ 89%] Linking CXX executable ../bin/test-backend-sampler
+[ 89%] Built target test-autorelease
+[ 89%] Built target test-backend-sampler
+[ 89%] Linking CXX executable ../bin/test-state-restore-fragmented
+[ 89%] Linking CXX executable ../bin/test-barrier
+[ 89%] Built target test-state-restore-fragmented
+[ 89%] Built target test-barrier
+[ 89%] Linking CXX executable ../bin/test-quantize-fns
+[ 89%] Linking CXX executable ../bin/test-quantize-perf
+[ 89%] Built target test-quantize-fns
+[ 89%] Built target test-quantize-perf
+[ 89%] Linking CXX executable ../bin/test-rope
+[ 89%] Linking CXX executable ../bin/test-mtmd-c-api
+[ 89%] Built target test-rope
+[ 90%] Built target test-mtmd-c-api
+[ 90%] Building CXX object tests/CMakeFiles/gguf-model-data.dir/gguf-model-data.cpp.o
+[ 90%] Linking CXX executable ../bin/test-alloc
+[ 90%] Built target test-alloc
+[ 90%] Linking CXX executable ../../bin/llama-batched
+[ 90%] Built target llama-batched
+[ 90%] Linking CXX executable ../../bin/llama-debug
+[ 91%] Built target llama-debug
+[ 91%] Linking CXX executable ../../bin/llama-embedding
+[ 91%] Built target llama-embedding
+[ 91%] Linking CXX executable ../../bin/llama-eval-callback
+[ 91%] Built target llama-eval-callback
+[ 91%] Linking CXX executable ../../bin/llama-idle
+[ 91%] Built target llama-idle
+[ 91%] Linking CXX executable ../../bin/llama-lookahead
+[ 91%] Built target llama-lookahead
+[ 91%] Linking CXX executable ../../bin/llama-lookup
+[ 91%] Built target llama-lookup
+[ 91%] Linking CXX executable ../../bin/llama-lookup-create
+[ 91%] Built target llama-lookup-create
+[ 91%] Linking CXX executable ../../bin/llama-lookup-merge
+[ 91%] Built target llama-lookup-merge
+[ 91%] Linking CXX executable ../../bin/llama-lookup-stats
+[ 91%] Built target llama-lookup-stats
+[ 91%] Linking CXX executable ../../bin/llama-parallel
+[ 91%] Built target llama-parallel
+[ 91%] Linking CXX executable ../../bin/llama-passkey
+[ 91%] Built target llama-passkey
+[ 91%] Linking CXX executable ../../bin/llama-retrieval
+[ 91%] Built target llama-retrieval
+[ 91%] Linking CXX executable ../../bin/llama-save-load-state
+[ 91%] Built target llama-save-load-state
+[ 91%] Linking CXX executable ../../bin/llama-speculative
+[ 91%] Built target llama-speculative
+[ 91%] Linking CXX executable ../../bin/llama-speculative-simple
+[ 91%] Built target llama-speculative-simple
+[ 91%] Linking CXX executable ../../bin/llama-gen-docs
+[ 91%] Built target llama-gen-docs
+[ 91%] Linking CXX executable ../../bin/llama-finetune
+[ 91%] Built target llama-finetune
+[ 91%] Linking CXX executable ../../bin/llama-diffusion-cli
+[ 91%] Built target llama-diffusion-cli
+[ 91%] Linking CXX executable ../../bin/llama-convert-llama2c-to-ggml
+[ 91%] Built target llama-convert-llama2c-to-ggml
+[ 91%] Linking CXX executable ../../bin/llama-vdot
+[ 91%] Built target llama-vdot
+[ 91%] Linking CXX executable ../../bin/llama-q8dot
+[ 91%] Built target llama-q8dot
+[ 91%] Linking CXX executable ../../bin/llama-batched-bench
+[ 91%] Built target llama-batched-bench
+[ 91%] Linking CXX executable ../../bin/llama-gguf-split
+[ 91%] Built target llama-gguf-split
+[ 93%] Linking CXX executable ../../bin/llama-imatrix
+[ 93%] Built target llama-imatrix
+[ 93%] Linking CXX executable ../../bin/llama-bench
+[ 93%] Built target llama-bench
+[ 93%] Linking CXX executable ../../bin/llama-completion
+[ 93%] Built target llama-completion
+[ 93%] Linking CXX executable ../../bin/llama-perplexity
+[ 93%] Built target llama-perplexity
+[ 93%] Linking CXX executable ../../bin/llama-quantize
+[ 93%] Built target llama-quantize
+[ 94%] Linking CXX executable ../../bin/llama-cli
+[ 94%] Built target llama-cli
+[ 94%] Building CXX object tools/server/CMakeFiles/llama-server.dir/server.cpp.o
+[ 94%] Linking CXX static library libgguf-model-data.a
+[ 94%] Built target gguf-model-data
+[ 94%] Building CXX object tools/server/CMakeFiles/llama-server.dir/server-http.cpp.o
+[ 95%] Building CXX object tools/server/CMakeFiles/llama-server.dir/server-models.cpp.o
+[ 95%] Linking CXX executable ../../bin/llama-tokenize
+[ 95%] Built target llama-tokenize
+[ 95%] Linking CXX executable ../../bin/llama-debug-template-parser
+[ 95%] Built target llama-debug-template-parser
+[ 95%] Linking CXX executable ../../bin/llama-template-analysis
+[ 95%] Built target llama-template-analysis
+[ 97%] Linking CXX executable ../../bin/llama-tts
+[ 97%] Built target llama-tts
+[ 97%] Linking CXX executable ../../bin/llama-mtmd-cli
+[ 97%] Built target llama-mtmd-cli
+[ 97%] Linking CXX executable ../../bin/llama-mtmd-debug
+[ 97%] Built target llama-mtmd-debug
+[ 97%] Linking CXX executable ../../bin/llama-cvector-generator
+[ 97%] Built target llama-cvector-generator
+[ 97%] Linking CXX executable ../../bin/llama-export-lora
+[ 97%] Built target llama-export-lora
+[ 98%] Linking CXX executable ../../bin/llama-fit-params
+[ 98%] Built target llama-fit-params
+[ 98%] Linking CXX executable ../../bin/llama-results
+[ 98%] Built target llama-results
+[ 98%] Linking CXX executable ../bin/test-chat
+[ 98%] Built target test-chat
+[ 98%] Building CXX object tests/CMakeFiles/test-gguf-model-data.dir/test-gguf-model-data.cpp.o
+[ 98%] Linking CXX executable ../../bin/llama-server
+[100%] Linking CXX executable ../bin/test-gguf-model-data
+[100%] Built target test-gguf-model-data
+[100%] Building CXX object tests/CMakeFiles/test-quant-type-selection.dir/test-quant-type-selection.cpp.o
+[100%] Built target llama-server
+[100%] Building CXX object tests/CMakeFiles/test-quant-type-selection.dir/get-model.cpp.o
+[100%] Building CXX object tests/CMakeFiles/export-graph-ops.dir/export-graph-ops.cpp.o
+[100%] Linking CXX executable ../bin/test-quant-type-selection
+[100%] Built target test-quant-type-selection
+[100%] Linking CXX executable ../bin/export-graph-ops
+[100%] Built target export-graph-ops
