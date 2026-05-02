@@ -33,7 +33,9 @@ The minimal b5050 stub (`typedef half nv_bfloat16;`) is no longer enough. b9006 
 
 The stubs at `../jetson-nano-b9006-patch/files/cuda_bf16.h` and `../jetson-nano-b9006-patch/files/cuda_bf16.hpp` typedef the types onto `__half` / `__half2` and forward the intrinsics to their `__half` equivalents. They are not a faithful bf16 implementation — kernels actually instantiated on `sm_50`/`sm_61` end up doing fp16 arithmetic. Code paths gated by `__CUDA_ARCH__ >= 800` (Ampere+) are not instantiated for the Jetson Nano targets and are therefore unaffected.
 
-### Beyond the b5050 procedure — C++17 → C++14 backports
+### Beyond the b5050 procedure — issues found during the first `cmake --build`
+
+#### C++17 → C++14 backports
 
 nvcc 10.2 caps the CUDA dialect at C++14. b9006's CUDA back-end has picked up several C++17 idioms that b5050 didn't have, and `cmake --build` failed on the first run with errors like `namespace "std" has no member "is_same_v"` and `expected an identifier` on structured bindings. Patches applied:
 
@@ -46,6 +48,34 @@ nvcc 10.2 caps the CUDA dialect at C++14. b9006's CUDA back-end has picked up se
 - **`ggml/src/ggml-cuda/softmax.cu`** — the `(launch_kernel(std::integral_constant<int, Ns>{}) || ...)` fold expression replaced with the C++14 initializer-list-expander idiom. Short-circuit semantics are preserved by accumulating into a `bool` instead of OR-ing eagerly.
 
 `if constexpr` is left in place across the back-end — nvcc 10.2 accepts it as an extension and just emits the `constexpr if statements are a C++17 feature` warning that the b5050 README already documented as harmless.
+
+#### bf16 stub: host/device qualifiers had to match `<cuda_fp16.h>`
+
+The next `cmake --build` failed inside our own `cuda_bf16.h` stub with:
+
+```
+/usr/local/cuda/include/cuda_bf16.h(29): error: calling a __device__ function("__low2half") from
+    a __host__ __device__ function("__low2bfloat16") is not allowed
+/usr/local/cuda/include/cuda_bf16.h(30): error: calling a __device__ function("__high2half") from
+    a __host__ __device__ function("__high2bfloat16") is not allowed
+```
+
+Cause: the initial stub declared every wrapper `__host__ __device__`, but several of the underlying `__half` intrinsics in CUDA 10.2's `<cuda_fp16.h>` are `__device__`-only. nvcc parses the wrapper body in both passes and the host pass cannot resolve the device-only callee.
+
+Fix: narrow the wrapper qualifiers to mirror the underlying intrinsics:
+
+- `__bfloat162float`, `__float2bfloat16` stay `__host__ __device__` (their backing `__half2float` / `__float2half` are HD).
+- `__bfloat1622float2`, `__float22bfloat162_rn`, `__low2bfloat16`, `__high2bfloat16` become `__device__`-only (their backing `__half22float2` / `__float22half2_rn` / `__low2half` / `__high2half` are device-only).
+
+The device-only wrappers are still safe at runtime because their call sites in `ggml/src/ggml-cuda/convert.cuh` are gated by `GGML_USE_HIP` or `__CUDA_ARCH__ >= 800`, neither of which fires on `sm_50`/`sm_61`. The definitions only need to *parse*.
+
+After pulling, re-copy the updated header on the Jetson:
+
+```sh
+sudo cp jetson-nano-b9006-patch/files/cuda_bf16.h /usr/local/cuda/include/
+```
+
+(The `.hpp` companion is unchanged.)
 
 ## On the Jetson
 
