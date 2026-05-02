@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cpp-httplib/httplib.h>
+#include <cstdlib>
+#include <sys/stat.h>
 
 struct common_http_url {
     std::string scheme;
@@ -84,6 +86,36 @@ static std::pair<httplib::Client, common_http_url> common_http_client(const std:
 #endif
 
     httplib::Client cli(parts.scheme + "://" + parts.host + ":" + std::to_string(parts.port));
+
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
+    // When llama.cpp is linked against a freshly-built BoringSSL/LibreSSL
+    // (LLAMA_BUILD_BORINGSSL / LLAMA_BUILD_LIBRESSL), SSL_CTX_set_default_verify_paths()
+    // does not always pick up the system CA bundle nor the SSL_CERT_FILE/SSL_CERT_DIR
+    // env vars (its compiled-in OPENSSLDIR points to a path that does not exist on
+    // Linux distros). Explicitly load a CA bundle if one is available.
+    if (parts.scheme == "https") {
+        struct stat st;
+        const char * env_file = std::getenv("SSL_CERT_FILE");
+        const char * env_dir  = std::getenv("SSL_CERT_DIR");
+        if (env_file && *env_file && stat(env_file, &st) == 0) {
+            cli.set_ca_cert_path(env_file, env_dir && *env_dir ? env_dir : "");
+        } else {
+            // Common locations on Debian/Ubuntu, Fedora/RHEL, Arch.
+            static const char * candidates[] = {
+                "/etc/ssl/certs/ca-certificates.crt",
+                "/etc/pki/tls/certs/ca-bundle.crt",
+                "/etc/ssl/cert.pem",
+                nullptr,
+            };
+            for (const char ** p = candidates; *p; ++p) {
+                if (stat(*p, &st) == 0) {
+                    cli.set_ca_cert_path(*p, "");
+                    break;
+                }
+            }
+        }
+    }
+#endif
 
     if (!parts.user.empty()) {
         cli.set_basic_auth(parts.user, parts.password);
