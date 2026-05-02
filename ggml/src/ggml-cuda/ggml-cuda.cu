@@ -2294,7 +2294,8 @@ static bool ggml_cuda_should_fuse_mul_mat(const ggml_tensor * ffn_up,
         return false;
     }
 
-    if (const bool swapped = ggml_get_op_params_i32(glu, 1); swapped) {
+    const bool swapped = ggml_get_op_params_i32(glu, 1);
+    if (swapped) {
         return false;
     }
 
