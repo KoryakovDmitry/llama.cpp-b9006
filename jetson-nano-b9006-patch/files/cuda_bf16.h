@@ -30,6 +30,14 @@ typedef __half2 nv_bfloat162;
 // that would otherwise collide with the existing half2 ones.
 #define GGML_CUDA_BF16_IS_HALF2 1
 
+// CUDA 10.2's library_types.h does not contain CUDA_R_16BF (added in CUDA 11.0).
+// Provide a fallback so b9006's batched_mul_mat_traits<GGML_TYPE_BF16> compiles.
+// At runtime cuBLAS 10.2 will reject this enum value, but the BF16 cuBLAS branch
+// is never taken on sm_50/sm_61 with the models actually used on a Jetson Nano.
+#ifndef CUDA_R_16BF
+#define CUDA_R_16BF ((cudaDataType_t) 14)
+#endif
+
 // Scalar conversions — host-and-device, mirror __half2float / __float2half.
 __host__ __device__ __forceinline__ float       __bfloat162float(nv_bfloat16 x) { return __half2float(x); }
 __host__ __device__ __forceinline__ nv_bfloat16 __float2bfloat16(float x)        { return __float2half(x); }

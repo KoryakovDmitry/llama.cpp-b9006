@@ -1997,40 +1997,39 @@ struct batched_mul_mat_traits;
 template<>
 struct batched_mul_mat_traits<GGML_TYPE_F32> {
     using cuda_type = float;
-    static inline const cublasComputeType_t compute_type = CUBLAS_COMPUTE_32F;
-    static inline const cudaDataType_t data_type = CUDA_R_32F;
-    static inline const ggml_type ggml_type_val = GGML_TYPE_F32;
-    static inline const float alpha = 1.0f;
-    static inline const float beta = 0.0f;
-    static inline const void* get_alpha() { static const float val = alpha; return &val; }
-    static inline const void* get_beta() { static const float val = beta; return &val; }
-    static inline auto get_nc_converter(ggml_type src_type) { return ggml_get_to_fp32_nc_cuda(src_type); }
+    static constexpr cublasComputeType_t compute_type   = CUBLAS_COMPUTE_32F;
+    static constexpr cudaDataType_t      data_type      = CUDA_R_32F;
+    static constexpr ggml_type           ggml_type_val  = GGML_TYPE_F32;
+    static constexpr float               alpha          = 1.0f;
+    static constexpr float               beta           = 0.0f;
+    static const void* get_alpha() { static const float val = alpha; return &val; }
+    static const void* get_beta()  { static const float val = beta;  return &val; }
+    static auto get_nc_converter(ggml_type src_type) { return ggml_get_to_fp32_nc_cuda(src_type); }
 };
 
 template<>
 struct batched_mul_mat_traits<GGML_TYPE_BF16> {
     using cuda_type = nv_bfloat16;
-    static inline const cublasComputeType_t compute_type = CUBLAS_COMPUTE_32F;
-    static inline const cudaDataType_t data_type = CUDA_R_16BF;
-    static inline const ggml_type ggml_type_val = GGML_TYPE_BF16;
-    static inline const float alpha = 1.0f;
-    static inline const float beta = 0.0f;
-    static inline const void* get_alpha() { static const float val = alpha; return &val; }
-    static inline const void* get_beta() { static const float val = beta; return &val; }
-    static inline auto get_nc_converter(ggml_type src_type) { return ggml_get_to_bf16_nc_cuda(src_type); }
+    static constexpr cublasComputeType_t compute_type   = CUBLAS_COMPUTE_32F;
+    static constexpr cudaDataType_t      data_type      = CUDA_R_16BF;
+    static constexpr ggml_type           ggml_type_val  = GGML_TYPE_BF16;
+    static constexpr float               alpha          = 1.0f;
+    static constexpr float               beta           = 0.0f;
+    static const void* get_alpha() { static const float val = alpha; return &val; }
+    static const void* get_beta()  { static const float val = beta;  return &val; }
+    static auto get_nc_converter(ggml_type src_type) { return ggml_get_to_bf16_nc_cuda(src_type); }
 };
 
 template<>
 struct batched_mul_mat_traits<GGML_TYPE_F16> {
     using cuda_type = half;
-    static inline const cublasComputeType_t compute_type = CUBLAS_COMPUTE_16F;
-    static inline const cudaDataType_t data_type = CUDA_R_16F;
-    static inline const ggml_type ggml_type_val = GGML_TYPE_F16;
-    static inline const half alpha = 1.0;
-    static inline const half beta = 0.0;
-    static inline const void* get_alpha() { static const half val = alpha; return &val; }
-    static inline const void* get_beta() { static const half val = beta; return &val; }
-    static inline auto get_nc_converter(ggml_type src_type) { return ggml_get_to_fp16_nc_cuda(src_type); }
+    static constexpr cublasComputeType_t compute_type   = CUBLAS_COMPUTE_16F;
+    static constexpr cudaDataType_t      data_type      = CUDA_R_16F;
+    static constexpr ggml_type           ggml_type_val  = GGML_TYPE_F16;
+    // half ctor is not constexpr in CUDA 10.2; inline the literal in get_alpha/get_beta.
+    static const void* get_alpha() { static const half val(1.0f); return &val; }
+    static const void* get_beta()  { static const half val(0.0f); return &val; }
+    static auto get_nc_converter(ggml_type src_type) { return ggml_get_to_fp16_nc_cuda(src_type); }
 };
 
 template<ggml_type src0_type>
@@ -4050,7 +4049,7 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
 
             for (int i = 1; i <= concurrent_event->n_streams; ++i) {
                 cudaStream_t stream = cuda_ctx->stream(cuda_ctx->device, i);
-                CUDA_CHECK(cudaStreamWaitEvent(stream, concurrent_event->fork_event));
+                CUDA_CHECK(cudaStreamWaitEvent(stream, concurrent_event->fork_event, 0));
             }
         }
     };
@@ -4136,7 +4135,7 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
                             // Wait on join events of forked streams in the main stream
                             CUDA_CHECK(cudaEventRecord(concurrent_event->join_events[i - 1],
                                                        cuda_ctx->stream(cuda_ctx->device, i)));
-                            CUDA_CHECK(cudaStreamWaitEvent(cuda_ctx->stream(), concurrent_event->join_events[i - 1]));
+                            CUDA_CHECK(cudaStreamWaitEvent(cuda_ctx->stream(), concurrent_event->join_events[i - 1], 0));
                         }
 
                         is_concurrent_event_active = false;
