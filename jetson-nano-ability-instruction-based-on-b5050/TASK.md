@@ -3,7 +3,7 @@ You have to adapt the current code to the current root of the project llama.cpp-
 Check the instructions from ## Procedure paragraph, I've already did `### 1. Clone repository` point without these code:
 
 ```bash
-git checkout 23106f9
+git checkout 23106f9 # instead of 23106f94ea2bc3da929afb7330655fd5515d08dc we have c5a3bc39b1b0fe56954c6adb99e89b25d5e7b9cb
 git checkout -b llamaJetsonNanoCUDA # instead of llamaJetsonNanoCUDA we have /jetson-nano-b9006, current branch
 ```
 
