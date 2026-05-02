@@ -871,21 +871,33 @@ static void mul_mat_f_switch_rows_per_block(
         cudaStream_t stream, const mmf_ids_data * ids_data);
 
 #if !defined(GGML_USE_MUSA)
+// When the bf16 stub aliases nv_bfloat162 to __half2, the
+// nv_bfloat162 explicit instantiations collide with the half2 ones
+// ("explicitly instantiated more than once"). Make the bf16 lines
+// empty in that case.
+#ifdef GGML_CUDA_BF16_IS_HALF2
+#  define DECL_MMF_CASE_BF16_HELPER(T, nrows, ncols_dst)        /* same as half2 — skip */
+#  define DECL_MMF_CASE_BF16_EXTERN_HELPER(T, nrows, ncols_dst) /* same as half2 — skip */
+#else
+#  define DECL_MMF_CASE_BF16_HELPER(T, nrows, ncols_dst)        DECL_MMF_CASE_HELPER(T, nrows, ncols_dst)
+#  define DECL_MMF_CASE_BF16_EXTERN_HELPER(T, nrows, ncols_dst) extern DECL_MMF_CASE_HELPER(T, nrows, ncols_dst)
+#endif
+
 #define DECL_MMF_CASE_EXTERN(ncols_dst) \
     extern DECL_MMF_CASE_HELPER(float, MMF_ROWS_PER_BLOCK, ncols_dst) \
     extern DECL_MMF_CASE_HELPER(half2, MMF_ROWS_PER_BLOCK, ncols_dst) \
-    extern DECL_MMF_CASE_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK, ncols_dst) \
+    DECL_MMF_CASE_BF16_EXTERN_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK, ncols_dst) \
     extern DECL_MMF_CASE_HELPER(float, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst) \
     extern DECL_MMF_CASE_HELPER(half2, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst) \
-    extern DECL_MMF_CASE_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst)
+    DECL_MMF_CASE_BF16_EXTERN_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst)
 
 #define DECL_MMF_CASE(ncols_dst) \
     DECL_MMF_CASE_HELPER(float, MMF_ROWS_PER_BLOCK, ncols_dst) \
     DECL_MMF_CASE_HELPER(half2, MMF_ROWS_PER_BLOCK, ncols_dst) \
-    DECL_MMF_CASE_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK, ncols_dst) \
+    DECL_MMF_CASE_BF16_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK, ncols_dst) \
     DECL_MMF_CASE_HELPER(float, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst) \
     DECL_MMF_CASE_HELPER(half2, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst) \
-    DECL_MMF_CASE_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst)
+    DECL_MMF_CASE_BF16_HELPER(nv_bfloat162, MMF_ROWS_PER_BLOCK_CDNA, ncols_dst)
 
 DECL_MMF_CASE_EXTERN(1);
 DECL_MMF_CASE_EXTERN(2);
