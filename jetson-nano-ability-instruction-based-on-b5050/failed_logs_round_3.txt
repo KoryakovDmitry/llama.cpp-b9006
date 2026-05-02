@@ -1,0 +1,1802 @@
+diikorr@diikorr-nano:~/llama.cpp-b9006$ cmake --build build --config Release
+CMAKE_BUILD_TYPE=Release
+CMake Warning at CMakeLists.txt:157 (message):
+  LLAMA_CURL is deprecated and will be ignored
+Call Stack (most recent call first):
+  CMakeLists.txt:171 (llama_option_depr)
+
+
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: aarch64
+-- GGML_SYSTEM_ARCH: ARM
+-- Including CPU backend
+-- ARM detected
+-- Checking for ARM features using flags:
+--   -march=armv8-a
+-- Adding CPU backend variant ggml-cpu: -march=armv8-a
+-- CUDA Toolkit found
+-- Using CMAKE_CUDA_ARCHITECTURES=50;61 CMAKE_CUDA_ARCHITECTURES_NATIVE=53-real
+-- Could NOT find NCCL (missing: NCCL_LIBRARY NCCL_INCLUDE_DIR)
+-- Warning: NCCL not found, performance for multiple CUDA GPUs will be suboptimal
+-- CUDA host compiler is GNU 8.5.0
+-- Including CUDA backend
+-- ggml version: 0.10.2
+-- ggml commit:  dd9b79cc7
+-- Generating embedded license file for target: llama-common
+-- Configuring done (1.1s)
+-- Generating done (0.8s)
+-- Build files have been written to: /home/diikorr/llama.cpp-b9006/build
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[  1%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[  1%] Linking CXX shared library ../../bin/libggml-base.so
+[  1%] Built target ggml-base
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/acc.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/add-id.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/arange.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/argmax.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/argsort.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(11): warning: function "init_indices" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(21): warning: function "init_offsets" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(11): warning: function "init_indices" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(21): warning: function "init_offsets" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/binbcast.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(287): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_repeat, n_fuse=0, src0_t=float, src1_t=float, dst_t=float]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_repeat, 0>]"
+(396): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(287): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_repeat, n_fuse=0, src0_t=float, src1_t=float, dst_t=float]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_repeat, 0>]"
+(396): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu: In function ‘void launch_bin_bcast_pack(const ggml_tensor*, const ggml_tensor*, ggml_tensor*, const src0_t*, const src1_t*, dst_t*, cudaStream_t, std::index_sequence<I ...>)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu:287:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+             if constexpr (sizeof...(I) > 0) {
+    ^
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu:304:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+             if constexpr (sizeof...(I) > 0) {
+    ^
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/clamp.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/concat.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/concat.cu(19): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/concat.cu(19): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/conv-transpose-1d.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  3%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/conv2d-dw.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  3%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/conv2d-transpose.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(62): here
+            instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(62): here
+            instantiation of "void conv2d_transpose_kernel(const float *, const kernel_t *, float *, int, int, int, int, int, int, int, int, int, int) [with kernel_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d-transpose.cu(106): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  3%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/conv2d.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(99): here
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(99): here
+            instantiation of "void conv2d_kernel<T,Layout>(const float *, const T *, float *, conv_params) [with T=half, Layout=whcn_layout]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(111): here
+            instantiation of "void conv2d_cuda(const float *, const T *, float *, conv_params, cudaStream_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/conv2d.cu(115): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  3%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/convert.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(645): here
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(680): here
+            instantiation of "void convert_unary<src_t,dst_t>(const void *, dst_t *, int64_t, int64_t, int64_t, uint3, int64_t, int64_t, int64_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(693): here
+            instantiation of "void convert_unary_cuda<src_t,dst_t>(const void *, dst_t *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(874): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(645): here
+            instantiation of "void dequantize_block_nvfp4(const void *, dst_t *, int64_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(657): here
+            instantiation of "void dequantize_row_nvfp4_cuda(const void *, dst_t *, int64_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(760): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(680): here
+            instantiation of "void convert_unary<src_t,dst_t>(const void *, dst_t *, int64_t, int64_t, int64_t, uint3, int64_t, int64_t, int64_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(693): here
+            instantiation of "void convert_unary_cuda<src_t,dst_t>(const void *, dst_t *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cu(874): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  3%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/count-equal.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  3%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/cpy.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=nv_bfloat16, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=nv_bfloat16, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=float, dst_t=nv_bfloat16]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=float, dst_t=nv_bfloat16]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(430): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(535): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(543): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cpy_1_scalar<src_t,dst_t>(const char *, char *) [with src_t=float, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(231): here
+            instantiation of "void ggml_cpy_scalar_cuda<src_t,dst_t,transposed>(const char *, char *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with src_t=float, dst_t=float, transposed=true]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(422): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=nv_bfloat16, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=nv_bfloat16, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=float, dst_t=nv_bfloat16]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=float, dst_t=nv_bfloat16]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(430): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(535): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(185): here
+            instantiation of "void cpy_scalar_contiguous<src_t,dst_t>(const char *, char *, int64_t) [with src_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(196): here
+            instantiation of "void ggml_cpy_scalar_contiguous_cuda<src_t,dst_t>(const char *, char *, int64_t, cudaStream_t) [with src_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cpy.cu(543): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  4%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/cross-entropy-loss.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  4%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/cumsum.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void cumsum_kernel(const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(263): here
+            instantiation of "void cumsum_cuda(ggml_backend_cuda_context &, const T *, T *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, cudaStream_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/cumsum.cu(275): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  4%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/diag.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(31): here
+            instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(31): here
+            instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(71): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(31): here
+            instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(67): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(31): here
+            instantiation of "void diag_kernel(T *, const T *, int64_t, int64_t, int64_t, int64_t, int64_t) [with T=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/diag.cu(71): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  4%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/diagmask.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  4%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/fattn-tile.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh: In function ‘constexpr float (* get_vec_dot_KQ())(const char*, const void*, const int*, const void*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:582:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (type_K == GGML_TYPE_F16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:584:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q4_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:586:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q4_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:588:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q5_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:590:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q5_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:592:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q8_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:594:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_BF16) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh: In function ‘constexpr void (* get_dequantize_V())(const void*, void*, int64_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:604:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (type_V == GGML_TYPE_F16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:606:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q4_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:608:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q4_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:610:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q5_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:612:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q5_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:614:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q8_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:616:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_BF16) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh: In function ‘void launch_fattn_tile_switch_ncols1(ggml_backend_cuda_context&, ggml_tensor*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1141:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ <= 256)
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1155:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1167:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 8) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1179:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 4) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1191:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 2) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh: In function ‘void launch_fattn_tile_switch_ncols2(ggml_backend_cuda_context&, ggml_tensor*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1223:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ == 320) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1242:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ == 576) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1253:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ <= 512 && DKQ != 320) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1264:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+         if constexpr (DV <= 256) {
+    ^    ~~~~
+[  4%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/fattn-wmma-f16.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh: In function ‘constexpr float (* get_vec_dot_KQ())(const char*, const void*, const int*, const void*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:582:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (type_K == GGML_TYPE_F16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:584:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q4_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:586:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q4_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:588:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q5_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:590:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q5_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:592:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q8_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:594:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_BF16) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh: In function ‘constexpr void (* get_dequantize_V())(const void*, void*, int64_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:604:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (type_V == GGML_TYPE_F16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:606:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q4_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:608:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q4_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:610:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q5_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:612:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q5_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:614:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q8_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:616:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_BF16) {
+             ^~~~~~~~~
+[  5%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/fattn.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/mma.cuh(575): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/mma.cuh(575): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh: In function ‘constexpr float (* get_vec_dot_KQ())(const char*, const void*, const int*, const void*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:582:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (type_K == GGML_TYPE_F16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:584:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q4_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:586:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q4_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:588:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q5_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:590:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q5_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:592:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_Q8_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:594:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_K == GGML_TYPE_BF16) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh: In function ‘constexpr void (* get_dequantize_V())(const void*, void*, int64_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:604:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (type_V == GGML_TYPE_F16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:606:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q4_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:608:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q4_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:610:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q5_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:612:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q5_1) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:614:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_Q8_0) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-common.cuh:616:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr (type_V == GGML_TYPE_BF16) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh: In function ‘void launch_fattn_tile_switch_ncols1(ggml_backend_cuda_context&, ggml_tensor*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1141:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ <= 256)
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1155:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1167:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 8) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1179:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 4) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1191:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 2) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh: In function ‘void launch_fattn_tile_switch_ncols2(ggml_backend_cuda_context&, ggml_tensor*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1223:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ == 320) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1242:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ == 576) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1253:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ <= 512 && DKQ != 320) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn-tile.cuh:1264:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+         if constexpr (DV <= 256) {
+    ^    ~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn.cu: In function ‘void ggml_cuda_flash_attn_ext_mma_f16_switch_ncols1(ggml_backend_cuda_context&, ggml_tensor*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn.cu:14:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 8) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn.cu:21:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (ncols2 <= 16) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn.cu: In function ‘void ggml_cuda_flash_attn_ext_mma_f16_switch_ncols2(ggml_backend_cuda_context&, ggml_tensor*)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn.cu:78:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+         if constexpr (DKQ <= 256) {
+    ^    ~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fattn.cu:101:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (DKQ <= 256) {
+    ^~~~~~~~~
+[  5%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/fill.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+          detected during instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fill.cu(32): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+          detected during instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/fill.cu(32): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  5%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/gated_delta_net.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/gated_delta_net.cu(78): warning: constexpr if statements are a C++17 feature
+          detected during instantiation of "void launch_gated_delta_net<KDA>(const float *, const float *, const float *, const float *, const float *, const float *, float *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, float, cudaStream_t) [with KDA=true]"
+(265): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/gated_delta_net.cu(78): warning: constexpr if statements are a C++17 feature
+          detected during instantiation of "void launch_gated_delta_net<KDA>(const float *, const float *, const float *, const float *, const float *, const float *, float *, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, float, cudaStream_t) [with KDA=true]"
+(265): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  5%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/getrows.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(176): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(225): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(172): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(225): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=float, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=float, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(172): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(229): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int32_t]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=int32_t, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=int32_t, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(176): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(229): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(36): warning: a host variable "std::is_same_v [with T=dst_t, U=src_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(38): warning: a host variable "std::is_same_v [with T=dst_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(40): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat16]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(42): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(44): warning: a host variable "std::is_same_v [with T=src_t, U=nv_bfloat162]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(54): warning: a host variable "std::is_same_v [with T=src_t, U=float2]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(61): warning: a host variable "std::is_same_v [with T=dst_t, U=int32_t]" cannot be directly read in a device function
+          detected during:
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=float, src_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=int32_t, dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(176): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(221): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=half]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=half, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=half, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(168): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(225): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=int32_t, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=float, dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(172): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(225): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=float]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=float, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=float, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(172): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(229): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh(66): warning: missing return statement at end of non-void function "ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int32_t]"
+          detected during:
+            instantiation of "dst_t ggml_cuda_cast<dst_t,src_t>(src_t) [with dst_t=half, src_t=int32_t]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(66): here
+            instantiation of "void k_get_rows_float(const src0_t *, const int32_t *, dst_t *, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t) [with src0_t=int32_t, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(155): here
+            instantiation of "void get_rows_cuda_float(const src0_t *, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with src0_t=int32_t, dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(176): here
+            instantiation of "void ggml_cuda_get_rows_switch_src0_type(const void *, ggml_type, const int32_t *, dst_t *, int64_t, size_t, size_t, size_t, int64_t, int64_t, int64_t, size_t, size_t, size_t, size_t, size_t, size_t, cudaStream_t) [with dst_t=half]"
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/getrows.cu(229): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh: In function ‘dst_t ggml_cuda_cast(src_t)’:
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:36:4: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     if constexpr (std::is_same_v<dst_t, src_t>) {
+    ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:38:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:40:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat16>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:42:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, half2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:44:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, nv_bfloat162> && std::is_same_v<dst_t, float2>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:54:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<src_t, float2> && std::is_same_v<dst_t, nv_bfloat162>) {
+             ^~~~~~~~~
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/convert.cuh:61:13: warning: ‘if constexpr’ only available with -std=c++17 or -std=gnu++17
+     } else if constexpr(std::is_same_v<dst_t, int32_t>) {
+             ^~~~~~~~~
+[  5%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/ggml-cuda.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(1524): error: identifier "CUDA_R_16BF" is undefined
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2000): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2001): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2002): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2003): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2004): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2005): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2006): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2013): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2014): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2015): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2016): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2017): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2014): error: identifier "CUDA_R_16BF" is undefined
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2018): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2019): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2026): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2027): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2028): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2029): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2030): error: a nonstatic data member cannot be declared as inline
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2031): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2032): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(4053): error: too few arguments in function call
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(4139): error: too few arguments in function call
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/../ggml-cuda/mma.cuh(575): warning: constexpr if statements are a C++17 feature
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2132): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2133): error: a nonstatic member reference must be relative to a specific object
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2100): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F32]"
+(2214): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2101): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F32]"
+(2214): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2102): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F32]"
+(2214): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2103): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F32]"
+(2214): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2115): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F32]"
+(2214): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2204): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F32]"
+(2214): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2100): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_BF16]"
+(2217): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2101): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_BF16]"
+(2217): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2102): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_BF16]"
+(2217): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2103): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_BF16]"
+(2217): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2115): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_BF16]"
+(2217): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2204): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_BF16]"
+(2217): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2100): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F16]"
+(2220): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2101): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F16]"
+(2220): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2102): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F16]"
+(2220): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2103): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F16]"
+(2220): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2115): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F16]"
+(2220): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/ggml-cuda.cu(2204): error: a nonstatic member reference must be relative to a specific object
+          detected during instantiation of "void ggml_cuda_mul_mat_batched_cublas_impl<src0_type>(ggml_backend_cuda_context &, const ggml_tensor *, const ggml_tensor *, ggml_tensor *) [with src0_type=GGML_TYPE_F16]"
+(2220): here
+
+45 errors detected in the compilation of "/tmp/tmpxft_00005024_00000000-8_ggml-cuda.compute_61.cpp1.ii".
+ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/build.make:425: recipe for target 'ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/ggml-cuda.cu.o' failed
+make[2]: *** [ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/ggml-cuda.cu.o] Error 1
+CMakeFiles/Makefile2:1912: recipe for target 'ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/all' failed
+make[1]: *** [ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/all] Error 2
+Makefile:145: recipe for target 'all' failed
+make: *** [all] Error 2
+diikorr@diikorr-nano:~/llama.cpp-b9006$
