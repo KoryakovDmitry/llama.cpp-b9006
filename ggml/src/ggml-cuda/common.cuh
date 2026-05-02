@@ -26,8 +26,19 @@
 #include <cfloat>
 #include <cstdio>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>
+
+// nvcc 10.2 (Jetson Nano) caps the CUDA C++ dialect at C++14. b9006 leans
+// on a few C++17 type_traits aliases (std::is_same_v, etc.). Define them
+// here as C++14 variable templates if the standard library has not.
+#if __cplusplus < 201703L
+namespace std {
+    template <class T, class U>
+    constexpr bool is_same_v = is_same<T, U>::value;
+}
+#endif
 
 #if defined(GGML_USE_HIP)
 #include "vendors/hip.h"
@@ -541,11 +552,19 @@ enum class block_reduce_method {
 template<block_reduce_method method_t, typename T>
 struct block_reduce_policy;
 
+// C++14-compatible replacement for: (std::is_same_v<T, Ts> || ...)
+namespace ggml_cuda_detail {
+    template <typename T> constexpr bool is_any_impl() { return false; }
+    template <typename T, typename U, typename... Rest>
+    constexpr bool is_any_impl() {
+        return std::is_same<T, U>::value || is_any_impl<T, Rest...>();
+    }
+}
 template <typename T, typename... Ts>
-inline constexpr bool is_any = (std::is_same_v<T, Ts> || ...);
+constexpr bool is_any = ggml_cuda_detail::is_any_impl<T, Ts...>();
 
 template<typename...>
-inline constexpr bool ggml_cuda_dependent_false_v = false;
+constexpr bool ggml_cuda_dependent_false_v = false;
 
 template <typename T> struct block_reduce_policy<block_reduce_method::SUM, T> {
     static __device__ T reduce(T val) {
@@ -1262,7 +1281,9 @@ struct ggml_cuda_concurrent_event {
         const int64_t       join_start = (int64_t) join_t->data;
         const int64_t       join_end   = join_start + ggml_nbytes(join_t);
 
-        for (const auto & [tensor, stream] : stream_mapping) {
+        for (const auto & __sm_pair : stream_mapping) {
+            const auto & tensor = __sm_pair.first;
+            const auto & stream = __sm_pair.second;
             const ggml_tensor * t = tensor->view_src ? tensor->view_src : tensor;
             const int64_t       t_start = (int64_t) t->data;
             const int64_t       t_end   = t_start + ggml_nbytes(t);
@@ -1283,7 +1304,9 @@ struct ggml_cuda_concurrent_event {
 
         bool writes_overlap = false;
         bool dependent_srcs = false;
-        for (const auto & [tensor, stream] : stream_mapping) {
+        for (const auto & __sm_pair : stream_mapping) {
+            const auto & tensor = __sm_pair.first;
+            const auto & stream = __sm_pair.second;
             const ggml_tensor * t = tensor->view_src ? tensor->view_src : tensor;
             const int64_t       t_start = (int64_t) t->data;
             const int64_t       t_end   = t_start + ggml_nbytes(t);
@@ -1405,7 +1428,8 @@ struct ggml_backend_cuda_context {
     // Check if any CUDA graph is enabled for this context (used by kernels that need to know
     // if graphs are in use without having access to the specific graph key)
     bool any_cuda_graph_enabled() const {
-        for (const auto & [key, graph] : cuda_graphs) {
+        for (const auto & __cg_pair : cuda_graphs) {
+            const auto & graph = __cg_pair.second;
             if (graph && graph->is_enabled()) {
                 return true;
             }
@@ -1415,7 +1439,8 @@ struct ggml_backend_cuda_context {
 
     // Check if any CUDA graph has an instance for this context
     bool any_cuda_graph_has_instance() const {
-        for (const auto & [key, graph] : cuda_graphs) {
+        for (const auto & __cg_pair : cuda_graphs) {
+            const auto & graph = __cg_pair.second;
             if (graph && graph->instance != nullptr) {
                 return true;
             }

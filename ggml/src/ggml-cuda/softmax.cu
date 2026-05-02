@@ -289,8 +289,11 @@ static void launch_soft_max_kernels(const float * x, const T * mask, const float
         return false;
     };
 
-    // unary fold over launch_kernel
-    if ((launch_kernel(std::integral_constant<int, Ns>{}) || ...)) {
+    // unary fold over launch_kernel — rewritten in C++14 with short-circuit semantics
+    bool __launched = false;
+    using __expander = int[];
+    (void) __expander{ 0, ((__launched = __launched || launch_kernel(std::integral_constant<int, Ns>{})), 0)... };
+    if (__launched) {
         return;
     }
 

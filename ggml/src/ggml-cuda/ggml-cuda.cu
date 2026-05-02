@@ -4062,7 +4062,8 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
 
             if (stream_ctx.concurrent_events.size() > 0) {
                 should_launch_concurrent_events = true;
-                for (const auto & [tensor, event] : stream_ctx.concurrent_events) {
+                for (const auto & __ce_pair : stream_ctx.concurrent_events) {
+                    const auto & event = __ce_pair.second;
                     should_launch_concurrent_events = should_launch_concurrent_events && event.is_valid();
                 }
             }
@@ -4076,7 +4077,8 @@ static void ggml_cuda_graph_evaluate_and_capture(ggml_backend_cuda_context * cud
                     node_to_idx[cgraph->nodes[i]] = i;
                 }
 
-                for (auto & [fork_node, event] : stream_ctx.concurrent_events) {
+                for (auto & __ce_pair : stream_ctx.concurrent_events) {
+                    auto & event = __ce_pair.second;
                     // Find positions of all nodes from this event in the current graph
                     std::vector<int> positions;
                     positions.reserve(event.original_order.size());
@@ -4423,7 +4425,9 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
     // store {fork_idx, join_idx}
     std::vector<std::pair<int, int>> concurrent_node_ranges;
 
-    for (const auto & [root_node, count] : fan_out) {
+    for (const auto & __fo_pair : fan_out) {
+        const auto & root_node = __fo_pair.first;
+        const auto & count     = __fo_pair.second;
         if (count >= min_fan_out && count <= max_fan_out) {
             const int root_node_idx = node_indices[root_node];
 
@@ -4434,7 +4438,9 @@ static void ggml_backend_cuda_graph_optimize(ggml_backend_t backend, ggml_cgraph
             }
 
             bool is_part_of_event = false;
-            for (const auto & [start, end] : concurrent_node_ranges) {
+            for (const auto & __nr_pair : concurrent_node_ranges) {
+                const auto & start = __nr_pair.first;
+                const auto & end   = __nr_pair.second;
                 if (root_node_idx >= start && root_node_idx <= end) {
                     is_part_of_event = true;
                 }
