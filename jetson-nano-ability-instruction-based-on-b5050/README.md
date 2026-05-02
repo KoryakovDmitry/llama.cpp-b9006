@@ -51,6 +51,22 @@ cmake -B build -DGGML_CUDA=ON -DLLAMA_CURL=ON \
 cmake --build build --config Release
 ```
 
+To use all four cores during the build, append `-j$(nproc)`. Expect roughly 60–85 minutes on an SD-card-backed Jetson Nano (faster on USB SSD); watch RAM — at 4 GB the Nano will swap heavily under `-j4`.
+
+### Configure output — what's normal
+
+A successful configure run on the Jetson should report, among other lines:
+
+- `Using CMAKE_CUDA_ARCHITECTURES=50;61` (proves the step 2 patch took effect; the `CMAKE_CUDA_ARCHITECTURES_NATIVE=53-real` line is detection of the Tegra X1 itself and is informational)
+- `CUDAToolkit ... 10.2.300` and `CUDA host compiler is GNU 8.5.0`
+- `ggml commit: 97d68f2ba` (or whichever tip of `jetson-nano-b9006` you're on)
+
+Three warnings are expected and **not blockers**:
+
+- `LLAMA_CURL is deprecated and will be ignored` — the flag was renamed/folded between b5050 and b9006. cURL support is now selected via a different mechanism. The b5050 README's `-DLLAMA_CURL=ON` is now redundant; you can drop it on future configures.
+- `Could NOT find NCCL ...` — multi-GPU collective comms library; the Jetson is single-GPU, so it is irrelevant.
+- `Performing Test OPENSSL_VERSION_SUPPORTED - Failed` — the OpenSSL on Ubuntu 18.04 (1.1.1) doesn't pass a min-version check, so HTTPS in the embedded server may be disabled. `llama-cli -hf ...` uses libcurl's own TLS rather than this OpenSSL path, so model downloads still work.
+
 ## Known risk areas
 
 Not pre-emptively patched because they should be inert for `sm_50` / `sm_61`, but these are the most likely to bite during compile:
