@@ -15,7 +15,7 @@
 # A positional argument is accepted as a backwards-compatible alias for --output.
 #
 # Defaults:
-#   --dir  jetson-nano-ability-instruction-based-on-b5050
+#   --dir  jetson-nano-ability-instruction-based-on-b5050/compile_logs
 #   --file build_log.txt
 #
 # Examples:
@@ -29,7 +29,7 @@
 
 set -u
 
-DEFAULT_DIR="jetson-nano-ability-instruction-based-on-b5050"
+DEFAULT_DIR="jetson-nano-ability-instruction-based-on-b5050/compile_logs"
 DEFAULT_FILE="build_log.txt"
 
 show_help() {

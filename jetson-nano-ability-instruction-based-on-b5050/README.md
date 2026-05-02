@@ -102,7 +102,7 @@ To use all four cores during the build, append `-j$(nproc)`. Expect roughly 60�
 When iterating on compile errors it is convenient to keep both the live terminal output *and* a saved log (especially since errors and warnings are easy to lose in a long stream). The repo ships a tiny helper script that does both:
 
 ```sh
-# default log: jetson-nano-ability-instruction-based-on-b5050/build_log.txt
+# default log: jetson-nano-ability-instruction-based-on-b5050/compile_logs/build_log.txt
 ./jetson-nano-b9006-patch/build_with_log.sh
 
 # only override the filename (default dir is preserved)
@@ -127,13 +127,13 @@ Flags:
 - `-d, --dir DIR` — directory to write the log into.
 - `-f, --file NAME` — filename (combined with `-d` or the default dir).
 
-Default directory is `jetson-nano-ability-instruction-based-on-b5050` and default filename is `build_log.txt`. The script uses `set -o pipefail` so the exit code from `cmake` is preserved through the `tee` pipe (otherwise `tee` always succeeds and the build "looks fine" even when it failed).
+Default directory is `jetson-nano-ability-instruction-based-on-b5050/compile_logs` and default filename is `build_log.txt`. The script uses `set -o pipefail` so the exit code from `cmake` is preserved through the `tee` pipe (otherwise `tee` always succeeds and the build "looks fine" even when it failed).
 
 Equivalent one-liner if you'd rather not use the script:
 
 ```sh
 set -o pipefail
-cmake --build build --config Release 2>&1 | tee jetson-nano-ability-instruction-based-on-b5050/build_log.txt
+cmake --build build --config Release 2>&1 | tee jetson-nano-ability-instruction-based-on-b5050/compile_logs/build_log.txt
 ```
 
 ### Configure output — what's normal
