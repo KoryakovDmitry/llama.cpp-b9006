@@ -887,7 +887,7 @@ static __global__ void flash_attn_combine_results(
     dst       += j_dst_unrolled *                 D;
 
     const int tid = threadIdx.x;
-    __builtin_assume(tid < D);
+//    __builtin_assume(tid < D);
 
     extern __shared__ float2 meta[];
     for (int i = tid; i < 2*parallel_blocks; i += D) {
