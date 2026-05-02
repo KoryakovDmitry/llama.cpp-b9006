@@ -1,0 +1,1456 @@
+$~/llama.cpp-b9006$ cmake --build build --config Release
+CMAKE_BUILD_TYPE=Release
+CMake Warning at CMakeLists.txt:157 (message):
+  LLAMA_CURL is deprecated and will be ignored
+Call Stack (most recent call first):
+  CMakeLists.txt:171 (llama_option_depr)
+
+
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: aarch64
+-- GGML_SYSTEM_ARCH: ARM
+-- Including CPU backend
+-- ARM detected
+-- Checking for ARM features using flags:
+--   -march=armv8-a
+-- Adding CPU backend variant ggml-cpu: -march=armv8-a
+-- CUDA Toolkit found
+-- Using CMAKE_CUDA_ARCHITECTURES=50;61 CMAKE_CUDA_ARCHITECTURES_NATIVE=53-real
+-- Could NOT find NCCL (missing: NCCL_LIBRARY NCCL_INCLUDE_DIR)
+-- Warning: NCCL not found, performance for multiple CUDA GPUs will be suboptimal
+-- CUDA host compiler is GNU 8.5.0
+-- Including CUDA backend
+-- ggml version: 0.10.2
+-- ggml commit:  7d021ba8b
+-- Generating embedded license file for target: llama-common
+-- Configuring done (1.2s)
+-- Generating done (0.8s)
+-- Build files have been written to: /home/diikorr/llama.cpp-b9006/build
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[  1%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[  1%] Linking CXX shared library ../../bin/libggml-base.so
+[  1%] Built target ggml-base
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/acc.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/add-id.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/arange.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/argmax.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/argsort.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(11): warning: function "init_indices" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(21): warning: function "init_offsets" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(11): warning: function "init_indices" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/argsort.cu(21): warning: function "init_offsets" was declared but never referenced
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/common.cuh(571): warning: constexpr if statements are a C++17 feature
+
+[  2%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/binbcast.cu.o
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(285): warning: constexpr if statements are a C++17 feature
+          detected during:
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_repeat, n_fuse=0, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_repeat, 0>]"
+(394): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(146): error: expected an expression
+          detected during:
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_repeat, src0_t=float, src1_t=float, dst_t=float, I=<>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_repeat, n_fuse=0, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_repeat, 0>]"
+(394): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(80): error: expected an expression
+          detected during:
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_repeat, src0_t=float, src1_t=float, dst_t=float, I=<>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_repeat, n_fuse=0, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_repeat, 0>]"
+(394): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_add, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_add, 1>]"
+(398): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_sub, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_sub, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_sub, 1>]"
+(402): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_mul, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_mul, 1>]"
+(406): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=float, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=float, src1_t=float, dst_t=float]"
+(379): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=half, src1_t=half, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=half, src1_t=half, dst_t=half]"
+(381): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=half, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=half, src1_t=float, dst_t=half]"
+(383): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_div, src0_t=half, src1_t=float, dst_t=float, I=<0UL>]"
+(355): here
+            instantiation of "void bin_bcast_cuda<bin_op, n_fuse>::operator()(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t) [with bin_op=&op_div, n_fuse=1, src0_t=half, src1_t=float, dst_t=float]"
+(385): here
+            instantiation of "void ggml_cuda_op_bin_bcast<op>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const void *, const void *, void *, cudaStream_t) [with op=bin_bcast_cuda<&op_div, 1>]"
+(410): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=2]"
+(450): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=3]"
+(453): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=4]"
+(456): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=5]"
+(459): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=6]"
+(462): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=7]"
+(465): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_add, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_add, n_fuse=8]"
+(468): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=2]"
+(480): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=3]"
+(483): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=4]"
+(486): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=5]"
+(489): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=6]"
+(492): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=7]"
+(495): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=float, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(423): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, src1_ptrs=<const half *, const half *, const half *, const half *, const half *, const half *, const half *, const half *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=half, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(427): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=half, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(431): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(136): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast_unravel<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, uint3, uint3, uint3, uint32_t, uint3, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(291): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+/home/diikorr/llama.cpp-b9006/ggml/src/ggml-cuda/binbcast.cu(69): warning: variable "i_src1" was declared but never referenced
+          detected during:
+            instantiation of "void k_bin_bcast<bin_op,src0_t,src1_t,dst_t,src1_ptrs...>(const src0_t *, const src1_t *, dst_t *, int, int, int, uint3, uint3, uint3, uint3, uint3, int, int, int, int, int, int, int, int, int, int, int, src1_ptrs...) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, src1_ptrs=<const float *, const float *, const float *, const float *, const float *, const float *, const float *, const float *>]"
+(307): here
+            instantiation of "void launch_bin_bcast_pack<bin_op,src0_t,src1_t,dst_t,I...>(const ggml_tensor *, const ggml_tensor *, ggml_tensor *, const src0_t *, const src1_t *, dst_t *, cudaStream_t, std::index_sequence<I...>) [with bin_op=&op_mul, src0_t=half, src1_t=float, dst_t=float, I=<0UL, 1UL, 2UL, 3UL, 4UL, 5UL, 6UL, 7UL>]"
+(435): here
+            instantiation of "void ggml_cuda_op_fused_binbcast_impl<op,n_fuse>(ggml_backend_cuda_context &, ggml_tensor *) [with op=&op_mul, n_fuse=8]"
+(498): here
+
+2 errors detected in the compilation of "/tmp/tmpxft_00001e62_00000000-8_binbcast.compute_61.cpp1.ii".
+ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/build.make:145: recipe for target 'ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/binbcast.cu.o' failed
+make[2]: *** [ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/binbcast.cu.o] Error 1
+CMakeFiles/Makefile2:1912: recipe for target 'ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/all' failed
+make[1]: *** [ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/all] Error 2
+Makefile:145: recipe for target 'all' failed
+make: *** [all] Error 2
+$~/llama.cpp-b9006$

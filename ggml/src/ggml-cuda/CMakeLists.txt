@@ -195,6 +195,15 @@ if (CUDAToolkit_FOUND)
 
     set(CUDA_FLAGS -use_fast_math -extended-lambda)
 
+    # Jetson Nano / nvcc 10.2: silence the high-volume cudafe warnings that
+    # spam the build log when compiling C++17-flavored code under --std=c++14.
+    # 20012 = "constexpr if statements are a C++17 feature" (one per CUDA TU)
+    # 177   = "function/variable was declared but never referenced"
+    if (CUDAToolkit_VERSION VERSION_LESS "11.0")
+        list(APPEND CUDA_FLAGS "SHELL:-Xcudafe --diag_suppress=20012")
+        list(APPEND CUDA_FLAGS "SHELL:-Xcudafe --diag_suppress=177")
+    endif()
+
     if (GGML_CUDA_DEBUG)
         list(APPEND CUDA_FLAGS -lineinfo)
         add_compile_definitions(GGML_CUDA_DEBUG)
