@@ -97,6 +97,25 @@ cmake --build build --config Release
 
 To use all four cores during the build, append `-j$(nproc)`. Expect roughly 60–85 minutes on an SD-card-backed Jetson Nano (faster on USB SSD); watch RAM — at 4 GB the Nano will swap heavily under `-j4`.
 
+#### Capture the build log to a file
+
+When iterating on compile errors it is convenient to keep both the live terminal output *and* a saved log (especially since errors and warnings are easy to lose in a long stream). The repo ships a tiny helper script that does both:
+
+```sh
+./jetson-nano-b9006-patch/build_with_log.sh
+# or with a custom path:
+./jetson-nano-b9006-patch/build_with_log.sh path/to/my.log
+```
+
+Default log path is `jetson-nano-ability-instruction-based-on-b5050/build_log.txt`. The script uses `set -o pipefail` so the exit code from `cmake` is preserved through the `tee` pipe (otherwise `tee` always succeeds and the build "looks fine" even when it failed).
+
+Equivalent one-liner if you'd rather not use the script:
+
+```sh
+set -o pipefail
+cmake --build build --config Release 2>&1 | tee jetson-nano-ability-instruction-based-on-b5050/build_log.txt
+```
+
 ### Configure output — what's normal
 
 A successful configure run on the Jetson should report, among other lines:
