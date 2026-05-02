@@ -148,11 +148,14 @@ static __device__ void soft_max_f32_parallelize_cols_single_row(const float * __
                                                                 float * __restrict__ tmp_maxs,
                                                                 float * __restrict__ tmp_sums,
                                                                 const soft_max_params p) {
-// CUDA 10.2's cooperative_groups.h only defines grid_group / this_grid()
-// under __CUDA_ARCH__ >= 600. The host-side launch is also gated at runtime
-// by supports_cooperative_launch (false on Maxwell), so on sm_50 this body
-// is unreachable — stub it out so the device-pass for sm_50 can parse.
-#if defined(__CUDA_ARCH__) && __CUDA_ARCH__ < 600
+// On CUDA 10.2 the grid-wide cooperative-groups path can't be linked
+// without -rdc=true plus cudadevrt (ptxas: "Unresolved extern function
+// cudaCGGetIntrinsicHandle"), and the host launch site is in any case
+// runtime-gated by supports_cooperative_launch (false on Jetson Nano /
+// every Maxwell). Stub the whole body for the entire CUDA-10.2 build
+// — sm_61 also goes through the stub here, which is fine because the
+// kernel is never launched on those targets in practice.
+#if CUDART_VERSION < 11000
     GGML_UNUSED_VARS(x, dst, tmp_maxs, tmp_sums, p);
     NO_DEVICE_CODE;
 #else
@@ -254,7 +257,7 @@ static __device__ void soft_max_f32_parallelize_cols_single_row(const float * __
         }
         col += step_size * n_elem_per_thread;
     }
-#endif // __CUDA_ARCH__ < 600
+#endif // CUDART_VERSION < 11000
 }
 
 #ifdef __clang__
