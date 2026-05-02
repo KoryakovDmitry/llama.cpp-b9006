@@ -102,12 +102,32 @@ To use all four cores during the build, append `-j$(nproc)`. Expect roughly 60�
 When iterating on compile errors it is convenient to keep both the live terminal output *and* a saved log (especially since errors and warnings are easy to lose in a long stream). The repo ships a tiny helper script that does both:
 
 ```sh
+# default log: jetson-nano-ability-instruction-based-on-b5050/build_log.txt
 ./jetson-nano-b9006-patch/build_with_log.sh
-# or with a custom path:
-./jetson-nano-b9006-patch/build_with_log.sh path/to/my.log
+
+# only override the filename (default dir is preserved)
+./jetson-nano-b9006-patch/build_with_log.sh -f failed_logs_round_4.txt
+
+# override directory and filename separately
+./jetson-nano-b9006-patch/build_with_log.sh -d logs -f round5.txt
+
+# full path override
+./jetson-nano-b9006-patch/build_with_log.sh -o some/where/full.log
+
+# backwards-compatible positional form (treated as --output)
+./jetson-nano-b9006-patch/build_with_log.sh jetson-nano-ability-instruction-based-on-b5050/failed_logs_round_4.txt
+
+# print usage
+./jetson-nano-b9006-patch/build_with_log.sh --help
 ```
 
-Default log path is `jetson-nano-ability-instruction-based-on-b5050/build_log.txt`. The script uses `set -o pipefail` so the exit code from `cmake` is preserved through the `tee` pipe (otherwise `tee` always succeeds and the build "looks fine" even when it failed).
+Flags:
+
+- `-o, --output PATH` — full log path, overrides `-d`/`-f`.
+- `-d, --dir DIR` — directory to write the log into.
+- `-f, --file NAME` — filename (combined with `-d` or the default dir).
+
+Default directory is `jetson-nano-ability-instruction-based-on-b5050` and default filename is `build_log.txt`. The script uses `set -o pipefail` so the exit code from `cmake` is preserved through the `tee` pipe (otherwise `tee` always succeeds and the build "looks fine" even when it failed).
 
 Equivalent one-liner if you'd rather not use the script:
 
