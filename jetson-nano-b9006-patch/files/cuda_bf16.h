@@ -24,6 +24,12 @@
 typedef __half  nv_bfloat16;
 typedef __half2 nv_bfloat162;
 
+// Marker so other parts of the source tree can detect that this stub is in
+// effect (nv_bfloat16 / nv_bfloat162 are aliases for __half / __half2).
+// In particular, mma.cuh uses this to skip nv_bfloat162 template specializations
+// that would otherwise collide with the existing half2 ones.
+#define GGML_CUDA_BF16_IS_HALF2 1
+
 // Scalar conversions — host-and-device, mirror __half2float / __float2half.
 __host__ __device__ __forceinline__ float       __bfloat162float(nv_bfloat16 x) { return __half2float(x); }
 __host__ __device__ __forceinline__ nv_bfloat16 __float2bfloat16(float x)        { return __float2half(x); }
