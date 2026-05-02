@@ -4,7 +4,7 @@
 # is preserved (not the always-zero exit code from tee).
 #
 # Usage:
-#   ./jetson-nano-b9006-patch/build_with_log.sh [options] [logfile] [-- cmake-build-args...]
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh [options] [logfile] [-- cmake-build-args...]
 #
 # Options:
 #   -o, --output PATH    Full path of the log file (overrides --dir/--file).
@@ -14,7 +14,7 @@
 #
 # Anything after `--` is forwarded verbatim to `cmake --build`. Use this to
 # pass things like parallelism, e.g.:
-#   ./jetson-nano-b9006-patch/build_with_log.sh -- -j2
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh -- -j2
 #
 # A positional argument is accepted as a backwards-compatible alias for --output.
 #
@@ -23,13 +23,13 @@
 #   --file build_log.txt
 #
 # Examples:
-#   ./jetson-nano-b9006-patch/build_with_log.sh
-#   ./jetson-nano-b9006-patch/build_with_log.sh -f failed_logs_round_4.txt
-#   ./jetson-nano-b9006-patch/build_with_log.sh -d logs -f round5.txt
-#   ./jetson-nano-b9006-patch/build_with_log.sh -o some/where/full.log
-#   ./jetson-nano-b9006-patch/build_with_log.sh -- -j2
-#   ./jetson-nano-b9006-patch/build_with_log.sh -f round_libressl.txt -- -j2
-#   ./jetson-nano-b9006-patch/build_with_log.sh jetson-nano-ability-instruction-based-on-b5050/failed_logs_round_4.txt
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh -f failed_logs_round_4.txt
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh -d logs -f round5.txt
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh -o some/where/full.log
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh -- -j2
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh -f round_libressl.txt -- -j2
+#   ./jetson-nano-b9006-patch/scripts/build_with_log.sh jetson-nano-ability-instruction-based-on-b5050/failed_logs_round_4.txt
 #
 # Run from the repository root.
 

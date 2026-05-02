@@ -114,22 +114,22 @@ When iterating on compile errors it is convenient to keep both the live terminal
 
 ```sh
 # default log: jetson-nano-ability-instruction-based-on-b5050/compile_logs/build_log.txt
-./jetson-nano-b9006-patch/build_with_log.sh
+./jetson-nano-b9006-patch/scripts/build_with_log.sh
 
 # only override the filename (default dir is preserved)
-./jetson-nano-b9006-patch/build_with_log.sh -f failed_logs_round_4.txt
+./jetson-nano-b9006-patch/scripts/build_with_log.sh -f failed_logs_round_4.txt
 
 # override directory and filename separately
-./jetson-nano-b9006-patch/build_with_log.sh -d logs -f round5.txt
+./jetson-nano-b9006-patch/scripts/build_with_log.sh -d logs -f round5.txt
 
 # full path override
-./jetson-nano-b9006-patch/build_with_log.sh -o some/where/full.log
+./jetson-nano-b9006-patch/scripts/build_with_log.sh -o some/where/full.log
 
 # backwards-compatible positional form (treated as --output)
-./jetson-nano-b9006-patch/build_with_log.sh jetson-nano-ability-instruction-based-on-b5050/failed_logs_round_4.txt
+./jetson-nano-b9006-patch/scripts/build_with_log.sh jetson-nano-ability-instruction-based-on-b5050/failed_logs_round_4.txt
 
 # print usage
-./jetson-nano-b9006-patch/build_with_log.sh --help
+./jetson-nano-b9006-patch/scripts/build_with_log.sh --help
 ```
 
 Flags:
