@@ -195,13 +195,18 @@ if (CUDAToolkit_FOUND)
 
     set(CUDA_FLAGS -use_fast_math -extended-lambda)
 
-    # Jetson Nano / nvcc 10.2: silence the high-volume cudafe warnings that
-    # spam the build log when compiling C++17-flavored code under --std=c++14.
-    # 20012 = "constexpr if statements are a C++17 feature" (one per CUDA TU)
-    # 177   = "function/variable was declared but never referenced"
-    if (CUDAToolkit_VERSION VERSION_LESS "11.0")
+    # Quiet the unused-variable noise from cudafe across CUDA versions.
+    # 177 = "function/variable was declared but never referenced".
+    list(APPEND CUDA_FLAGS "SHELL:-Xcudafe --diag_suppress=177")
+
+    # The "constexpr if statements are a C++17 feature" warning has different
+    # diagnostic IDs across toolkits: it is number 20012 from CUDA 11.0 onward,
+    # but unnumbered (and therefore not suppressible via --diag_suppress) in
+    # nvcc 10.2 on the Jetson Nano. Apply the suppression only on >= 11.0,
+    # otherwise nvcc 10.2 fails with: "invalid error number in diagnostic
+    # control option: 20012" (1 catastrophic error).
+    if (CUDAToolkit_VERSION VERSION_GREATER_EQUAL "11.0")
         list(APPEND CUDA_FLAGS "SHELL:-Xcudafe --diag_suppress=20012")
-        list(APPEND CUDA_FLAGS "SHELL:-Xcudafe --diag_suppress=177")
     endif()
 
     if (GGML_CUDA_DEBUG)
