@@ -33,6 +33,20 @@ The minimal b5050 stub (`typedef half nv_bfloat16;`) is no longer enough. b9006 
 
 The stubs at `../jetson-nano-b9006-patch/files/cuda_bf16.h` and `../jetson-nano-b9006-patch/files/cuda_bf16.hpp` typedef the types onto `__half` / `__half2` and forward the intrinsics to their `__half` equivalents. They are not a faithful bf16 implementation — kernels actually instantiated on `sm_50`/`sm_61` end up doing fp16 arithmetic. Code paths gated by `__CUDA_ARCH__ >= 800` (Ampere+) are not instantiated for the Jetson Nano targets and are therefore unaffected.
 
+### Beyond the b5050 procedure — C++17 → C++14 backports
+
+nvcc 10.2 caps the CUDA dialect at C++14. b9006's CUDA back-end has picked up several C++17 idioms that b5050 didn't have, and `cmake --build` failed on the first run with errors like `namespace "std" has no member "is_same_v"` and `expected an identifier` on structured bindings. Patches applied:
+
+- **`ggml/src/ggml-cuda/common.cuh`**
+  - `std::is_same_v` shim defined as a C++14 variable template under `#if __cplusplus < 201703L`. Every CUDA TU includes `common.cuh`, so this single shim covers every `std::is_same_v` usage in the back-end without per-file edits.
+  - `is_any` rewritten without the C++17 fold expression `(... || ...)`, using a recursive `constexpr` helper.
+  - `inline` dropped from two variable-template definitions (`inline` on variables/variable-templates is C++17; `constexpr` alone is fine in C++14).
+  - 4 structured-binding range-for loops (`for (const auto & [a, b] : map)`) unfolded to explicit `__pair.first` / `__pair.second`.
+- **`ggml/src/ggml-cuda/ggml-cuda.cu`** — 4 more structured-binding range-for loops unfolded the same way.
+- **`ggml/src/ggml-cuda/softmax.cu`** — the `(launch_kernel(std::integral_constant<int, Ns>{}) || ...)` fold expression replaced with the C++14 initializer-list-expander idiom. Short-circuit semantics are preserved by accumulating into a `bool` instead of OR-ing eagerly.
+
+`if constexpr` is left in place across the back-end — nvcc 10.2 accepts it as an extension and just emits the `constexpr if statements are a C++17 feature` warning that the b5050 README already documented as harmless.
+
 ## On the Jetson
 
 After `git pull` (run from the repo root), install the `bf16` stubs into the CUDA include tree:
@@ -59,7 +73,7 @@ A successful configure run on the Jetson should report, among other lines:
 
 - `Using CMAKE_CUDA_ARCHITECTURES=50;61` (proves the step 2 patch took effect; the `CMAKE_CUDA_ARCHITECTURES_NATIVE=53-real` line is detection of the Tegra X1 itself and is informational)
 - `CUDAToolkit ... 10.2.300` and `CUDA host compiler is GNU 8.5.0`
-- `ggml commit: 97d68f2ba` (or whichever tip of `jetson-nano-b9006` you're on)
+- `ggml commit: <short SHA>` matching the tip of `jetson-nano-b9006` you've pulled
 
 Three warnings are expected and **not blockers**:
 
@@ -69,10 +83,10 @@ Three warnings are expected and **not blockers**:
 
 ## Known risk areas
 
-Not pre-emptively patched because they should be inert for `sm_50` / `sm_61`, but these are the most likely to bite during compile:
+Not pre-emptively patched because they should be inert for `sm_50` / `sm_61`, but these are the most likely to bite as the build progresses:
 
 - **`ggml/src/ggml-cuda/mma.cuh`** — class-template members initialized as `nv_bfloat162 x[ne] = {{0.0f, 0.0f}};`. Whether `__half2{0.0f, 0.0f}` brace-init compiles under nvcc 10.2 depends on the constructor set in that toolkit's `<cuda_fp16.h>`. The bf16 MMA tile is gated by `TURING_MMA_AVAILABLE` / `__CUDA_ARCH__ >= 800` and should not be instantiated for Maxwell / Pascal — but if a non-MMA template references the same `tile<I,J,nv_bfloat162,...>` specialization, those brace-inits become the failing lines.
+- **More C++17 idioms in untouched TUs** — the shim covers `std::is_same_v` everywhere, but a `_t` alias, another fold expression, or another structured binding hiding in a less-frequently-built file would still surface as a fresh `cmake --build` error. The fix pattern is the same as the backports above.
 - **`ggml/src/ggml-cuda/common.cuh:786`** — `__nv_cvt_e8m0_to_bf16raw` is gated by `#if CUDART_VERSION >= 12080`; CUDA 10.2 takes the fallback. Safe.
-- **`static constexpr __device__` functions** (e.g. `ggml_cuda_get_physical_warp_size` at `common.cuh:339`) — valid C++14, should compile under the configure flags above.
 
-If `cmake --build` fails, the diagnostic line is usually enough to decide whether to extend the bf16 stub, comment another `__builtin_assume`, or relax a `constexpr`.
+If `cmake --build` fails, the first diagnostic line is usually enough to decide whether to extend the bf16 stub, add another C++17 backport, or comment another `__builtin_assume`.
