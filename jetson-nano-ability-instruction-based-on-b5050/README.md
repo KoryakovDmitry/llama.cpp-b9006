@@ -1,6 +1,17 @@
 # Jetson Nano build for llama.cpp b9006
 
-Adaptation of the b5050 Jetson Nano procedure (original at [`llama.cpp-jetson/README.md`](llama.cpp-jetson/README.md)) to release **b9006** (commit `c5a3bc39b`). Branch: `jetson-nano-b9006`. Original brief: [`TASK.md`](TASK.md).
+Adaptation of the b5050 Jetson Nano procedure (original at [`llama.cpp-jetson/README.md`](llama.cpp-jetson/README.md)) to release **b9006** (commit `c5a3bc39b`). Branch: `jetson-nano-b9006`.
+
+## Where to start
+
+| If you want to… | Read |
+|---|---|
+| **Build it on a fresh Jetson Nano right now** | [`INSTALL.md`](INSTALL.md) — 5-step runbook (prereqs → clone → bf16 stubs → cmake → run) |
+| Understand *why* each patch exists, with commit hashes and the actual error messages we hit | [`HISTORY.md`](HISTORY.md) — chronology in 5 phases |
+| See the original task brief | [`TASK.md`](TASK.md) |
+| Read the original (now-superseded) b5050 procedure | [`llama.cpp-jetson/README.md`](llama.cpp-jetson/README.md) |
+
+The rest of *this* file is a per-step rationale of the patches: useful as a code-review companion, redundant if you just want to build.
 
 The b5050 procedure targeted commit `23106f94e` (April 2025). Between that and b9006 the CUDA backend was reorganized and `bf16` became a first-class type across many kernels, so the patches were re-derived rather than applied verbatim.
 
