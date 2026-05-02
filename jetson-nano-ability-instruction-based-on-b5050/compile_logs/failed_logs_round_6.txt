@@ -1,0 +1,49 @@
+CMAKE_BUILD_TYPE=Release
+CMake Warning at CMakeLists.txt:157 (message):
+  LLAMA_CURL is deprecated and will be ignored
+Call Stack (most recent call first):
+  CMakeLists.txt:171 (llama_option_depr)
+
+
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: aarch64
+-- GGML_SYSTEM_ARCH: ARM
+-- Including CPU backend
+-- ARM detected
+-- Checking for ARM features using flags:
+--   -march=armv8-a
+-- Adding CPU backend variant ggml-cpu: -march=armv8-a 
+-- CUDA Toolkit found
+-- Using CMAKE_CUDA_ARCHITECTURES=50;61 CMAKE_CUDA_ARCHITECTURES_NATIVE=53-real
+-- Could NOT find NCCL (missing: NCCL_LIBRARY NCCL_INCLUDE_DIR) 
+-- Warning: NCCL not found, performance for multiple CUDA GPUs will be suboptimal
+-- CUDA host compiler is GNU 8.5.0
+-- Including CUDA backend
+-- ggml version: 0.10.2
+-- ggml commit:  190d8e439
+-- Generating embedded license file for target: llama-common
+-- Configuring done (1.2s)
+-- Generating done (0.9s)
+-- Build files have been written to: /home/diikorr/llama.cpp-b9006/build
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[  0%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[  0%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[  1%] Building C object ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[  1%] Building CXX object ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[  1%] Linking CXX shared library ../../bin/libggml-base.so
+[  1%] Built target ggml-base
+[  1%] Building CUDA object ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/acc.cu.o
+Command-line error: invalid error number in diagnostic control option: 20012
+
+1 catastrophic error detected in this compilation.
+Compilation terminated.
+ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/build.make:75: recipe for target 'ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/acc.cu.o' failed
+make[2]: *** [ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/acc.cu.o] Error 1
+CMakeFiles/Makefile2:1912: recipe for target 'ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/all' failed
+make[1]: *** [ggml/src/ggml-cuda/CMakeFiles/ggml-cuda.dir/all] Error 2
+Makefile:145: recipe for target 'all' failed
+make: *** [all] Error 2
