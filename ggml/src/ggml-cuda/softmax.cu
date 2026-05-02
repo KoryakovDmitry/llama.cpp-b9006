@@ -6,7 +6,12 @@
 #include <hip/hip_cooperative_groups.h>
 #else
 #include <cooperative_groups.h>
+// <cooperative_groups/reduce.h> only exists in CUDA 11.0+. The reduce
+// helpers (cg::reduce, cg::plus, …) are not used anywhere in this TU,
+// so the include is purely defensive and can be skipped on nvcc 10.2.
+#if CUDART_VERSION >= 11000
 #include <cooperative_groups/reduce.h>
+#endif
 #endif // GGML_USE_HIP
 
 #include <cstdint>
