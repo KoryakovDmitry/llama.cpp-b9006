@@ -148,7 +148,7 @@ CUDA acceleration on, model loaded into VRAM via the unified-memory pool, genera
 
 ## Helper / tooling commits (out of band)
 
-- `8626c3f35`, `e1083b8bc`, `2e8ed5925`, `0cc455dc2` — `jetson-nano-b9006-patch/build_with_log.sh`. Wrapper around `cmake --build` that tees stdout+stderr to a log file, preserves cmake's exit code (not tee's), and forwards extra args after `--` (e.g. `-j2`) to cmake.
+- `8626c3f35`, `e1083b8bc`, `2e8ed5925`, `0cc455dc2` — `jetson-nano-b9006-patch/scripts/build_with_log.sh`. Wrapper around `cmake --build` that tees stdout+stderr to a log file, preserves cmake's exit code (not tee's), and forwards extra args after `--` (e.g. `-j2`) to cmake.
 - Compile logs landed at `compile_logs/failed_logs_round_*.txt` along the way.
 
 ## Files modified end-to-end

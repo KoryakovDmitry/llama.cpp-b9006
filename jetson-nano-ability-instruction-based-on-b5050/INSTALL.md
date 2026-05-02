@@ -106,7 +106,7 @@ Three warnings are expected and harmless:
 The repo includes a small wrapper that captures stdout+stderr to a log while still streaming to the terminal, preserves cmake's exit code (not `tee`'s), and forwards extra args to `cmake --build` after `--`:
 
 ```sh
-./jetson-nano-b9006-patch/build_with_log.sh -- -j2
+./jetson-nano-b9006-patch/scripts/build_with_log.sh -- -j2
 ```
 
 Time on a stock SD-card-backed Jetson Nano: **roughly 90–120 minutes** for a clean build with `-j2` (CUDA backend dominates; everything after `[23%] Built target ggml-cuda` is fast). USB-SSD storage roughly halves that. Don't go above `-j2` unless `free -h` shows headroom.
@@ -139,6 +139,23 @@ To start an OpenAI-compatible HTTP server instead:
 ./llama-server -m ~/.cache/llama.cpp/<filename>.gguf --host 0.0.0.0 --n-gpu-layers 99
 ```
 
+## 6. (Optional) Run from anywhere via prefixed symlinks
+
+If you want `llama-cli` / `llama-server` / etc. callable from any directory, but you also have an older system-wide install (e.g. the b5050 binaries that kreier's `install.sh` drops into `/usr/local/bin`) that you don't want to overwrite, install symlinks with a prefix into `~/.local/bin`:
+
+```sh
+./jetson-nano-b9006-patch/scripts/install_symlinks.sh
+```
+
+Default behaviour: every `llama-*` binary in `build/bin/` gets a symlink at `~/.local/bin/r<name>` (e.g. `rllama-cli`, `rllama-server`, `rllama-bench`). Then:
+
+```sh
+llama-cli --version    # old b5050 (still in /usr/local/bin, untouched)
+rllama-cli --version   # new b9006
+```
+
+`~/.local/bin` is in PATH on default Ubuntu setups; if not, the script prints the line to add to `~/.bashrc`. RPATH stays valid because the linker resolves it from the binary's real path, not the symlink. Re-run the script after rebuilds — it's idempotent (`ln -sfn`). Use `--prefix ""` and `--target /usr/local/bin` if you want unprefixed system-wide install instead.
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -166,9 +183,10 @@ ggml/src/ggml-cuda/binbcast.cu                 # comma-fold rewrite
 ggml/src/ggml-cuda/softmax.cu                  # cg/reduce guard, cg-body stub
 ggml/src/ggml-cuda/ggml-cuda.cu                # structured bindings, if-init, inline-static traits, cudaStreamWaitEvent
 common/http.h                                  # explicit CA bundle loading
-jetson-nano-b9006-patch/files/cuda_bf16.h      # stub for /usr/local/cuda/include/
-jetson-nano-b9006-patch/files/cuda_bf16.hpp    # companion stub
-jetson-nano-b9006-patch/build_with_log.sh      # build wrapper helper
+jetson-nano-b9006-patch/files/cuda_bf16.h            # stub for /usr/local/cuda/include/
+jetson-nano-b9006-patch/files/cuda_bf16.hpp          # companion stub
+jetson-nano-b9006-patch/scripts/build_with_log.sh    # build wrapper that captures stdout+stderr to a log
+jetson-nano-b9006-patch/scripts/install_symlinks.sh  # install r-prefixed symlinks into ~/.local/bin
 ```
 
 If/when you want to merge upstream changes from `master`, expect conflicts in most of those files — the patches are deliberate adaptations, not generic improvements.
