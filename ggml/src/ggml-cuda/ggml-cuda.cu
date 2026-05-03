@@ -1494,8 +1494,16 @@ static void ggml_cuda_op_mul_mat_cublas(
 
     const int cc = ggml_cuda_info().devices[id].cc;
 
+    // cuBLAS BF16 GEMM (cublasGemmEx with CUDA_R_16BF) was added in CUDA 11.0;
+    // CUDA 10.2's cuBLAS rejects the data type at runtime with
+    // CUBLAS_STATUS_NOT_SUPPORTED. Force the fp16/fp32 fallback paths below
+    // by reporting "no bf16 cuBLAS support" on the entire CUDA-10.2 toolkit.
+#if CUDART_VERSION < 11000
+    const bool supports_bf16 = false;
+#else
     const bool supports_bf16 = GGML_CUDA_CC_IS_NVIDIA(cc) || GGML_CUDA_CC_IS_AMD(cc) ||
         (GGML_CUDA_CC_IS_MTHREADS(cc) && cc >= GGML_CUDA_CC_QY2);
+#endif
 
     const bool use_fp16 =
         src0->type != GGML_TYPE_NVFP4 &&
