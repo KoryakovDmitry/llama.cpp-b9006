@@ -50,12 +50,13 @@ The path is checked at startup; the server fails fast if the file doesn't exist.
 
 ### `capture_frame`
 
-Captures one frame from the configured CSI camera, writes it as a JPEG into `--output-dir`, returns the absolute path as text content.
+Captures one frame from the configured CSI camera, writes it as a JPEG into `--output-dir`, and returns the JPEG inline as a base64-encoded `image` content block.
 
 - Parameters: none (in Phase 1).
-- Return: `text` content with the absolute path string, e.g. `/tmp/mcp-csi/mock-20260503-164715-000003.jpg`.
+- Return: a single `CallToolResult.content` block of type `image`, with `mimeType: image/jpeg` and `data` set to the base64-encoded JPEG bytes. Annotations: `audience: ["user"]`, `priority: 0.9`.
+- Side effect: the JPEG is also persisted to `--output-dir/mock-<timestamp>-<seq>.jpg` (or, in Phase 3, the equivalent gstreamer-produced file). The file path itself is **not** returned over MCP — clients render or persist from the inline base64 instead.
 
-In Phase 1 the file content depends on `--mock-image` — see the section above. Phase 3 replaces this with a real frame from the gstreamer pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned, flip-method 2).
+In Phase 1 the bytes that get base64-encoded depend on `--mock-image` — see the section above. Phase 3 replaces the source with a real frame from the gstreamer pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned, flip-method 2); the response shape stays the same.
 
 ## File cleanup
 
