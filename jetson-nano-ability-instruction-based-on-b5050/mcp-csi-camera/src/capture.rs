@@ -51,6 +51,12 @@ pub struct GstreamerConfig {
     /// pipeline reaching PLAYING but `nvarguscamerasrc` never producing a
     /// buffer (oxidised ribbon, wrong sensor-mode, missing DT overlay).
     pub pull_timeout_secs: u64,
+    /// Number of frames to pull-and-drop in `new()` before the capturer is
+    /// considered ready. The IMX219 ISP's 3A algorithms (auto-exposure,
+    /// auto-white-balance) need a ~1 s warm-up — without it the very first
+    /// frame comes out yellow/green-tinted and underexposed. 30 frames at
+    /// 30 fps ≈ 1 s, which empirically lets AE/AWB converge.
+    pub warmup_frames: u32,
 }
 
 impl Default for GstreamerConfig {
@@ -63,6 +69,7 @@ impl Default for GstreamerConfig {
             height: 1232,
             framerate: 30,
             pull_timeout_secs: 10,
+            warmup_frames: 30,
         }
     }
 }
@@ -115,10 +122,32 @@ impl GstreamerCapture {
             .set_state(gst::State::Playing)
             .context("set pipeline state to Playing")?;
 
+        let pull_timeout = gst::ClockTime::from_seconds(cfg.pull_timeout_secs);
+
+        // Warm up: drain the first N frames so the IMX219 ISP's 3A
+        // (auto-exposure, auto-white-balance) has time to converge. Without
+        // this the first sample comes out yellow/green-tinted and we'd hand
+        // it back to the LLM as the "real" frame.
+        for i in 0..cfg.warmup_frames {
+            appsink
+                .try_pull_sample(pull_timeout)
+                .ok_or_else(|| {
+                    anyhow!(
+                        "timed out waiting for warm-up frame {i}/{} — camera not producing buffers \
+                         (check ribbon contact, `dmesg | grep imx219`, sensor-mode validity)",
+                        cfg.warmup_frames,
+                    )
+                })?;
+        }
+        tracing::info!(
+            frames = cfg.warmup_frames,
+            "warm-up complete, 3A should be converged",
+        );
+
         Ok(Self {
             pipeline,
             appsink,
-            pull_timeout: gst::ClockTime::from_seconds(cfg.pull_timeout_secs),
+            pull_timeout,
         })
     }
 }

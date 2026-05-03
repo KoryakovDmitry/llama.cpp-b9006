@@ -44,6 +44,13 @@ struct Cli {
     /// Hard timeout on `pull_sample` (seconds).
     #[arg(long, default_value_t = 10)]
     pull_timeout_secs: u64,
+
+    /// Drop this many frames before returning a sample, so the IMX219 ISP's
+    /// 3A (auto-exposure, auto-white-balance) has time to converge. 30 ≈ 1 s
+    /// at 30 fps — empirically enough; bump if the first frame is still
+    /// off-colour.
+    #[arg(long, default_value_t = 30)]
+    warmup_frames: u32,
 }
 
 fn main() -> Result<()> {
@@ -63,6 +70,7 @@ fn main() -> Result<()> {
         height: cli.height,
         framerate: cli.framerate,
         pull_timeout_secs: cli.pull_timeout_secs,
+        warmup_frames: cli.warmup_frames,
     };
 
     tracing::info!(?cfg, output = %cli.output.display(), "starting capture-test");
