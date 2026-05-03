@@ -35,6 +35,15 @@ struct Cli {
     /// sequence — fine for plumbing tests, useless to a vision LLM.
     #[arg(long)]
     mock_image: Option<PathBuf>,
+
+    /// Additional hosts accepted by the Streamable HTTP transport, on top of
+    /// the default allowlist (`localhost`, `127.0.0.1`, `::1`). rmcp's DNS-
+    /// rebinding protection rejects requests whose `Host` header is not in
+    /// the list — pass the IP/hostname that clients actually dial, e.g.
+    /// `--allowed-host 192.168.178.59` for LAN access. Repeatable. Without a
+    /// `:port` suffix any port matches; with `:8777` the port is pinned too.
+    #[arg(long)]
+    allowed_host: Vec<String>,
 }
 
 #[tokio::main]
@@ -79,10 +88,22 @@ async fn main() -> Result<()> {
 
     let ct = tokio_util::sync::CancellationToken::new();
 
+    // Defaults (loopback only) + whatever LAN hosts the user passed in.
+    // `with_allowed_hosts` replaces the list, so we must include the defaults
+    // explicitly or `localhost` access stops working.
+    let mut allowed_hosts: Vec<String> = vec![
+        "localhost".into(),
+        "127.0.0.1".into(),
+        "::1".into(),
+    ];
+    allowed_hosts.extend(cli.allowed_host.iter().cloned());
+
     let service = StreamableHttpService::new(
         factory,
         LocalSessionManager::default().into(),
-        StreamableHttpServerConfig::default().with_cancellation_token(ct.child_token()),
+        StreamableHttpServerConfig::default()
+            .with_cancellation_token(ct.child_token())
+            .with_allowed_hosts(allowed_hosts.clone()),
     );
 
     let router = axum::Router::new().nest_service("/mcp", service);
@@ -96,6 +117,7 @@ async fn main() -> Result<()> {
         endpoint = "/mcp",
         output_dir = ?cli.output_dir,
         mock_image = ?cli.mock_image,
+        allowed_hosts = ?allowed_hosts,
         "starting MCP server (Streamable HTTP)",
     );
 

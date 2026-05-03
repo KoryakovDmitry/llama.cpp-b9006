@@ -44,6 +44,7 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
 | `--listen <addr>` | `0.0.0.0:8777` | TCP bind address. MCP endpoint is mounted at `/mcp`. |
 | `--mock-image <path>` | unset | Phase-1 only. If set, the mock returns the bytes of this file on every capture (gives integration tests a decodable JPEG). If unset, the mock returns a short sentinel byte sequence. The path is checked at startup; the server fails fast if the file doesn't exist. |
 | `--output-dir <dir>` | unset | Optional debug aid. If set, every capture is also written to the directory as `capture-<timestamp>.jpg`. If unset, **nothing is written to disk** — frames exist only inside the MCP response payload. |
+| `--allowed-host <host>` | (none — defaults below kept) | Repeatable. Additional `Host` header values accepted by the Streamable HTTP transport, on top of the built-in defaults (`localhost`, `127.0.0.1`, `::1`). Required when MCP clients dial this server by LAN IP — rmcp's DNS-rebinding protection otherwise rejects them. Use the IP clients actually dial (e.g. the Jetson's `192.168.178.59`); no `:port` suffix matches any port, `host:port` pins the port. |
 
 ### Useful invocations
 
@@ -61,6 +62,14 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
     --listen 127.0.0.1:8777 \
     --mock-image /tmp/csi-mode3.jpg \
     --output-dir /tmp/mcp-csi
+
+# LAN access — Inspector on a Mac dials the Jetson directly. Without the
+# allowlist entry rmcp rejects the request with
+# `disallowed Host header (possible DNS rebinding attempt)`.
+./target/release/mcp-csi-camera \
+    --listen 0.0.0.0:8777 \
+    --mock-image /home/diikorr/IMG_resized.jpg \
+    --allowed-host 192.168.178.59
 ```
 
 ## Tools
