@@ -179,12 +179,33 @@ The numbers below come directly from this build's source of truth — `tools/mtm
 |---|---|---|---|---|---|
 | 224×224 | 224×224 | 16² = 256 | 64 | 1× | trivially OK |
 | 448×448 | 448×448 | 32² = 1024 | 256 | ~16× | OK |
-| **512×512 (baseline)** | **504×504** | **36² = 1296** | **324** | **~26×** | **OK (Qwen3.5-0.8B Q8_0 at ~6 t/s)** |
-| 768×768 | 756×756 | 54² = 2916 | 729 | ~130× | borderline, OK with `jetson_clocks` |
-| 1024×1024 | 1008×1008 | 72² = 5184 | 1296 | ~410× | usually fails |
+| **512×512 (baseline)** | **504×504** | **36² = 1296** | **324** | **~26×** | **✅ tested (Qwen3.5-0.8B Q8_0, ~6 t/s)** |
+| 644×644 (square `--image-max-tokens 529`) | 644×644 | 46² = 2116 | 529 | ~68× | ✅ tested on 12 MP input (~6.2 t/s) |
+| 4:3 input via `--image-max-tokens 550` | 756×560 | 54×40 = 2160 | 540 | ~71× | ✅ tested on 12 MP input (~6.0 t/s) — practical Tegra X1 ceiling |
+| 672×672 (square `--image-max-tokens 576`) | 672×672 | 48² = 2304 | 576 | ~81× | ❌ tested — `the launch timed out and was terminated` |
+| 768×768 | 756×756 | 54² = 2916 | 729 | ~130× | likely fails without `jetson_clocks` |
+| 1024×1024 | 1008×1008 | 72² = 5184 | 1296 | ~410× | always fails |
 | 4032×3024 (12 MP, no flags) | auto-clamped by default cap to ≈ 2072×1540 | 148×110 = 16280 | 4070 | ~4000× | fails — the model's *own* default cap is still way over budget for Tegra X1 |
 
-The bottom row is the punchline of why "but llama.cpp already resizes" doesn't save you: Qwen-VL's default `image_max_pixels` is **4096 LLM tokens**, which downsamples a 12 MP phone photo to ~2072×1540 — but 4070 tokens is still ~12× the 512×512 baseline in token count and ~150× in encoder work. The model's idea of a sensible cap and the Tegra X1's idea of a survivable workload disagree by two orders of magnitude.
+Empirical Tegra X1 stock-clock ceiling sits **between 540 and 576 LLM tokens** (~75× baseline encoder cost). 540 is confirmed working, 576 is confirmed failing. Use `--image-max-tokens 540` if you want the most detail you can get without `nvpmodel -m 0 && jetson_clocks`. Use `--image-max-tokens 256` if you want margin to spare.
+
+The 12 MP row is the punchline of why "but llama.cpp already resizes" doesn't save you: Qwen-VL's default `image_max_pixels` is **4096 LLM tokens**, which downsamples a 12 MP phone photo to ~2072×1540 — but 4070 tokens is still ~12× the 512×512 baseline in token count and ~150× in encoder work. The model's idea of a sensible cap and the Tegra X1's idea of a survivable workload disagree by two orders of magnitude.
+
+#### Caveat with `--reasoning-budget-message`
+
+When the sampler hits the budget and injects the message before `</think>`, it does so **at the exact next token boundary** — it doesn't wait for the model to finish a word. So the message can be concatenated to a half-written word, e.g.:
+
+```
+- It looks like aTime to summarize and answer.    # ← no space
+```
+
+The model still produces a clean answer afterwards, this is just cosmetic. If it bothers you, prepend a punctuation/whitespace separator to the message so the seam is invisible:
+
+```sh
+--reasoning-budget-message ". Time to summarize and answer."
+# or
+--reasoning-budget-message $'\nTime to summarize and answer.'
+```
 
 The principled fix is to ask llama.cpp to bound the LLM-token count itself, via the multimodal preprocessor flag:
 
@@ -195,7 +216,7 @@ rllama-cli -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
 # > /image /home/diikorr/IMG_20260503_022544_883.jpg
 ```
 
-`--image-max-tokens 256` corresponds to ≈ 448×448 worth of patches — comfortably below the 512×512 baseline that we know clears the watchdog at ~6 t/s with a small margin to spare. Push up to **324** if you want to match the 512×512 detail level exactly, or **400–500** if you want a bit more on inputs that allow it. Don't go past ~700 (`= 768×768`) without `nvpmodel -m 0 && jetson_clocks`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of the input image size.
+`--image-max-tokens 256` corresponds to ≈ 448×448 worth of patches — comfortably below the 512×512 baseline. Tested working values on Tegra X1 (no `jetson_clocks`): **324** (matches 512×512 baseline), **529** (square `~644×644`, ~6.2 t/s), **540** (4:3 input, ~6.0 t/s — practical ceiling). 576 already trips the watchdog; don't push higher than 540 without `nvpmodel -m 0 && jetson_clocks`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of input image size.
 
 For fixed-resolution vision encoders the flag is a no-op (they downsample internally to their fixed input regardless), so it's safe to leave on.
 
