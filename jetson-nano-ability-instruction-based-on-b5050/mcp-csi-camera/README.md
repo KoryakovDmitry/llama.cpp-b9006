@@ -1,6 +1,6 @@
 # mcp-csi-camera
 
-MCP server exposing the Jetson Nano CSI camera as a single `capture_frame` tool. Speaks **MCP Streamable HTTP** (the 2025-11-25 spec transport — POST-based with SSE for server-pushed messages). Returns each frame as a base64-encoded JPEG inline in the tool response (no file paths, no disk involvement by default).
+MCP server exposing the Jetson Nano CSI camera as a single `view_scene` tool. Speaks **MCP Streamable HTTP** (the 2025-11-25 spec transport — POST-based with SSE for server-pushed messages). Returns each frame as a base64-encoded JPEG inline in the tool response (no file paths, no disk involvement by default).
 
 For background see [`../CSI_CAMERA.md`](../CSI_CAMERA.md) and [`../HISTORY.md` § Phase 6](../HISTORY.md#phase-6--csi-camera-bring-up-branch-mcp-csi-camera-jetson-nano).
 
@@ -12,7 +12,7 @@ Phased delivery. Each phase is independently testable on the Jetson.
 |---|---|---|
 | 1 | MCP server with `MockCapture` (returns the bytes of `--mock-image` if set, else a sentinel). Validates the rmcp + Streamable HTTP wiring without gstreamer. End-to-end tested via MCP Inspector over LAN. | done |
 | 2 | Standalone `capture-test` binary that exercises `gstreamer-rs` against the real CSI pipeline (no MCP). Pulls one frame and writes it to disk. Includes a 30-frame ISP warm-up so AE/AWB converge before the first sample. | done |
-| 3 | Wire `GstreamerCapture` into the MCP server behind `--source mock\|gstreamer`. With `--source gstreamer` the server warms the camera at startup, so the very first `capture_frame` MCP call already returns a 3A-converged frame. | **current** |
+| 3 | Wire `GstreamerCapture` into the MCP server behind `--source mock\|gstreamer`. With `--source gstreamer` the server warms the camera at startup, so the very first `view_scene` MCP call already returns a 3A-converged frame. | **current** |
 
 ## Build
 
@@ -80,8 +80,8 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
 | `--width <px>` | `1640` | `--source gstreamer` only. |
 | `--height <px>` | `1232` | `--source gstreamer` only. |
 | `--framerate <fps>` | `30` | `--source gstreamer` only. Numerator; denominator is hardcoded to 1. |
-| `--warmup-frames <n>` | `30` | `--source gstreamer` only. Frames to pull-and-drop at startup so AE/AWB converge before the first MCP request is served. ~1 s at 30 fps. Bump if `capture_frame` still returns tinted output. |
-| `--pull-timeout-secs <n>` | `10` | `--source gstreamer` only. Hard cap on each frame fetch; `capture_frame` errors out instead of blocking the MCP request forever if the camera stops producing buffers. |
+| `--warmup-frames <n>` | `30` | `--source gstreamer` only. Frames to pull-and-drop at startup so AE/AWB converge before the first MCP request is served. ~1 s at 30 fps. Bump if `view_scene` still returns tinted output. |
+| `--pull-timeout-secs <n>` | `10` | `--source gstreamer` only. Hard cap on each frame fetch; `view_scene` errors out instead of blocking the MCP request forever if the camera stops producing buffers. |
 
 ### Useful invocations
 
@@ -109,7 +109,7 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
     --allowed-host 192.168.178.59
 
 # Phase 3 — real CSI camera. Server blocks ~1 s at startup while the
-# IMX219 ISP warms up, then `capture_frame` returns a 3A-converged JPEG
+# IMX219 ISP warms up, then `view_scene` returns a 3A-converged JPEG
 # on every call. Switch `--flip-method` if you remount the camera.
 ./target/release/mcp-csi-camera \
     --listen 0.0.0.0:8777 \
@@ -119,15 +119,15 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
 
 ## Tools
 
-### `capture_frame`
+### `view_scene`
 
-Captures one frame from the configured camera source and returns it as a base64-encoded JPEG inline.
+Captures the device's first-person view through the onboard CSI camera and returns it as a base64-encoded JPEG inline. Framed for the consuming agent as "your eyes, looking at what is physically in front of you right now" — see the `description` string in `src/server.rs` for the exact wording the LLM sees.
 
-- **Parameters**: none (in Phase 1).
-- **Return**: a single `CallToolResult.content` entry of type `image`, with `mimeType: image/jpeg` and `data` set to the base64-encoded JPEG bytes. Annotations: `audience: ["user"]`, `priority: 0.9`.
+- **Parameters**: none.
+- **Return**: a single `CallToolResult.content` entry of type `image`, `mimeType: image/jpeg`, `data` = base64-encoded JPEG bytes. Annotations: `audience: ["user"]`, `priority: 0.9`.
 - **Side effect (optional)**: with `--output-dir <dir>` set, every capture is also written to `<dir>/capture-<timestamp>.jpg`. The path is **not** included in the MCP response — the disk save is purely a debug aid for inspecting captured frames after the fact. Without `--output-dir`, no files are written. A failed disk write is logged at `warn` but does not fail the tool call.
 
-In Phase 1 the bytes that get base64-encoded come from `--mock-image` (if set) or from a sentinel placeholder. Phase 3 replaces the source with a real frame from the gstreamer pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned, flip-method 2); the response shape stays the same.
+The bytes returned come from whichever capture backend was selected at startup: `--source mock` returns either the bytes of `--mock-image` (if set) or a sentinel placeholder, while `--source gstreamer` returns a fresh JPEG pulled from the persistent CSI pipeline (sensor-mode 3 by default, 1640×1232 @ 30 fps, with the configured `--flip-method`). The response shape is identical in both modes — the consuming LLM cannot tell which backend produced the frame.
 
 ## Test the server
 
@@ -142,7 +142,7 @@ Inspector opens at `http://localhost:5173`. In its UI:
 1. **Transport type**: pick "Streamable HTTP".
 2. **URL**: `http://<host>:8777/mcp` (e.g. `http://nano:8777/mcp` from a Mac, `http://localhost:8777/mcp` if Inspector and server are on the same box).
 3. Click **Connect**.
-4. **Tools** tab → `capture_frame` → **Run Tool** → see the JPEG rendered as an inline image preview in the response.
+4. **Tools** tab → `view_scene` → **Run Tool** → see the JPEG rendered as an inline image preview in the response.
 
 ### Quick `curl` smoke check
 

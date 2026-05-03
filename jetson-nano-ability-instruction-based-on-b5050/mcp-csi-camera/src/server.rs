@@ -29,10 +29,10 @@ impl CameraServer {
 #[tool_router(server_handler)]
 impl CameraServer {
     #[tool(
-        description = "Capture a single frame from the CSI camera and return it as a base64-encoded JPEG (mimeType image/jpeg). Takes no parameters."
+        description = "View the scene through your camera — your first-person, ground-truth view of the physical world around you. The camera is mounted on the same device that runs you, so it sees exactly what is directly in front of you right now — not a remote feed, not a stored image. Call this whenever you need visual context about your immediate surroundings: an object the user is holding up to you, text or labels on a physical item, the state of the room or scene you are in, anything the user gestures at, or anything else you cannot infer from text alone. Each call captures a fresh frame at the moment of invocation. No parameters — the camera viewpoint and orientation are fixed at server startup."
     )]
-    async fn capture_frame(&self) -> Result<CallToolResult, McpError> {
-        tracing::info!("capture_frame called");
+    async fn view_scene(&self) -> Result<CallToolResult, McpError> {
+        tracing::info!("view_scene called");
 
         let bytes = self.capture.capture().map_err(|e| {
             tracing::error!(error = %e, "capture failed");
@@ -58,7 +58,7 @@ impl CameraServer {
 
         let b64 = base64::engine::general_purpose::STANDARD.encode(&bytes);
 
-        tracing::info!(bytes = bytes.len(), b64_len = b64.len(), "capture_frame ok");
+        tracing::info!(bytes = bytes.len(), b64_len = b64.len(), "view_scene ok");
 
         Ok(CallToolResult::success(vec![
             Content::image(b64, "image/jpeg")
