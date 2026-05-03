@@ -160,25 +160,34 @@ Modern vision encoders fall into two camps with very different reactions to larg
 
 `unsloth/Qwen3.5-*-GGUF` is the second kind. A 12 MP phone photo on the Tegra X1 produces tens of thousands of patches; the resulting vision-encoder kernels run for many seconds and trip the Jetson's ~2 s GPU watchdog → `the launch timed out and was terminated`.
 
-| Input image | Patches (14×14) | Relative GPU work | Verdict on Jetson Nano |
-|---|---|---|---|
-| 224×224 | 256 | 1× | trivially OK |
-| 448×448 | 1024 | 4× | OK |
-| 512×512 | 1296 | ~5× | OK (confirmed on Qwen3.5-0.8B Q8_0 at ~6 t/s) |
-| 768×768 | 2916 | ~12× | borderline, OK with `jetson_clocks` |
-| 1024×1024 | 5329 | ~20× | usually fails |
-| 4032×3024 | 62208 | ~240× | fails immediately |
+#### Patches vs LLM tokens
 
-The principled fix is to ask llama.cpp to bound the patch count itself, via the multimodal preprocessor flag:
+A subtle but important distinction for Qwen-VL:
+
+- The image is split into **14×14-pixel patches** at native resolution. The vision encoder does self-attention over those patches; its GPU cost scales as `patches²`.
+- After the encoder, a **2×2 spatial merge** groups four patches into one **LLM token** before they enter the language model. So `LLM tokens = patches / 4`.
+
+`--image-max-tokens N` limits the **LLM-token** count (post-merge), not the patch count. Multiply by 4 to get the patch count and by 14² to get the corresponding image area.
+
+| Input image | Patches | LLM tokens (`= patches/4`) | Vision encoder cost (`∝ patches²`) | Verdict on Jetson Nano |
+|---|---|---|---|---|
+| 224×224 | 256 | 64 | 1× | trivially OK |
+| 448×448 | 1024 | 256 | ~16× | OK |
+| **512×512 (baseline)** | **1296** | **324** | **~25×** | **OK (confirmed on Qwen3.5-0.8B Q8_0 at ~6 t/s)** |
+| 768×768 | 2916 | 729 | ~130× | borderline, OK with `jetson_clocks` |
+| 1024×1024 | 5329 | 1332 | ~430× | usually fails |
+| 4032×3024 | 62208 | 15552 | ~59000× | fails immediately |
+
+The principled fix is to ask llama.cpp to bound the LLM-token count itself, via the multimodal preprocessor flag:
 
 ```sh
 rllama-cli -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
     --n-gpu-layers 99 --reasoning-budget 0 \
-    --image-max-tokens 1024
+    --image-max-tokens 256
 # > /image /home/diikorr/IMG_20260503_022544_883.jpg
 ```
 
-`--image-max-tokens 1024` corresponds to ≈ 448×448 patches and works on Tegra X1 in our tests. Bump up to 1296 if you want a bit more detail, drop to 256 (= 224×224) if you want it as fast as possible. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of the input image size.
+`--image-max-tokens 256` corresponds to ≈ 448×448 worth of patches — comfortably below the 512×512 baseline that we know clears the watchdog at ~6 t/s with a small margin to spare. Push up to **324** if you want to match the 512×512 detail level exactly, or **400–500** if you want a bit more on inputs that allow it. Don't go past ~700 (`= 768×768`) without `nvpmodel -m 0 && jetson_clocks`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of the input image size.
 
 For fixed-resolution vision encoders the flag is a no-op (they downsample internally to their fixed input regardless), so it's safe to leave on.
 
@@ -219,7 +228,7 @@ rllama-cli --version   # new b9006
 | `cuda_bf16.h: No such file or directory` while building CUDA backend | Stubs not copied to `/usr/local/cuda/include/` | Re-run §2 |
 | `error: gcc versions later than 8 are not supported!` | Toolchain mismatch — nvcc 10.2 forbids gcc ≥ 9 unless the host_config.h hack is applied | Either install gcc 8.5, or edit `/usr/local/cuda/targets/aarch64-linux/include/crt/host_config.h` line 136 (change 8 → 9) |
 | Inference much slower than ~7 t/s | Forgot `--n-gpu-layers 99`, or model didn't fit in unified memory | Verify with `jtop` that the GPU is actually loaded |
-| Vision: `the launch timed out and was terminated` after `/image …` | Dynamic-resolution vision encoder (Qwen-VL etc.) emitted too many patches → vision encoder kernel ran past the Jetson's ~2 s GPU watchdog | Pass `--image-max-tokens 1024` to bound the patch count, or pre-resize the input to ~512 px |
+| Vision: `the launch timed out and was terminated` after `/image …` | Dynamic-resolution vision encoder (Qwen-VL etc.) emitted too many patches → vision encoder kernel ran past the Jetson's ~2 s GPU watchdog | Pass `--image-max-tokens 256` (post-merge LLM-tokens, ≈ 1024 patches ≈ 448×448) to bound the patch count, or pre-resize the input to ~512 px |
 | Vision: model emits `??????…` instead of describing the image | The bit-correct BF16 → fp16/fp32 conversion in `convert.cu` was reverted/lost | Confirm `bf16_bits_to_fp{16,32}_cuda` exist in `ggml/src/ggml-cuda/convert.cu` and the `GGML_TYPE_BF16` cases in `ggml_get_to_fp{16,32}_cuda` route to them under `CUDART_VERSION < 11000` |
 | Vision: `CUBLAS_STATUS_NOT_SUPPORTED` from `cublasGemmEx ... CUDA_R_16BF` | `supports_bf16` not gated on `CUDART_VERSION` | Confirm the `#if CUDART_VERSION < 11000` guard around `supports_bf16` in `ggml/src/ggml-cuda/ggml-cuda.cu` is intact |
 
