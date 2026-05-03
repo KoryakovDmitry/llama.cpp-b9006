@@ -11,8 +11,8 @@ Phased delivery. Each phase is independently testable on the Jetson.
 | Phase | What it does | State |
 |---|---|---|
 | 1 | MCP server with `MockCapture` (returns the bytes of `--mock-image` if set, else a sentinel). Validates the rmcp + Streamable HTTP wiring without gstreamer. End-to-end tested via MCP Inspector over LAN. | done |
-| 2 | Standalone `capture-test` binary that exercises `gstreamer-rs` against the real CSI pipeline (no MCP). Pulls one frame and writes it to disk. | **current** |
-| 3 | Wire `GstreamerCapture` into the MCP server behind a CLI flag (`--source mock\|gstreamer`). | upcoming |
+| 2 | Standalone `capture-test` binary that exercises `gstreamer-rs` against the real CSI pipeline (no MCP). Pulls one frame and writes it to disk. Includes a 30-frame ISP warm-up so AE/AWB converge before the first sample. | done |
+| 3 | Wire `GstreamerCapture` into the MCP server behind `--source mock\|gstreamer`. With `--source gstreamer` the server warms the camera at startup, so the very first `capture_frame` MCP call already returns a 3A-converged frame. | **current** |
 
 ## Build
 
@@ -70,9 +70,18 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
 | Flag | Default | Effect |
 |---|---|---|
 | `--listen <addr>` | `0.0.0.0:8777` | TCP bind address. MCP endpoint is mounted at `/mcp`. |
-| `--mock-image <path>` | unset | Phase-1 only. If set, the mock returns the bytes of this file on every capture (gives integration tests a decodable JPEG). If unset, the mock returns a short sentinel byte sequence. The path is checked at startup; the server fails fast if the file doesn't exist. |
+| `--source <kind>` | `mock` | Frame source. `mock` returns `--mock-image` bytes (or a sentinel); `gstreamer` opens a real CSI pipeline. The `--sensor-*`, `--flip-method`, `--width`, `--height`, `--framerate`, `--warmup-frames`, `--pull-timeout-secs` flags below are read only when `--source gstreamer`. |
+| `--mock-image <path>` | unset | `--source mock` only. If set, the mock returns the bytes of this file on every capture (gives integration tests a decodable JPEG). If unset, the mock returns a short sentinel byte sequence. The path is checked at startup; the server fails fast if the file doesn't exist. |
 | `--output-dir <dir>` | unset | Optional debug aid. If set, every capture is also written to the directory as `capture-<timestamp>.jpg`. If unset, **nothing is written to disk** — frames exist only inside the MCP response payload. |
 | `--allowed-host <host>` | (none — defaults below kept) | Repeatable. Additional `Host` header values accepted by the Streamable HTTP transport, on top of the built-in defaults (`localhost`, `127.0.0.1`, `::1`). Required when MCP clients dial this server by LAN IP — rmcp's DNS-rebinding protection otherwise rejects them. Use the IP clients actually dial (e.g. the Jetson's `192.168.178.59`); no `:port` suffix matches any port, `host:port` pins the port. |
+| `--sensor-id <n>` | `0` | `--source gstreamer` only. IMX219 sensor ID (cam0=0, cam1=1). |
+| `--sensor-mode <n>` | `3` | `--source gstreamer` only. IMX219 sensor mode. 3 = 1640×1232 @ 30 fps 4:3 (validated). |
+| `--flip-method <n>` | `2` | `--source gstreamer` only. `nvvidconv flip-method`. 0 = identity, 1 = 90° CCW, **2 = 180°** (validated for J13 mount), 3 = 90° CW, 4 = horizontal flip, 6 = vertical flip. |
+| `--width <px>` | `1640` | `--source gstreamer` only. |
+| `--height <px>` | `1232` | `--source gstreamer` only. |
+| `--framerate <fps>` | `30` | `--source gstreamer` only. Numerator; denominator is hardcoded to 1. |
+| `--warmup-frames <n>` | `30` | `--source gstreamer` only. Frames to pull-and-drop at startup so AE/AWB converge before the first MCP request is served. ~1 s at 30 fps. Bump if `capture_frame` still returns tinted output. |
+| `--pull-timeout-secs <n>` | `10` | `--source gstreamer` only. Hard cap on each frame fetch; `capture_frame` errors out instead of blocking the MCP request forever if the camera stops producing buffers. |
 
 ### Useful invocations
 
@@ -97,6 +106,14 @@ To exit, send `Ctrl-C` — the server completes any in-flight request, cancels i
 ./target/release/mcp-csi-camera \
     --listen 0.0.0.0:8777 \
     --mock-image /home/diikorr/IMG_resized.jpg \
+    --allowed-host 192.168.178.59
+
+# Phase 3 — real CSI camera. Server blocks ~1 s at startup while the
+# IMX219 ISP warms up, then `capture_frame` returns a 3A-converged JPEG
+# on every call. Switch `--flip-method` if you remount the camera.
+./target/release/mcp-csi-camera \
+    --listen 0.0.0.0:8777 \
+    --source gstreamer \
     --allowed-host 192.168.178.59
 ```
 

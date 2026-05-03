@@ -10,9 +10,22 @@ use rmcp::transport::streamable_http_server::{
 use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::EnvFilter;
 
-use mcp_csi_camera::capture::{CaptureSource, MockCapture};
+use mcp_csi_camera::capture::{
+    CaptureSource, GstreamerCapture, GstreamerConfig, MockCapture,
+};
 use mcp_csi_camera::config::Config;
 use mcp_csi_camera::server::CameraServer;
+
+/// Frame source. `mock` returns either `--mock-image` bytes or a sentinel —
+/// useful for transport-only tests without camera hardware. `gstreamer`
+/// opens a real CSI pipeline and warms up the IMX219 ISP before serving
+/// any MCP request, so the very first `capture_frame` call already gets a
+/// 3A-converged frame.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
+enum Source {
+    Mock,
+    Gstreamer,
+}
 
 #[derive(Parser, Debug)]
 #[command(name = "mcp-csi-camera", version, about, long_about = None)]
@@ -41,6 +54,53 @@ struct Cli {
     /// `:port` suffix any port matches; with `:8777` the port is pinned too.
     #[arg(long)]
     allowed_host: Vec<String>,
+
+    /// Where to get frames from. `mock` returns `--mock-image` bytes (or a
+    /// sentinel); `gstreamer` opens a real CSI pipeline. The remaining
+    /// `--sensor-*`, `--flip-method`, `--width`, `--height`, `--framerate`,
+    /// `--warmup-frames`, `--pull-timeout-secs` flags are read only when
+    /// `--source gstreamer`.
+    #[arg(long, value_enum, default_value_t = Source::Mock)]
+    source: Source,
+
+    /// `--source gstreamer` only: IMX219 sensor ID (cam0=0, cam1=1).
+    #[arg(long, default_value_t = 0)]
+    sensor_id: u32,
+
+    /// `--source gstreamer` only: IMX219 sensor mode. 3 = 1640×1232 @ 30 fps
+    /// 4:3 (validated in CSI_CAMERA.md).
+    #[arg(long, default_value_t = 3)]
+    sensor_mode: u32,
+
+    /// `--source gstreamer` only: `nvvidconv flip-method`. 2 = 180° rotation
+    /// (validated for J13 mounting); 0 = identity, 1 = 90° CCW, 3 = 90° CW,
+    /// 4 = horizontal flip, 6 = vertical flip.
+    #[arg(long, default_value_t = 2)]
+    flip_method: u32,
+
+    /// `--source gstreamer` only: frame width.
+    #[arg(long, default_value_t = 1640)]
+    width: u32,
+
+    /// `--source gstreamer` only: frame height.
+    #[arg(long, default_value_t = 1232)]
+    height: u32,
+
+    /// `--source gstreamer` only: frame rate (numerator; denominator = 1).
+    #[arg(long, default_value_t = 30)]
+    framerate: u32,
+
+    /// `--source gstreamer` only: drop this many frames during startup so
+    /// the IMX219 ISP's 3A (auto-exposure, auto-white-balance) converges
+    /// before the first MCP request is served. 30 ≈ 1 s at 30 fps.
+    #[arg(long, default_value_t = 30)]
+    warmup_frames: u32,
+
+    /// `--source gstreamer` only: hard cap on `pull_sample` wait. Beyond
+    /// this `capture_frame` returns an error instead of blocking the MCP
+    /// request forever.
+    #[arg(long, default_value_t = 10)]
+    pull_timeout_secs: u64,
 }
 
 #[tokio::main]
@@ -58,17 +118,39 @@ async fn main() -> Result<()> {
             .with_context(|| format!("create output dir {}", dir.display()))?;
     }
 
-    if let Some(ref src) = cli.mock_image {
-        anyhow::ensure!(
-            src.exists(),
-            "--mock-image {} does not exist",
-            src.display(),
-        );
-    }
-
     let config = Config { output_dir: cli.output_dir.clone() };
-    let capture: Arc<dyn CaptureSource> =
-        Arc::new(MockCapture::new(cli.mock_image.clone()));
+    let capture: Arc<dyn CaptureSource> = match cli.source {
+        Source::Mock => {
+            if let Some(ref src) = cli.mock_image {
+                anyhow::ensure!(
+                    src.exists(),
+                    "--mock-image {} does not exist",
+                    src.display(),
+                );
+            }
+            Arc::new(MockCapture::new(cli.mock_image.clone()))
+        }
+        Source::Gstreamer => {
+            // GstreamerCapture::new blocks for ~1 s while the ISP warms up.
+            // Doing it here means `capture_frame` is hot from the very first
+            // MCP request, and a busted camera fails server startup instead
+            // of surprising the client mid-session.
+            let gst_cfg = GstreamerConfig {
+                sensor_id: cli.sensor_id,
+                sensor_mode: cli.sensor_mode,
+                flip_method: cli.flip_method,
+                width: cli.width,
+                height: cli.height,
+                framerate: cli.framerate,
+                pull_timeout_secs: cli.pull_timeout_secs,
+                warmup_frames: cli.warmup_frames,
+            };
+            Arc::new(
+                GstreamerCapture::new(gst_cfg)
+                    .context("initialise GstreamerCapture")?,
+            )
+        }
+    };
 
     // Streamable HTTP creates a fresh server instance per MCP session via this
     // factory. We share the underlying capture backend (Arc<dyn CaptureSource>)
@@ -126,6 +208,7 @@ async fn main() -> Result<()> {
     tracing::info!(
         listen = %cli.listen,
         endpoint = "/mcp",
+        source = ?cli.source,
         output_dir = ?cli.output_dir,
         mock_image = ?cli.mock_image,
         allowed_hosts = ?allowed_hosts,
