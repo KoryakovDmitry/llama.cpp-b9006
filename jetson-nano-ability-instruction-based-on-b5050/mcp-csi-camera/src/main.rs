@@ -7,6 +7,7 @@ use rmcp::transport::streamable_http_server::{
     StreamableHttpServerConfig, StreamableHttpService,
     session::local::LocalSessionManager,
 };
+use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::EnvFilter;
 
 mod capture;
@@ -106,7 +107,21 @@ async fn main() -> Result<()> {
             .with_allowed_hosts(allowed_hosts.clone()),
     );
 
-    let router = axum::Router::new().nest_service("/mcp", service);
+    // Permissive CORS so browser-based MCP clients (e.g. the Inspector running
+    // at http://localhost:6274) can POST to /mcp from a different origin.
+    // `expose_headers(Any)` is what lets the JS client read `Mcp-Session-Id`
+    // back from the initialize response — without it the browser hides it
+    // and every subsequent request looks unauthenticated. Suitable for a LAN
+    // dev tool; tighten if this server ever faces the public internet.
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods(Any)
+        .allow_headers(Any)
+        .expose_headers(Any);
+
+    let router = axum::Router::new()
+        .nest_service("/mcp", service)
+        .layer(cors);
 
     let listener = tokio::net::TcpListener::bind(&cli.listen)
         .await

@@ -11,6 +11,7 @@ rmcp = { version = "1.6", features = ["server", "macros", "transport-streamable-
 tokio = { version = "1", features = ["full"] }
 tokio-util = "0.7"
 axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
+tower-http = { version = "0.6", features = ["cors"] }
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 tracing = "0.1"
