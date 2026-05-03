@@ -14,26 +14,32 @@ pub trait CaptureSource: Send + Sync {
     fn capture(&self, output_dir: &Path) -> Result<PathBuf>;
 }
 
-/// Phase-1 stand-in. Writes a sentinel byte sequence to a timestamped path
-/// in `output_dir` and returns it. Lets us validate the MCP wiring end to
-/// end without depending on gstreamer or a working CSI camera.
+/// Phase-1 stand-in. On each capture writes a JPEG to a timestamped path in
+/// `output_dir` and returns it. Lets us validate the MCP wiring end to end
+/// without depending on gstreamer or a working CSI camera.
 ///
-/// The file is **not** a valid JPEG — readers that try to decode it will
-/// fail. Phase 3 replaces this implementation with a real frame from
-/// gstreamer.
+/// Two modes, picked by the `source_image` constructor arg:
+/// - `Some(path)` — copy that file's bytes to every capture path. Use a real
+///   JPEG here when integration-testing with a vision LLM client; the mock
+///   then produces decodable images.
+/// - `None` — write a short sentinel byte sequence. Not a valid JPEG, but
+///   enough to validate that an MCP client receives a path it can stat.
+///
+/// Phase 3 replaces this implementation with a real frame from gstreamer.
 pub struct MockCapture {
     counter: AtomicU64,
+    source_image: Option<PathBuf>,
 }
 
 impl MockCapture {
-    pub fn new() -> Self {
-        Self { counter: AtomicU64::new(0) }
+    pub fn new(source_image: Option<PathBuf>) -> Self {
+        Self { counter: AtomicU64::new(0), source_image }
     }
 }
 
 impl Default for MockCapture {
     fn default() -> Self {
-        Self::new()
+        Self::new(None)
     }
 }
 
@@ -44,8 +50,17 @@ impl CaptureSource for MockCapture {
         let filename = format!("mock-{ts}-{n:06}.jpg");
         let path = output_dir.join(filename);
 
-        std::fs::write(&path, b"MOCK JPEG -- mcp-csi-camera placeholder.\n")
-            .with_context(|| format!("write mock capture to {}", path.display()))?;
+        match &self.source_image {
+            Some(src) => {
+                std::fs::copy(src, &path).with_context(|| {
+                    format!("copy {} to {}", src.display(), path.display())
+                })?;
+            }
+            None => {
+                std::fs::write(&path, b"MOCK JPEG -- mcp-csi-camera placeholder.\n")
+                    .with_context(|| format!("write mock capture to {}", path.display()))?;
+            }
+        }
 
         Ok(path)
     }

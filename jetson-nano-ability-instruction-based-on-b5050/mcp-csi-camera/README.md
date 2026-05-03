@@ -37,6 +37,20 @@ The server reads MCP JSON-RPC from **stdin** and writes responses to **stdout**.
 
 To exit, send EOF on stdin (Ctrl-D) or terminate the process.
 
+### Mock with a real JPEG (recommended for integration tests)
+
+Without flags, every `capture_frame` writes a sentinel byte sequence — useful to confirm an MCP client gets a path it can stat, useless for a vision LLM that tries to decode the file. Pass `--mock-image` to make the mock copy a real JPEG into each output path instead:
+
+```sh
+RUST_LOG=info ./target/release/mcp-csi-camera \
+  --output-dir /tmp/mcp-csi \
+  --mock-image /tmp/csi-mode3.jpg
+```
+
+(The `/tmp/csi-mode3.jpg` is the test capture from [`../CSI_CAMERA.md` § 4](../CSI_CAMERA.md#4-capture-a-jpeg). Any JPEG works — pick one whose content matches what you'd want the integration test to "see".)
+
+The path is checked at startup; the server fails fast if the file doesn't exist.
+
 ## Tools
 
 ### `capture_frame`
@@ -46,7 +60,7 @@ Captures one frame from the configured CSI camera, writes it as a JPEG into `--o
 - Parameters: none (in Phase 1).
 - Return: `text` content with the absolute path string, e.g. `/tmp/mcp-csi/mock-20260503-164715-000003.jpg`.
 
-In Phase 1 the file written is **not** a valid JPEG — it's a sentinel byte sequence so downstream tooling that just reads the path and forwards it works end-to-end without needing a working camera. Phase 3 replaces this with a real JPEG from the gstreamer pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned, flip-method 2).
+In Phase 1 the file content depends on the `--mock-image` flag (see "Mock with a real JPEG" above): with `--mock-image` set, every capture is a copy of that file (a decodable JPEG); without the flag, every capture is a short sentinel byte sequence (not a valid JPEG, fine only for plumbing tests). Phase 3 replaces this with a real frame from the gstreamer pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned, flip-method 2).
 
 ## File cleanup
 
@@ -65,7 +79,7 @@ The MCP `initialize` + `tools/call` JSON-RPC handshake can be driven by hand for
   printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}'
   printf '%s\n' '{"jsonrpc":"2.0","method":"notifications/initialized"}'
   printf '%s\n' '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"capture_frame","arguments":{}}}'
-} | ./target/release/mcp-csi-camera --output-dir /tmp/mcp-csi
+} | ./target/release/mcp-csi-camera --output-dir /tmp/mcp-csi --mock-image /tmp/csi-mode3.jpg
 ```
 
-Expected: two JSON responses on stdout (one for `initialize`, one for `tools/call`); a file appears in `/tmp/mcp-csi/`.
+Expected: two JSON responses on stdout (one for `initialize`, one for `tools/call`); a file appears in `/tmp/mcp-csi/` whose contents are byte-identical to `/tmp/csi-mode3.jpg`. Drop `--mock-image` to fall back to the sentinel-bytes mode (no real JPEG, just plumbing).
