@@ -1,0 +1,16 @@
+[package]
+name = "mcp-csi-camera"
+version = "0.1.0"
+edition = "2021"
+description = "MCP server exposing the Jetson Nano CSI camera as a capture_frame tool"
+license = "MIT"
+publish = false
+
+[dependencies]
+rmcp = { version = "0.16", features = ["server", "transport-io", "macros"] }
+tokio = { version = "1", features = ["full"] }
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+chrono = "0.4"
