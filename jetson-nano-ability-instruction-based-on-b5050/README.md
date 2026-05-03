@@ -6,12 +6,14 @@ Adaptation of the b5050 Jetson Nano procedure (original at [`llama.cpp-jetson/RE
 
 | If you want to… | Read |
 |---|---|
-| **Build it on a fresh Jetson Nano right now** | [`INSTALL.md`](INSTALL.md) — 5-step runbook (prereqs → clone → bf16 stubs → cmake → run) |
-| Understand *why* each patch exists, with commit hashes and the actual error messages we hit | [`HISTORY.md`](HISTORY.md) — chronology in 5 phases |
+| **Build it on a fresh Jetson Nano right now** | [`INSTALL.md`](INSTALL.md) — 5-step runbook (prereqs → clone → bf16 stubs → cmake → run), plus a benchmark table of which models actually fit |
+| Understand *why* each patch exists, with commit hashes and the actual error messages we hit | [`HISTORY.md`](HISTORY.md) — chronology in 5 phases incl. the BF16 numerics fix that made vision work |
 | See the original task brief | [`TASK.md`](TASK.md) |
 | Read the original (now-superseded) b5050 procedure | [`llama.cpp-jetson/README.md`](llama.cpp-jetson/README.md) |
 
 The rest of *this* file is a per-step rationale of the patches: useful as a code-review companion, redundant if you just want to build.
+
+End state: text and vision both work on a 4 GB Jetson Nano with the right model size. Confirmed on `ggml-org/gemma-3-1b-it-GGUF:Q4_K_M` (~7.4 t/s text generation) and `unsloth/Qwen3.5-0.8B-GGUF:Q8_0` (~6.2 t/s vision generation through a BF16 mmproj).
 
 The b5050 procedure targeted commit `23106f94e` (April 2025). Between that and b9006 the CUDA backend was reorganized and `bf16` became a first-class type across many kernels, so the patches were re-derived rather than applied verbatim.
 

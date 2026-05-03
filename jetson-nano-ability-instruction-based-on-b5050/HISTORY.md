@@ -129,9 +129,11 @@ Patched `common/http.h::common_http_client()` to, for HTTPS scheme:
 
 Wrapped in `#ifdef CPPHTTPLIB_OPENSSL_SUPPORT`, so it's a no-op when llama.cpp is built without TLS.
 
-## Phase 5 — Runtime BF16 cuBLAS path (`1fe748ab6`)
+## Phase 5 — Runtime BF16 cuBLAS path
 
-Spotted later when running a multimodal model (`unsloth/Qwen3.5-0.8B-GGUF:Q8_0`) with a BF16 vision projector (`mmproj-BF16.gguf` is the multimodal projector and it ships in BF16). Text generation worked fine, but on `/image` followed by a question:
+Spotted later when running a multimodal model (`unsloth/Qwen3.5-0.8B-GGUF:Q8_0`) with a BF16 vision projector (`mmproj-BF16.gguf` is the multimodal projector and it ships in BF16). Text generation worked fine, but on `/image` followed by a question we hit three rounds of related issues, each fixed in turn.
+
+### 5a — `CUBLAS_STATUS_NOT_SUPPORTED` on the bf16 cuBLAS GEMM (`1fe748ab6`)
 
 ```
 CUDA error: CUBLAS_STATUS_NOT_SUPPORTED
@@ -140,18 +142,40 @@ CUDA error: CUBLAS_STATUS_NOT_SUPPORTED
                CUBLAS_COMPUTE_32F, CUBLAS_GEMM_DEFAULT_TENSOR_OP)
 ```
 
-The Round-3 fix (`#define CUDA_R_16BF ((cudaDataType_t) 14)` in `cuda_bf16.h`) made the source *compile*, but `cublasGemmEx` in CUDA 10.2 was released before `CUDA_R_16BF` existed and rejects the value at runtime. The note from Round 3 ("BF16 cuBLAS branch is not exercised on sm_50/sm_61 in practice") held until a multimodal model was actually loaded.
+The Round-3 fix (`#define CUDA_R_16BF ((cudaDataType_t) 14)` in `cuda_bf16.h`) made the source *compile*, but `cublasGemmEx` in CUDA 10.2 was released before `CUDA_R_16BF` existed and rejects the value at runtime.
 
-Fix: `ggml-cuda.cu` — gate `supports_bf16` on `CUDART_VERSION >= 11000`. On CUDA 10.2 the runtime check now reports false, the `if (supports_bf16 && src0->type == GGML_TYPE_BF16 …)` branch is skipped, and BF16 src0 falls through to the fp32 path (`ggml_get_to_fp32_cuda(GGML_TYPE_BF16)` → `convert_unary_cont_cuda<nv_bfloat16>` → which under our `GGML_CUDA_BF16_IS_HALF2` typedef is just half→float, then `cublasSgemm`). Slower than dedicated BF16 tensor cores, but correct, and Tegra X1 doesn't have BF16 tensor cores anyway. The companion `use_batched_cublas_bf16` path is already gated by `bf16_mma_hardware_available(cc)` which requires Ampere — never true on Tegra X1 (CC 5.3) — so it needs no patch.
+Fix: `ggml-cuda.cu` — gate `supports_bf16` on `CUDART_VERSION >= 11000`. The `if (supports_bf16 && src0->type == GGML_TYPE_BF16 …)` branch is skipped on CUDA 10.2 and BF16 src0 falls through to the next path. The companion `use_batched_cublas_bf16` is already gated by `bf16_mma_hardware_available(cc)` (requires Ampere) — never true on Tegra X1 (CC 5.3) — so it needs no patch.
+
+### 5b — `the launch timed out and was terminated` on the fp32 fallback (`4d5d330c1`)
+
+After 5a, BF16 src0 fell through to the fp32 path (`cublasSgemm`). On a vision encoder this hit Tegra X1's ~2-second GPU watchdog and aborted at `cudaStreamSynchronize`. Maxwell-class compute on fp32 is just too slow for a typical vision encoder layer to clear the deadline.
+
+Fix is two-part:
+
+1. `common.cuh` — add Tegra X1 (`cc == 530`) to `fast_fp16_hardware_available()`. sm_53 is the Maxwell variant with native fp16 ALUs (that's why its CC is 5.3 and not 5.0); the existing `cc >= GGML_CUDA_CC_PASCAL` filter incorrectly excluded it. Other sm_5x parts stay excluded.
+2. `ggml-cuda.cu` — extend `use_fp16` to accept `GGML_TYPE_BF16` src0 under `CUDART_VERSION < 11000`. With our typedef stub `GGML_CUDA_BF16_IS_HALF2` this is correct in *type* (BF16 ≡ fp16 at the C++-level) and the fp16 cuBLAS path on Tegra X1 is fast enough to clear the watchdog.
+
+### 5c — vision now ran without crashing, but output was `??????…` (`7b27754cc`)
+
+Running on a downscaled 512×512 image stopped crashing — and started producing long runs of `?` characters instead of describing the image. The `mem_watch.sh` log showed RAM was fine (`available 3.5G`, swap idle), so memory pressure was ruled out. This was a numerical bug.
+
+Root cause: BF16 and fp16 have **different bit layouts** — BF16 is `1 sign + 8 exponent + 7 mantissa`, fp16 is `1 sign + 5 exponent + 10 mantissa`. The bytes a model loader writes for a BF16 tensor are not the same bytes that mean the same number when read as fp16. With our `nv_bfloat16 = __half` typedef, `convert_unary_cont_cuda<nv_bfloat16, __half>` collapses into `ggml_cuda_cast<__half, __half>(x)` which matches the identity branch and returns x unchanged — so no actual numerical conversion ever happens; the BF16 bytes flowed straight into the fp16 cuBLAS GEMM and got reinterpreted, scrambling every weight in the vision projector.
+
+Fix: in `convert.cu`, add two `CUDART_VERSION < 11000`-only kernels:
+
+- `bf16_bits_to_fp32_cuda` — read the 16-bit storage as a BF16 value, place those bits as the upper half of an fp32 word (low 16 bits zero), write to `float *`.
+- `bf16_bits_to_fp16_cuda` — same first step, then narrow fp32 → fp16 via `__float2half`.
+
+Route `ggml_get_to_fp16_cuda(GGML_TYPE_BF16)` and `ggml_get_to_fp32_cuda(GGML_TYPE_BF16)` through these instead of the broken templated path. The non-contiguous variants and `ggml_get_to_bf16_cuda` are intentionally left untouched: in the Tegra X1 dispatch they only feed paths gated off by 5a / `bf16_mma_hardware_available(cc)`.
+
+This was a real hidden bug carried over from Round 1's typedef trick — text-only models never tripped it because they don't actually read BF16 tensors at runtime; only the multimodal mmproj-BF16 surface did.
 
 ## Result
 
-```
-$ ./llama-cli -hf ggml-org/gemma-3-1b-it-GGUF:Q4_K_M --n-gpu-layers 99
-ggml_cuda_init: found 1 CUDA devices (Total VRAM: 3963 MiB):
-  Device 0: NVIDIA Tegra X1, compute capability 5.3, VMM: no, VRAM: 3963 MiB
-Downloading gemma-3-1b-it-Q4_K_M.gguf ──────────────────────────── 100%
+Text on a 1B model:
 
+```
+$ rllama-cli -hf ggml-org/gemma-3-1b-it-GGUF:Q4_K_M --n-gpu-layers 99
 build      : b9041-a65ad6999
 model      : ggml-org/gemma-3-1b-it-GGUF
 modalities : text
@@ -159,11 +183,38 @@ modalities : text
 [ Prompt: 11.1 t/s | Generation: 7.4 t/s ]
 ```
 
-CUDA acceleration on, model loaded into VRAM via the unified-memory pool, generation at expected speed for the device.
+Vision on Qwen3.5-0.8B with a BF16 projector:
+
+```
+$ rllama-cli -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 --n-gpu-layers 99
+build      : b9061-7b27754cc
+model      : unsloth/Qwen3.5-0.8B-GGUF:Q8_0
+modalities : text, vision
+
+> /image /home/diikorr/IMG_resized.jpg
+Loaded media from '/home/diikorr/IMG_resized.jpg'
+> what can you see on the image
+[Start thinking]
+The user wants a description of the image.
+1.  Identify the main subjects:
+    *   A woman sitting at a desk.
+    *   A large piece of equipment (camera rig) mounted above her.
+…
+[End thinking]
+Based on the image, here is a description of what can be seen:
+**The Subject** A woman is sitting at a white desk. She has long brown hair…
+[ Prompt: 24.6 t/s | Generation: 6.2 t/s ]
+```
+
+CUDA acceleration on, both text and vision modalities working, generation rate matches the device's ceiling, fp16 cuBLAS path engaged through `bf16_bits_to_fp16_cuda`. Memory breakdown reported `1999 MiB` total CUDA usage (`763` model + `748` context + `487` compute) with ~459 MiB headroom on the 3963 MiB unified pool. Description quality on a 0.8B model has the usual hallucinations on details — that's the model size, not the build.
+
+A 12 MP phone photo can still trip the GPU watchdog during preprocessing on full resolution; resizing to ~512 px first (`convert in.jpg -resize 512x512\> -strip out.jpg`) keeps everything well under the deadline.
 
 ## Helper / tooling commits (out of band)
 
 - `8626c3f35`, `e1083b8bc`, `2e8ed5925`, `0cc455dc2` — `jetson-nano-b9006-patch/scripts/build_with_log.sh`. Wrapper around `cmake --build` that tees stdout+stderr to a log file, preserves cmake's exit code (not tee's), and forwards extra args after `--` (e.g. `-j2`) to cmake.
+- `8c407df59` — moved scripts under a `scripts/` subdirectory and added `install_symlinks.sh` for installing the b9006 binaries with an `r`-prefix into `~/.local/bin` so they coexist with an older system-wide install.
+- `14f76aa0e` — `mem_watch.sh` for periodic snapshotting of `free -h` and `/proc/swaps` to a log; used during Phase 5 diagnosis to confirm that the watchdog timeout was not memory-pressure-driven.
 - Compile logs landed at `compile_logs/failed_logs_round_*.txt` along the way.
 
 ## Files modified end-to-end
@@ -172,14 +223,15 @@ In source tree:
 
 - `CMakeLists.txt` — limit `CMAKE_CUDA_ARCHITECTURES`.
 - `ggml/CMakeLists.txt` — link `stdc++fs`, pass `--copy-dt-needed-entries`.
-- `ggml/src/ggml-cuda/common.cuh` — `is_same_v` shim, `is_any` rewrite, drop `inline`, structured bindings unfolded.
+- `ggml/src/ggml-cuda/common.cuh` — `is_same_v` shim, `is_any` rewrite, drop `inline`, structured bindings unfolded, sm_53 added to `fast_fp16_hardware_available`.
 - `ggml/src/ggml-cuda/fattn-common.cuh` — comment `__builtin_assume`.
 - `ggml/src/ggml-cuda/fattn-vec.cuh` — comment `__builtin_assume`.
 - `ggml/src/ggml-cuda/mma.cuh` — guard four bf16 sites with `GGML_CUDA_BF16_IS_HALF2`.
 - `ggml/src/ggml-cuda/mmf.cuh` — bf16 instantiation helpers.
 - `ggml/src/ggml-cuda/binbcast.cu` — comma-fold rewrite.
 - `ggml/src/ggml-cuda/softmax.cu` — `cooperative_groups/reduce.h` guard, cg-body stub.
-- `ggml/src/ggml-cuda/ggml-cuda.cu` — structured bindings, if-init, inline-static traits, `cudaStreamWaitEvent` arity.
+- `ggml/src/ggml-cuda/convert.cu` — `bf16_bits_to_fp{16,32}_cuda` kernels for bit-correct BF16 decoding (Phase 5c).
+- `ggml/src/ggml-cuda/ggml-cuda.cu` — structured bindings, if-init, inline-static traits, `cudaStreamWaitEvent` arity, `supports_bf16` gated on CUDART, `use_fp16` extended to BF16.
 - `common/http.h` — explicit CA bundle loading.
 
 Out-of-tree, on the Jetson:

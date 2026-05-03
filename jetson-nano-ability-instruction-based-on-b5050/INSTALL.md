@@ -139,6 +139,29 @@ To start an OpenAI-compatible HTTP server instead:
 ./llama-server -m ~/.cache/llama.cpp/<filename>.gguf --host 0.0.0.0 --n-gpu-layers 99
 ```
 
+### What works on a Jetson Nano (4 GB unified)
+
+Numbers below are from this build (`b9061-7b27754cc` and similar) on a stock SD-card-backed Jetson Nano with `--n-gpu-layers 99`.
+
+| Model | Modality | Quant | t/s gen | Notes |
+|---|---|---|---|---|
+| `ggml-org/gemma-3-1b-it-GGUF` | text | Q4_K_M | ~7.4 | Reference text baseline. |
+| `unsloth/Qwen3.5-0.8B-GGUF:Q8_0` | text + vision | Q8_0 | ~6.2 | Vision encoder runs through the bf16-decode patch from Phase 5c. |
+| `unsloth/Qwen3.5-0.8B-GGUF:UD-Q4_K_XL` | text + vision | UD-Q4_K_XL | TBD | Smaller dynamic quant; should be similar or slightly faster. |
+
+Larger models (≥ 2B parameters, especially multimodal) are at or past the 4 GB ceiling and will OOM at load. Try Q3_K / IQ2_M variants if you need bigger, or live with `--n-gpu-layers 20`-style partial offload.
+
+### Vision: pre-resize big phone photos
+
+On full-resolution phone photos (12+ MP), the CPU-side JPEG decode plus bilinear downsample to the model's native input size (224×224 or 336×336) creates a transient ~100–150 MB raw RGB buffer and can — combined with the vision-encoder GPU kernels — push the run past the Jetson's GPU watchdog (~2 s) and abort with `the launch timed out and was terminated`. Easy fix: downscale once with ImageMagick:
+
+```sh
+sudo apt install -y imagemagick
+convert IMG_in.jpg -resize 512x512\> -strip IMG_resized.jpg
+```
+
+Then point `/image` at `IMG_resized.jpg`. Llama.cpp will downsample again to model-native — that's fine, the second pass is tiny.
+
 ## 6. (Optional) Run from anywhere via prefixed symlinks
 
 If you want `llama-cli` / `llama-server` / etc. callable from any directory, but you also have an older system-wide install (e.g. the b5050 binaries that kreier's `install.sh` drops into `/usr/local/bin`) that you don't want to overwrite, install symlinks with a prefix into `~/.local/bin`:
@@ -166,6 +189,9 @@ rllama-cli --version   # new b9006
 | `cuda_bf16.h: No such file or directory` while building CUDA backend | Stubs not copied to `/usr/local/cuda/include/` | Re-run §2 |
 | `error: gcc versions later than 8 are not supported!` | Toolchain mismatch — nvcc 10.2 forbids gcc ≥ 9 unless the host_config.h hack is applied | Either install gcc 8.5, or edit `/usr/local/cuda/targets/aarch64-linux/include/crt/host_config.h` line 136 (change 8 → 9) |
 | Inference much slower than ~7 t/s | Forgot `--n-gpu-layers 99`, or model didn't fit in unified memory | Verify with `jtop` that the GPU is actually loaded |
+| Vision: `the launch timed out and was terminated` after `/image …` | GPU watchdog hit during preprocessing of a high-res photo | Pre-resize the image to ~512 px (`convert in.jpg -resize 512x512\> -strip out.jpg`), then `/image out.jpg` |
+| Vision: model emits `??????…` instead of describing the image | The bit-correct BF16 → fp16/fp32 conversion in `convert.cu` was reverted/lost | Confirm `bf16_bits_to_fp{16,32}_cuda` exist in `ggml/src/ggml-cuda/convert.cu` and the `GGML_TYPE_BF16` cases in `ggml_get_to_fp{16,32}_cuda` route to them under `CUDART_VERSION < 11000` |
+| Vision: `CUBLAS_STATUS_NOT_SUPPORTED` from `cublasGemmEx ... CUDA_R_16BF` | `supports_bf16` not gated on `CUDART_VERSION` | Confirm the `#if CUDART_VERSION < 11000` guard around `supports_bf16` in `ggml/src/ggml-cuda/ggml-cuda.cu` is intact |
 
 ## What was changed in the source tree
 
@@ -174,19 +200,23 @@ For the curious — see [`HISTORY.md`](HISTORY.md) for the full chronology with 
 ```
 CMakeLists.txt                                 # CUDA arch limit
 ggml/CMakeLists.txt                            # stdc++fs link
-ggml/src/ggml-cuda/common.cuh                  # is_same_v shim, is_any rewrite, structured bindings, drop inline
+ggml/src/ggml-cuda/common.cuh                  # is_same_v shim, is_any rewrite, structured bindings, drop inline,
+                                                 #   sm_53 in fast_fp16_hardware_available
 ggml/src/ggml-cuda/fattn-common.cuh            # comment __builtin_assume
 ggml/src/ggml-cuda/fattn-vec.cuh               # comment __builtin_assume
 ggml/src/ggml-cuda/mma.cuh                     # guard nv_bfloat162 specs/overloads
 ggml/src/ggml-cuda/mmf.cuh                     # bf16 instantiation helpers
 ggml/src/ggml-cuda/binbcast.cu                 # comma-fold rewrite
 ggml/src/ggml-cuda/softmax.cu                  # cg/reduce guard, cg-body stub
-ggml/src/ggml-cuda/ggml-cuda.cu                # structured bindings, if-init, inline-static traits, cudaStreamWaitEvent
+ggml/src/ggml-cuda/convert.cu                  # bit-correct BF16 -> fp16/fp32 kernels (CUDA<11)
+ggml/src/ggml-cuda/ggml-cuda.cu                # structured bindings, if-init, inline-static traits,
+                                                 #   cudaStreamWaitEvent, supports_bf16, use_fp16+=BF16
 common/http.h                                  # explicit CA bundle loading
 jetson-nano-b9006-patch/files/cuda_bf16.h            # stub for /usr/local/cuda/include/
 jetson-nano-b9006-patch/files/cuda_bf16.hpp          # companion stub
 jetson-nano-b9006-patch/scripts/build_with_log.sh    # build wrapper that captures stdout+stderr to a log
 jetson-nano-b9006-patch/scripts/install_symlinks.sh  # install r-prefixed symlinks into ~/.local/bin
+jetson-nano-b9006-patch/scripts/mem_watch.sh         # periodic memory/swap snapshotting for diagnosis
 ```
 
 If/when you want to merge upstream changes from `master`, expect conflicts in most of those files — the patches are deliberate adaptations, not generic improvements.
