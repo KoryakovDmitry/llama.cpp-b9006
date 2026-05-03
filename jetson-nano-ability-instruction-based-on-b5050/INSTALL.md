@@ -352,7 +352,7 @@ If you have a Raspberry Pi Camera v2.1 (Sony IMX219) connected to the J13 / J49 
 - Physical install (ribbon orientation and latching on the dev kit B01).
 - The device-tree overlay step (`jetson-io.py` → `Camera IMX219 Dual` → reboot).
 - The verification ladder (`dmesg`, `i2cdetect`, `/dev/video*`).
-- A validated `nvarguscamerasrc → nvvidconv → nvjpegenc → filesink` capture pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned) — the same pipeline that the upcoming MCP server (branch `mcp-csi-camera-jetson-nano`) will hold open as a long-lived gstreamer graph.
+- A validated `nvarguscamerasrc → nvvidconv → nvjpegenc → filesink` capture pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned) — the same pipeline that the MCP server in [`mcp-csi-camera/`](mcp-csi-camera/) holds open as a long-lived gstreamer graph (with `appsink` instead of `filesink` for in-memory delivery via the `view_scene` MCP tool).
 - The IMX219 sensor-mode and `flip-method` reference tables.
 - The recovery procedure for the common `-121 EREMOTEIO` ribbon-oxidation failure mode that bites after an OS reflash or long downtime — software / DT looks clean, but the gold-plated ribbon contacts have oxidized passively and need a soft-eraser pass on both ends.
 

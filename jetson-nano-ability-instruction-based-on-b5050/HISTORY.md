@@ -271,7 +271,7 @@ Sensor mode 3 (`1640×1232 @ 30 fps`, 2×2 binned, 4:3 aspect) chosen as default
 
 `flip-method=2` rotates the captured frame 180° (the camera mounted upside-down on a desk arm); rotation is hardware-accelerated through `nvvidconv`, not CPU.
 
-Phase 6 sets the stage for the MCP server work (separate branch, planned). The full bring-up runbook is in [`CSI_CAMERA.md`](CSI_CAMERA.md), including the recovery procedure for the ribbon-oxidation failure mode — so the next person hitting `-121` after a reflash doesn't have to repeat the layer-peeling above.
+Phase 6 sets the stage for the MCP server work, which lives at [`mcp-csi-camera/`](mcp-csi-camera/) on this same branch — a Rust MCP server that holds the validated pipeline open as a long-lived `appsink` graph and exposes a single first-person `view_scene` tool returning the JPEG inline as base64. The full camera bring-up runbook is in [`CSI_CAMERA.md`](CSI_CAMERA.md), including the recovery procedure for the ribbon-oxidation failure mode — so the next person hitting `-121` after a reflash doesn't have to repeat the layer-peeling above.
 
 ## Helper / tooling commits (out of band)
 

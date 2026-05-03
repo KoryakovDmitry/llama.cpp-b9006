@@ -184,16 +184,15 @@ If the camera previously worked on this Jetson, has not been touched physically,
 
 In practice, a soft-eraser pass is sufficient ~95 % of the time on dry oxidation. Reach for a wet alternative only if a pure eraser pass leaves the i2c link still down.
 
-## Next: MCP server
+## MCP server
 
-The capture pipeline above is the foundation; the next step is wrapping it in an MCP server so an agent (Claude Code, or anything speaking MCP) can request a camera frame and feed it to the local `rllama-server` for vision inference. Tracked on branch `mcp-csi-camera-jetson-nano`.
+The capture pipeline above is wrapped in a Rust MCP server so an agent (Claude Code, Claude Desktop, or anything speaking MCP) can ask for a camera view and feed it to the local `rllama-server` for vision inference. Lives in [`mcp-csi-camera/`](mcp-csi-camera/) on branch `mcp-csi-camera-jetson-nano`; see that crate's [README](mcp-csi-camera/README.md) for build/run/test instructions.
 
-Design decisions made during this bring-up (to be implemented):
+How it's wired up:
 
-- **Language**: Rust. Floor of ~25–40 MB resident persistent vs ~100–150 MB for Python + PyGObject + gstreamer-python. Matters on a 4 GB Jetson where `rllama-server` already eats ~3 GB.
-- **Pipeline lifetime**: persistent (`PAUSED ↔ PLAYING`), not lazy-build / idle-teardown. Predictable latency, simpler code, the constant ~30 MB cost is noise next to the LLM process.
-- **Transport**: Streamable HTTP (the 2025-11-25 MCP spec transport). Listens on a local TCP port (default `0.0.0.0:8777`, endpoint `/mcp`) — lets us test with MCP Inspector by URL, run the camera server on the Jetson and call from a Mac, and plug the same endpoint into any MCP client (Claude Desktop, agent frameworks) by URL config. Pure stdio was the initial plan but rmcp 1.6 doesn't expose a standalone SSE-server transport (SSE is now an internal detail of Streamable HTTP), and the network endpoint is better for development anyway.
-- **Tool surface**: a single `capture_frame` returning a path to a JPEG written to `/tmp/mcp-csi/<timestamp>.jpg`. tmpfs is RAM-backed on JetPack 4.6, so file path = effective pointer-into-RAM with zero base64 overhead vs returning the JPEG inline as MCP `image` content.
-- **Default capture parameters**: `sensor-id=0` (J13), `sensor-mode=3` (1640×1232 @ 30 fps, 4:3, 2×2 binned), `flip-method=2` (configurable per deployment).
-
-This section will be filled in once the server is implemented.
+- **Language**: Rust. Floor of ~25–40 MB resident vs ~100–150 MB for Python + PyGObject + gstreamer-python — matters on a 4 GB Jetson where `rllama-server` already eats ~3 GB.
+- **Pipeline lifetime**: persistent at PLAYING with `appsink max-buffers=1 drop=true`. The pipeline reaches PLAYING in `GstreamerCapture::new()` and stays there for the server's lifetime; each MCP call is a non-blocking pull of the most-recent frame. A configurable warm-up burst (~30 frames ≈ 1 s @ 30 fps) drains on startup so AE/AWB are converged before the first MCP request — without it the very first frame comes out yellow/green-tinted.
+- **Transport**: MCP Streamable HTTP (the 2025-11-25 spec transport), endpoint `/mcp` on `0.0.0.0:8777` by default. Permissive CORS is layered on top so the browser-based MCP Inspector can drive it from a different origin. rmcp's DNS-rebinding allowlist needs the LAN IP added explicitly via `--allowed-host` for non-loopback access. Pure stdio was the initial plan but rmcp 1.6 doesn't expose a standalone SSE-server transport (SSE is now an internal detail of Streamable HTTP), and the network endpoint is better for development anyway.
+- **Tool surface**: a single `view_scene` tool returning the JPEG **inline** as a base64-encoded MCP `image` content block (`mimeType: image/jpeg`). No file-path indirection — the LLM consumes the bytes directly from the response. The tool is described to the agent in first-person ("your camera, your view of the physical world around you") so the model treats it as its own POV. Optional `--output-dir` debug-saves the same bytes to `<dir>/capture-<timestamp>.jpg` for after-the-fact inspection; nothing is written to disk by default.
+- **Frame source switch**: `--source mock|gstreamer`. `mock` returns either `--mock-image` bytes or a sentinel — kept around for transport-only tests without camera hardware. `gstreamer` is the real path described above.
+- **Default capture parameters**: `sensor-id=0` (J13), `sensor-mode=3` (1640×1232 @ 30 fps, 4:3, 2×2 binned), `flip-method=2`. All exposed as CLI flags, so per-deployment tweaks don't need a rebuild.
