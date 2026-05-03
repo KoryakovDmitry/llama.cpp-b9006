@@ -160,23 +160,31 @@ Modern vision encoders fall into two camps with very different reactions to larg
 
 `unsloth/Qwen3.5-*-GGUF` is the second kind. A 12 MP phone photo on the Tegra X1 produces tens of thousands of patches; the resulting vision-encoder kernels run for many seconds and trip the Jetson's ~2 s GPU watchdog → `the launch timed out and was terminated`.
 
-#### Patches vs LLM tokens
+#### How the math works for Qwen-VL
 
-A subtle but important distinction for Qwen-VL:
+The numbers below come directly from this build's source of truth — `tools/mtmd/clip.cpp:1352-1369` (the Qwen2VL/2.5VL/3VL projector setup) and `tools/mtmd/clip-model.h:112-118` (token-budget → pixel-budget conversion):
 
-- The image is split into **14×14-pixel patches** at native resolution. The vision encoder does self-attention over those patches; its GPU cost scales as `patches²`.
-- After the encoder, a **2×2 spatial merge** groups four patches into one **LLM token** before they enter the language model. So `LLM tokens = patches / 4`.
+- `patch_size = 14` (read from GGUF metadata; the Qwen-VL family uses 14×14-pixel patches).
+- `n_merge = 2` (the post-encoder 2×2 spatial merge — default for Qwen2VL/2.5VL/3VL, can be overridden by `KEY_SPATIAL_MERGE_SIZE`).
+- The image is **rescaled to a multiple of `patch_size × n_merge = 28`** on each side, preserving aspect ratio.
+- `patches = (W'/14) × (H'/14)` over the rescaled image.
+- `LLM_tokens = patches / (n_merge × n_merge) = patches / 4`.
+- The default token budget for Qwen-VL is `set_limit_image_tokens(8, 4096)`. So out of the box, `image_max_pixels = 4096 × 28² ≈ 3.2 MP` (≈ 1792×1792). Anything bigger is auto-downsampled before patching.
 
-`--image-max-tokens N` limits the **LLM-token** count (post-merge), not the patch count. Multiply by 4 to get the patch count and by 14² to get the corresponding image area.
+`--image-max-tokens N` overrides that upper bound — it caps `image_max_pixels` to `N × 784` pixels (since `28² = 784`). The vision encoder does self-attention over **patches** (not LLM tokens), so its GPU cost scales as `patches² = (4 × LLM_tokens)²`.
 
-| Input image | Patches | LLM tokens (`= patches/4`) | Vision encoder cost (`∝ patches²`) | Verdict on Jetson Nano |
-|---|---|---|---|---|
-| 224×224 | 256 | 64 | 1× | trivially OK |
-| 448×448 | 1024 | 256 | ~16× | OK |
-| **512×512 (baseline)** | **1296** | **324** | **~25×** | **OK (confirmed on Qwen3.5-0.8B Q8_0 at ~6 t/s)** |
-| 768×768 | 2916 | 729 | ~130× | borderline, OK with `jetson_clocks` |
-| 1024×1024 | 5329 | 1332 | ~430× | usually fails |
-| 4032×3024 | 62208 | 15552 | ~59000× | fails immediately |
+#### Patches and tokens at common image sizes
+
+| Input image | Snap (×28) | Patches `(side/14)²` | LLM tokens `(/4)` | Encoder work `∝ patches²` | Verdict on Jetson Nano |
+|---|---|---|---|---|---|
+| 224×224 | 224×224 | 16² = 256 | 64 | 1× | trivially OK |
+| 448×448 | 448×448 | 32² = 1024 | 256 | ~16× | OK |
+| **512×512 (baseline)** | **504×504** | **36² = 1296** | **324** | **~26×** | **OK (Qwen3.5-0.8B Q8_0 at ~6 t/s)** |
+| 768×768 | 756×756 | 54² = 2916 | 729 | ~130× | borderline, OK with `jetson_clocks` |
+| 1024×1024 | 1008×1008 | 72² = 5184 | 1296 | ~410× | usually fails |
+| 4032×3024 (12 MP, no flags) | auto-clamped by default cap to ≈ 2072×1540 | 148×110 = 16280 | 4070 | ~4000× | fails — the model's *own* default cap is still way over budget for Tegra X1 |
+
+The bottom row is the punchline of why "but llama.cpp already resizes" doesn't save you: Qwen-VL's default `image_max_pixels` is **4096 LLM tokens**, which downsamples a 12 MP phone photo to ~2072×1540 — but 4070 tokens is still ~12× the 512×512 baseline in token count and ~150× in encoder work. The model's idea of a sensible cap and the Tegra X1's idea of a survivable workload disagree by two orders of magnitude.
 
 The principled fix is to ask llama.cpp to bound the LLM-token count itself, via the multimodal preprocessor flag:
 
