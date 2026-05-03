@@ -10,9 +10,9 @@ Phased delivery. Each phase is independently testable on the Jetson.
 
 | Phase | What it does | State |
 |---|---|---|
-| 1 | MCP server with `MockCapture` (returns the bytes of `--mock-image` if set, else a sentinel). Validates the rmcp + Streamable HTTP wiring without gstreamer. | **current** |
-| 2 | Standalone `capture-test` binary that exercises `gstreamer-rs` against the real CSI pipeline (no MCP). | next |
-| 3 | Wire `GstreamerCapture` into the MCP server behind a CLI flag. | upcoming |
+| 1 | MCP server with `MockCapture` (returns the bytes of `--mock-image` if set, else a sentinel). Validates the rmcp + Streamable HTTP wiring without gstreamer. End-to-end tested via MCP Inspector over LAN. | done |
+| 2 | Standalone `capture-test` binary that exercises `gstreamer-rs` against the real CSI pipeline (no MCP). Pulls one frame and writes it to disk. | **current** |
+| 3 | Wire `GstreamerCapture` into the MCP server behind a CLI flag (`--source mock\|gstreamer`). | upcoming |
 
 ## Build
 
@@ -23,7 +23,35 @@ cd jetson-nano-ability-instruction-based-on-b5050/mcp-csi-camera
 cargo build --release
 ```
 
-The binary lands at `target/release/mcp-csi-camera`.
+This produces two binaries:
+
+| Binary | Purpose |
+|---|---|
+| `target/release/mcp-csi-camera` | The MCP server itself (Phase 1+). |
+| `target/release/capture-test` | Phase-2 smoke test for the gstreamer pipeline — pulls one frame from the CSI camera and writes it to disk. No MCP. |
+
+The gstreamer crates link against the system `libgstreamer-1.0` / `libgstreamer-app-1.0`. On a fresh Jetson install you may need:
+
+```sh
+sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev pkg-config
+```
+
+To build only the smoke-test binary (faster — skips axum/rmcp link):
+
+```sh
+cargo build --release --bin capture-test
+```
+
+## Phase 2 — capture-test
+
+Standalone binary that builds a persistent gstreamer pipeline (`nvarguscamerasrc → nvvidconv → nvjpegenc → appsink`), pulls a single frame and writes it to disk. Use it to confirm the pipeline works on this Jetson before plugging it into the MCP server in Phase 3.
+
+```sh
+RUST_LOG=info ./target/release/capture-test --output /tmp/csi-test.jpg
+file /tmp/csi-test.jpg   # expect: JPEG image data ...
+```
+
+Defaults match the validated 1640×1232 @ 30 fps mode (sensor-mode 3, flip-method 2). Override per-flag if you need a different mode — see `--help`.
 
 ## Run
 

@@ -1,6 +1,9 @@
 use std::path::PathBuf;
 
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, anyhow};
+use gstreamer as gst;
+use gstreamer::prelude::*;
+use gstreamer_app as gst_app;
 
 /// Source of camera frames. Implementations return raw JPEG bytes; the server
 /// layer is responsible for any disk I/O (the optional `--output-dir`
@@ -12,9 +15,6 @@ pub trait CaptureSource: Send + Sync {
 /// Phase-1 stand-in. Returns either the bytes of `source_image` (when set —
 /// gives integration tests a real, decodable JPEG) or a short sentinel byte
 /// sequence (when unset — fine for plumbing tests, useless to a vision LLM).
-///
-/// Phase 3 replaces this with a `GstreamerCapture` impl that pulls frames
-/// from a persistent gstreamer pipeline via `appsink`.
 pub struct MockCapture {
     source_image: Option<PathBuf>,
 }
@@ -32,5 +32,120 @@ impl CaptureSource for MockCapture {
                 .with_context(|| format!("read mock source {}", src.display())),
             None => Ok(b"MOCK JPEG -- mcp-csi-camera placeholder.\n".to_vec()),
         }
+    }
+}
+
+/// Knobs for the gstreamer pipeline. Defaults match the validated 1640×1232
+/// @ 30 fps mode on IMX219 (sensor-mode 3, 2×2 binned, 4:3) with 180° flip —
+/// the only configuration confirmed working on J13 in `CSI_CAMERA.md`.
+#[derive(Clone, Debug)]
+pub struct GstreamerConfig {
+    pub sensor_id: u32,
+    pub sensor_mode: u32,
+    pub flip_method: u32,
+    pub width: u32,
+    pub height: u32,
+    pub framerate: u32,
+    /// Hard cap on `pull_sample` wait. Beyond this `capture()` returns an
+    /// error instead of blocking forever — the common failure mode is the
+    /// pipeline reaching PLAYING but `nvarguscamerasrc` never producing a
+    /// buffer (oxidised ribbon, wrong sensor-mode, missing DT overlay).
+    pub pull_timeout_secs: u64,
+}
+
+impl Default for GstreamerConfig {
+    fn default() -> Self {
+        Self {
+            sensor_id: 0,
+            sensor_mode: 3,
+            flip_method: 2,
+            width: 1640,
+            height: 1232,
+            framerate: 30,
+            pull_timeout_secs: 10,
+        }
+    }
+}
+
+/// Real CSI capture using a persistent gstreamer pipeline:
+/// `nvarguscamerasrc → nvvidconv → nvjpegenc → appsink`. The pipeline is
+/// brought up to PLAYING in `new()` and stays there for the lifetime of the
+/// value; `capture()` just pulls the latest sample from the appsink. The
+/// appsink is configured with `max-buffers=1 drop=true` so we always serve
+/// a fresh frame instead of a stale one queued during idle.
+pub struct GstreamerCapture {
+    pipeline: gst::Pipeline,
+    appsink: gst_app::AppSink,
+    pull_timeout: gst::ClockTime,
+}
+
+impl GstreamerCapture {
+    pub fn new(cfg: GstreamerConfig) -> Result<Self> {
+        gst::init().context("gst::init")?;
+
+        let pipeline_str = format!(
+            "nvarguscamerasrc sensor-id={sid} sensor-mode={smode} \
+             ! video/x-raw(memory:NVMM),width={w},height={h},framerate={fps}/1 \
+             ! nvvidconv flip-method={flip} \
+             ! video/x-raw,format=I420 \
+             ! nvjpegenc \
+             ! appsink name=sink max-buffers=1 drop=true sync=false",
+            sid = cfg.sensor_id,
+            smode = cfg.sensor_mode,
+            w = cfg.width,
+            h = cfg.height,
+            fps = cfg.framerate,
+            flip = cfg.flip_method,
+        );
+
+        tracing::info!(pipeline = %pipeline_str, "building gstreamer pipeline");
+
+        let pipeline = gst::parse_launch(&pipeline_str)
+            .with_context(|| format!("parse_launch failed for: {pipeline_str}"))?
+            .downcast::<gst::Pipeline>()
+            .map_err(|_| anyhow!("parse_launch did not return a Pipeline"))?;
+
+        let appsink = pipeline
+            .by_name("sink")
+            .ok_or_else(|| anyhow!("appsink named 'sink' not found in pipeline"))?
+            .downcast::<gst_app::AppSink>()
+            .map_err(|_| anyhow!("'sink' element is not an AppSink"))?;
+
+        pipeline
+            .set_state(gst::State::Playing)
+            .context("set pipeline state to Playing")?;
+
+        Ok(Self {
+            pipeline,
+            appsink,
+            pull_timeout: gst::ClockTime::from_seconds(cfg.pull_timeout_secs),
+        })
+    }
+}
+
+impl Drop for GstreamerCapture {
+    fn drop(&mut self) {
+        let _ = self.pipeline.set_state(gst::State::Null);
+    }
+}
+
+impl CaptureSource for GstreamerCapture {
+    fn capture(&self) -> Result<Vec<u8>> {
+        let sample = self.appsink.try_pull_sample(self.pull_timeout).ok_or_else(|| {
+            anyhow!(
+                "no sample within {:?} — camera not producing frames \
+                 (check ribbon contact, `dmesg | grep imx219`, sensor-mode validity)",
+                self.pull_timeout,
+            )
+        })?;
+
+        let buffer = sample
+            .buffer()
+            .ok_or_else(|| anyhow!("gstreamer sample carries no buffer"))?;
+        let map = buffer
+            .map_readable()
+            .map_err(|_| anyhow!("buffer.map_readable failed"))?;
+
+        Ok(map.as_slice().to_vec())
     }
 }

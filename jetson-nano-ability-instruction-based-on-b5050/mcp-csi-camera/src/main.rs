@@ -10,13 +10,9 @@ use rmcp::transport::streamable_http_server::{
 use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::EnvFilter;
 
-mod capture;
-mod config;
-mod server;
-
-use capture::{CaptureSource, MockCapture};
-use config::Config;
-use server::CameraServer;
+use mcp_csi_camera::capture::{CaptureSource, MockCapture};
+use mcp_csi_camera::config::Config;
+use mcp_csi_camera::server::CameraServer;
 
 #[derive(Parser, Debug)]
 #[command(name = "mcp-csi-camera", version, about, long_about = None)]

@@ -18,3 +18,8 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 chrono = "0.4"
 base64 = "0.22"
+# Pinned to the 0.20.x series — last release line that still compiles against
+# the GStreamer 1.14.5 that ships with JetPack 4.6 (R32.7.6). Newer crates
+# (0.22+) require gst >= 1.18.
+gstreamer = "0.20"
+gstreamer-app = "0.20"
