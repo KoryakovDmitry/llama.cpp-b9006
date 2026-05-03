@@ -1507,7 +1507,16 @@ static void ggml_cuda_op_mul_mat_cublas(
 
     const bool use_fp16 =
         src0->type != GGML_TYPE_NVFP4 &&
-        (src0->type == GGML_TYPE_F16 || ggml_is_quantized(src0->type)) &&
+        (src0->type == GGML_TYPE_F16 || ggml_is_quantized(src0->type)
+#if CUDART_VERSION < 11000
+         // CUDA 10.2 has no BF16 cuBLAS; route BF16 src0 through the fp16 path
+         // instead of the fp32 fallback. With our cuda_bf16.h stub
+         // (GGML_CUDA_BF16_IS_HALF2) BF16 ≡ fp16 anyway, so the fp16 GEMM is
+         // numerically identical and avoids the GPU watchdog timeout that the
+         // slow fp32 path triggers on a vision encoder.
+         || src0->type == GGML_TYPE_BF16
+#endif
+        ) &&
         ggml_is_contiguous(src0) &&
         row_diff == src0->ne[1] &&
         dst->op_params[0] == GGML_PREC_DEFAULT;

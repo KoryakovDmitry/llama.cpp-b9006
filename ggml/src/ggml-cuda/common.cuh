@@ -293,7 +293,13 @@ static bool fast_fp16_available(const int cc) {
 
 // To be used for feature selection of external libraries, e.g. cuBLAS.
 static bool fast_fp16_hardware_available(const int cc) {
+    // Tegra X1 (Jetson Nano, sm_53) is a Maxwell variant with native fp16 ALUs —
+    // Maxwell+fp16 is exactly why it's compute 5.3 and not 5.0. Including it in
+    // this set lets cuBLAS GEMM dispatch to the fp16 path on the Nano, which is
+    // dramatically faster than the fp32 fallback (and avoids hitting the
+    // ~2-second GPU watchdog timeout on long fp32 vision-encoder GEMMs).
     return (GGML_CUDA_CC_IS_NVIDIA(cc) && cc >= GGML_CUDA_CC_PASCAL && cc != 610) || GGML_CUDA_CC_IS_AMD(cc) ||
+        (GGML_CUDA_CC_IS_NVIDIA(cc) && cc == 530) ||
         (GGML_CUDA_CC_IS_MTHREADS(cc) && cc >= GGML_CUDA_CC_QY2);
 }
 
