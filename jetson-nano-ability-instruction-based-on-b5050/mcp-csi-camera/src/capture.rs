@@ -25,12 +25,6 @@ impl MockCapture {
     }
 }
 
-impl Default for MockCapture {
-    fn default() -> Self {
-        Self::new(None)
-    }
-}
-
 impl CaptureSource for MockCapture {
     fn capture(&self) -> Result<Vec<u8>> {
         match &self.source_image {
