@@ -162,42 +162,67 @@ Modern vision encoders fall into two camps with very different reactions to larg
 
 #### How the math works for Qwen-VL
 
-The numbers below come directly from this build's source of truth — `tools/mtmd/clip.cpp:1352-1369` (the Qwen2VL/2.5VL/3VL projector setup) and `tools/mtmd/clip-model.h:112-118` (token-budget → pixel-budget conversion):
+The numbers below come directly from this build's source of truth — `tools/mtmd/clip.cpp:1352-1369` (the Qwen2VL/2.5VL/3VL projector setup) and `tools/mtmd/clip-model.h:112-118` (token-budget → pixel-budget conversion). Crucially, **`patch_size` is read from the GGUF metadata per-model** and differs between Qwen-VL generations:
 
-- `patch_size = 14` (read from GGUF metadata; the Qwen-VL family uses 14×14-pixel patches).
-- `n_merge = 2` (the post-encoder 2×2 spatial merge — default for Qwen2VL/2.5VL/3VL, can be overridden by `KEY_SPATIAL_MERGE_SIZE`).
-- The image is **rescaled to a multiple of `patch_size × n_merge = 28`** on each side, preserving aspect ratio.
-- `patches = (W'/14) × (H'/14)` over the rescaled image.
+| Family | `patch_size` | `n_merge` | Snap unit (`patch × n_merge`) | Pixels per LLM token (`(snap)²`) |
+|---|---|---|---|---|
+| Qwen2-VL / Qwen2.5-VL | 14 | 2 | 28 | 784 |
+| **Qwen3-VL / Qwen3.5** | **16** | **2** | **32** | **1024** |
+
+The numbers in the rest of this section (and the tested ceiling of `--image-max-tokens 575`) refer to **Qwen3.5** (`patch_size = 16`), since that's the model used in the runs documented here. To verify what your model actually reports, look for these lines in the server log on startup:
+
+```
+load_hparams: patch_size:         16
+load_hparams: n_merge:            2
+load_hparams: image_max_pixels:   588800 (custom value)
+```
+
+The math:
+
+- The image is **rescaled to a multiple of `patch_size × n_merge`** on each side, preserving aspect ratio.
+- `patches = (W'/patch_size) × (H'/patch_size)` over the rescaled image.
 - `LLM_tokens = patches / (n_merge × n_merge) = patches / 4`.
-- The default token budget for Qwen-VL is `set_limit_image_tokens(8, 4096)`. So out of the box, `image_max_pixels = 4096 × 28² ≈ 3.2 MP` (≈ 1792×1792). Anything bigger is auto-downsampled before patching.
+- The default token budget for the Qwen-VL family in `clip.cpp` is `set_limit_image_tokens(8, 4096)`. For Qwen3.5 that means `image_max_pixels = 4096 × 1024 ≈ 4.2 MP` out of the box. Anything bigger is auto-downsampled before patching.
 
-`--image-max-tokens N` overrides that upper bound — it caps `image_max_pixels` to `N × 784` pixels (since `28² = 784`). The vision encoder does self-attention over **patches** (not LLM tokens), so its GPU cost scales as `patches² = (4 × LLM_tokens)²`.
+`--image-max-tokens N` overrides that upper bound — it caps `image_max_pixels` to `N × pixels-per-token` (1024 for Qwen3.5). The vision encoder does self-attention over **patches** (not LLM tokens), so its GPU cost scales as `patches² = (4 × LLM_tokens)²`.
 
-#### Patches and tokens at common image sizes
+**Subtle pitfall**: the *same* `--image-max-tokens N` produces a different actual token count depending on the input image aspect ratio, because both sides have to land on a multiple of the snap unit. For Qwen3.5 with `--image-max-tokens 575`:
 
-| Input image | Snap (×28) | Patches `(side/14)²` | LLM tokens `(/4)` | Encoder work `∝ patches²` | Verdict on Jetson Nano |
-|---|---|---|---|---|---|
-| 224×224 | 224×224 | 16² = 256 | 64 | 1× | trivially OK |
-| 448×448 | 448×448 | 32² = 1024 | 256 | ~16× | OK |
-| **512×512 (baseline)** | **504×504** | **36² = 1296** | **324** | **~26×** | **✅ tested (Qwen3.5-0.8B Q8_0, ~6 t/s)** |
-| 644×644 (square `--image-max-tokens 529`) | 644×644 | 46² = 2116 | 529 | ~68× | ✅ tested on 12 MP input (~6.2 t/s) |
-| 4:3 input via `--image-max-tokens 550` | 756×560 | 54×40 = 2160 | 540 | ~71× | ✅ tested on 12 MP input (~6.0 t/s) |
-| 4:3 input via `--image-max-tokens 560` | 784×560 | 56×40 = 2240 | 560 | ~76× | ✅ tested on 12 MP input (~6.2 t/s) |
-| 4:3 input via `--image-max-tokens 570` | ~756×588 | 54×42 = 2268 | 567 | ~78× | ✅ tested on 12 MP input (~6.1 t/s) |
-| **4:3 input via `--image-max-tokens 575`** | **~756×588** | **54×42 = 2268** | **567** | **~78×** | **✅ tested on 12 MP input (~6.1 t/s) — confirmed practical Tegra X1 ceiling** |
-| 672×672 (square `--image-max-tokens 576`) | 672×672 | 48² = 2304 | 576 | ~81× | ❌ tested — `the launch timed out and was terminated` |
-| `--image-max-tokens 579` | varies (24×24 square or 27×21 4:3) | 2304 / 2268 | 576 / 567 | ~78–81× | ❌ tested — fails (likely picks the 24×24 square option which crosses the watchdog deadline) |
-| 768×768 | 756×756 | 54² = 2916 | 729 | ~130× | likely fails without `jetson_clocks` |
-| 1024×1024 | 1008×1008 | 72² = 5184 | 1296 | ~410× | always fails |
-| 4032×3024 (12 MP, no flags) | auto-clamped by default cap to ≈ 2072×1540 | 148×110 = 16280 | 4070 | ~4000× | fails — the model's *own* default cap is still way over budget for Tegra X1 |
+- 4:3 input → snaps to `864×640` → `54×40 = 2160` patches → **540 LLM tokens**.
+- Square input → `768×768 = 589824` > budget; falls back to `736×736` → `46² = 2116` patches → **529 LLM tokens**.
 
-Empirical Tegra X1 stock-clock ceiling sits **between 575 and 579 LLM tokens** (~78–81× baseline encoder cost). Anything that snaps to ≤ 567 LLM tokens (4:3 input, `--image-max-tokens` ≤ 575) is reliably stable; the 24×24 square at 576 tokens consistently trips the GPU watchdog. The boundary is sharp because we are right at the per-kernel watchdog deadline; expect occasional jitter near the edge.
+So a budget of 575 doesn't actually cost 575 tokens of encoder work — it costs whatever the largest aspect-preserving grid that fits is. This is why the "tested ceiling" range in the table below shows the *actual* tokens used, not the budget.
 
-Recommended values:
+#### Patches and tokens at common image sizes (Qwen3.5, patch_size=16)
 
-- **`--image-max-tokens 575`** — max detail without `nvpmodel -m 0 && jetson_clocks`.
-- **`--image-max-tokens 324`** — match the 512×512 baseline.
-- **`--image-max-tokens 256`** — margin to spare.
+The "Actual encoder grid" column is what the preprocessor lands on for the listed input — multiple budget values can land on the same grid. The "Verdict" reflects the actual GPU work, not the budget you asked for.
+
+| Input / budget | Aspect | Actual encoder grid (W'×H') | Patches `(side/16)²` | LLM tokens `(/4)` | Encoder work `∝ patches²` | Verdict on Jetson Nano |
+|---|---|---|---|---|---|---|
+| 224×224 fixed | 1:1 | 224×224 | 14² = 196 | 49 | ~0.6× | trivially OK |
+| 512×512 fixed | 1:1 | 512×512 | 32² = 1024 | 256 | ~16× | OK |
+| `--image-max-tokens 256` | square | 512×512 | 32² = 1024 | 256 | ~16× | ✅ safe with margin |
+| `--image-max-tokens 324` | 4:3 | ~672×496 | 42×31 = 1302 | 326 | ~26× | ✅ matches 512×512 baseline |
+| `--image-max-tokens 540`, 4:3 input | 4:3 | 864×640 | 54×40 = 2160 | 540 | ~71× | ✅ tested (~6.0 t/s gen) |
+| **`--image-max-tokens 540…575`, 4:3 input** | **4:3** | **864×640** | **54×40 = 2160** | **540** | **~71×** | **✅ tested (~6.0–6.2 t/s) — same actual grid for any budget in this range** |
+| `--image-max-tokens 575`, square input | 1:1 | 736×736 | 46² = 2116 | 529 | ~68× | ✅ falls back below 768² because 768² > 575×1024 |
+| `--image-max-tokens 576`, square input | 1:1 | 768×768 | 48² = 2304 | 576 | ~81× | ❌ tested — `the launch timed out and was terminated` |
+| `--image-max-tokens 579`, may pick 24×24 square | varies | 768×768 (square fits) | 48² = 2304 | 576 | ~81× | ❌ tested — same 24×24 square trips the watchdog |
+| 768×768 fixed input, no `--image-max-tokens` | 1:1 | 768×768 | 48² = 2304 | 576 | ~81× | ❌ same as above |
+| 1024×1024 | 1:1 | 1024×1024 | 64² = 4096 | 1024 | ~256× | always fails |
+| 4032×3024 (12 MP, no flags) | 4:3 | clamped by default cap to ~2336×1760 | 146×110 = 16060 | 4015 | ~4000× | fails — even the default cap (4096 LLM tokens for Qwen-VL family) is way over budget for Tegra X1 |
+
+Empirical Tegra X1 stock-clock ceiling, in *actual* encoder tokens (not budget), sits **between 540 and 576 LLM tokens** (~71–81× baseline encoder cost). The exact-square `768×768 = 48² = 2304 patches → 576 tokens` consistently trips the GPU watchdog; the 4:3 grid `864×640 → 2160 patches → 540 tokens` consistently passes. The hop between them is exactly one `n_merge`-sized step on each axis — there's no fine-tuning room in between.
+
+A subtlety with `--image-max-tokens` budgets between 540 and 575 inclusive: for a **4:3 input**, all of them snap to the same `54×40` grid and produce 540 actual tokens. They are all "safe" (proven). But the *same flag* against a **square** input at budget 576 picks `48×48` and dies. So:
+
+Recommended values for Qwen3.5 on a Jetson Nano:
+
+- **`--image-max-tokens 540`** — max detail. Forbids the 768×768 square option (since `768² > 540×1024 = 552960`), so square inputs land on `736×736 = 529 tokens` and 4:3 inputs land on `864×640 = 540 tokens`. Both sides of the aspect range are safe.
+- **`--image-max-tokens 324`** — match the 512×512 baseline (~26× cost). Conservative, useful if power-mode is restricted.
+- **`--image-max-tokens 256`** — substantial margin. Use if you also have other GPU contention (server with multiple slots, X11 still running, etc.).
+
+`--image-max-tokens 575` is **not** the safe ceiling we previously claimed; only `--image-max-tokens ≤ 540` rules out the 768² square option. If you serve diverse images (e.g. a public server endpoint that accepts any aspect ratio), use 540 or below.
 
 The 12 MP row is the punchline of why "but llama.cpp already resizes" doesn't save you: Qwen-VL's default `image_max_pixels` is **4096 LLM tokens**, which downsamples a 12 MP phone photo to ~2072×1540 — but 4070 tokens is still ~12× the 512×512 baseline in token count and ~150× in encoder work. The model's idea of a sensible cap and the Tegra X1's idea of a survivable workload disagree by two orders of magnitude.
 
@@ -226,7 +251,7 @@ rllama-cli -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
 # > /image /home/diikorr/IMG_20260503_022544_883.jpg
 ```
 
-`--image-max-tokens 256` corresponds to ≈ 448×448 worth of patches — comfortably below the 512×512 baseline. Tested working values on Tegra X1 (no `jetson_clocks`, 4:3 phone-photo input): **324** (matches 512×512 baseline), **529**, **540**, **560**, **570**, **575** (~6.0–6.2 t/s gen across the lot). **576 and 579 trip the watchdog**; don't push higher than 575 without `nvpmodel -m 0 && jetson_clocks`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of input image size.
+Tested working values on Tegra X1 (no `jetson_clocks`, **4:3** phone-photo input): budgets of **324**, **529**, **540**, **560**, **570**, **575** all pass at ~6.0–6.2 t/s gen — but for 4:3 input, all of 540…575 snap to the **same 54×40 grid (540 actual tokens)**, the budget headroom is unused. **A budget ≥ 576 lets the preprocessor choose `48×48 = 768×768` for a square input, which then trips the watchdog**. So if your inputs include any square or near-square images, keep `--image-max-tokens ≤ 540`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of input image size.
 
 For fixed-resolution vision encoders the flag is a no-op (they downsample internally to their fixed input regardless), so it's safe to leave on.
 
@@ -260,7 +285,7 @@ So a useful runtime-tunable server setup looks like this:
 # at the default (-1 = unrestricted), so each request can override it:
 rllama-server -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
     --n-gpu-layers 99 \
-    --image-max-tokens 575 \
+    --image-max-tokens 540 \
     --host 0.0.0.0 --port 8080
 ```
 
@@ -293,7 +318,9 @@ What can and can't be overridden per-request:
 | `--reasoning-budget-message` | ❌ | Set once at server startup, baked into the sampler. |
 | `--image-max-tokens` / `--image-min-tokens` | ❌ | Baked into the multimodal context at model load. |
 
-Practical pattern on a Jetson Nano: pin `--image-max-tokens 575` at startup (the most you can do reliably), let `thinking_budget_tokens` vary per request — large for tasks that benefit from chain-of-thought, `0` for "just answer" requests where you don't want to wait through ~30 s of thinking.
+Practical pattern on a Jetson Nano: pin **`--image-max-tokens 540`** at startup (this is the largest value that reliably refuses the 768×768 square edge-case for diverse inputs from a server), let `thinking_budget_tokens` vary per request — large for tasks that benefit from chain-of-thought, `0` for "just answer" requests where you don't want to wait through ~30 s of thinking.
+
+> **Server-mode caveat seen in practice**: when you start `rllama-server` with `--image-max-tokens 575` and clients POST images of varying aspect ratio, the preprocessor *does* pick the 768×768 square grid for square / near-square inputs (576 tokens), and the very first such request crashes the server with `the launch timed out and was terminated` from the multimodal `process_chunks` path. CLI runs with the same flag against a 4:3 photo never hit this because the snap there lands on `54×40 = 540`. Use 540 (or lower) for server deployments to be safe across input shapes.
 
 ## 6. (Optional) Run from anywhere via prefixed symlinks
 
@@ -322,7 +349,7 @@ rllama-cli --version   # new b9006
 | `cuda_bf16.h: No such file or directory` while building CUDA backend | Stubs not copied to `/usr/local/cuda/include/` | Re-run §2 |
 | `error: gcc versions later than 8 are not supported!` | Toolchain mismatch — nvcc 10.2 forbids gcc ≥ 9 unless the host_config.h hack is applied | Either install gcc 8.5, or edit `/usr/local/cuda/targets/aarch64-linux/include/crt/host_config.h` line 136 (change 8 → 9) |
 | Inference much slower than ~7 t/s | Forgot `--n-gpu-layers 99`, or model didn't fit in unified memory | Verify with `jtop` that the GPU is actually loaded |
-| Vision: `the launch timed out and was terminated` after `/image …` | Dynamic-resolution vision encoder (Qwen-VL etc.) emitted too many patches → vision encoder kernel ran past the Jetson's ~2 s GPU watchdog | Pass `--image-max-tokens 256` (post-merge LLM-tokens, ≈ 1024 patches ≈ 448×448) to bound the patch count, or pre-resize the input to ~512 px |
+| Vision: `the launch timed out and was terminated` after `/image …` or on first server image POST | Dynamic-resolution vision encoder (Qwen-VL etc.) emitted too many patches → vision encoder kernel ran past the Jetson's ~2 s GPU watchdog. With Qwen3.5 (`patch_size=16`) the trip-wire is 48×48 = 2304 patches = 576 LLM tokens, which the preprocessor picks for square inputs at any `--image-max-tokens ≥ 576`. | Pass **`--image-max-tokens 540`** (forbids the 768² square grid, lands on `54×40 = 540` for 4:3 or `46² = 529` for square) |
 | Vision: model emits `??????…` instead of describing the image | The bit-correct BF16 → fp16/fp32 conversion in `convert.cu` was reverted/lost | Confirm `bf16_bits_to_fp{16,32}_cuda` exist in `ggml/src/ggml-cuda/convert.cu` and the `GGML_TYPE_BF16` cases in `ggml_get_to_fp{16,32}_cuda` route to them under `CUDART_VERSION < 11000` |
 | Vision: `CUBLAS_STATUS_NOT_SUPPORTED` from `cublasGemmEx ... CUDA_R_16BF` | `supports_bf16` not gated on `CUDART_VERSION` | Confirm the `#if CUDART_VERSION < 11000` guard around `supports_bf16` in `ggml/src/ggml-cuda/ggml-cuda.cu` is intact |
 
