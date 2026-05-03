@@ -192,7 +192,7 @@ Design decisions made during this bring-up (to be implemented):
 
 - **Language**: Rust. Floor of ~25–40 MB resident persistent vs ~100–150 MB for Python + PyGObject + gstreamer-python. Matters on a 4 GB Jetson where `rllama-server` already eats ~3 GB.
 - **Pipeline lifetime**: persistent (`PAUSED ↔ PLAYING`), not lazy-build / idle-teardown. Predictable latency, simpler code, the constant ~30 MB cost is noise next to the LLM process.
-- **Transport**: stdio. MCP server and client both local on the Jetson, no need for SSE/HTTP.
+- **Transport**: Streamable HTTP (the 2025-11-25 MCP spec transport). Listens on a local TCP port (default `0.0.0.0:8777`, endpoint `/mcp`) — lets us test with MCP Inspector by URL, run the camera server on the Jetson and call from a Mac, and plug the same endpoint into any MCP client (Claude Desktop, agent frameworks) by URL config. Pure stdio was the initial plan but rmcp 1.6 doesn't expose a standalone SSE-server transport (SSE is now an internal detail of Streamable HTTP), and the network endpoint is better for development anyway.
 - **Tool surface**: a single `capture_frame` returning a path to a JPEG written to `/tmp/mcp-csi/<timestamp>.jpg`. tmpfs is RAM-backed on JetPack 4.6, so file path = effective pointer-into-RAM with zero base64 overhead vs returning the JPEG inline as MCP `image` content.
 - **Default capture parameters**: `sensor-id=0` (J13), `sensor-mode=3` (1640×1232 @ 30 fps, 4:3, 2×2 binned), `flip-method=2` (configurable per deployment).
 

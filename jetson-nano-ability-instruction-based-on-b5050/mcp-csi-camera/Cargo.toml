@@ -7,8 +7,10 @@ license = "MIT"
 publish = false
 
 [dependencies]
-rmcp = { version = "1.6", features = ["server", "transport-io", "macros"] }
+rmcp = { version = "1.6", features = ["server", "macros", "transport-streamable-http-server"] }
 tokio = { version = "1", features = ["full"] }
+tokio-util = "0.7"
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 tracing = "0.1"
