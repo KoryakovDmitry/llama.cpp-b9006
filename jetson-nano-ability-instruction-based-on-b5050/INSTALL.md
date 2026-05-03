@@ -181,13 +181,23 @@ The numbers below come directly from this build's source of truth — `tools/mtm
 | 448×448 | 448×448 | 32² = 1024 | 256 | ~16× | OK |
 | **512×512 (baseline)** | **504×504** | **36² = 1296** | **324** | **~26×** | **✅ tested (Qwen3.5-0.8B Q8_0, ~6 t/s)** |
 | 644×644 (square `--image-max-tokens 529`) | 644×644 | 46² = 2116 | 529 | ~68× | ✅ tested on 12 MP input (~6.2 t/s) |
-| 4:3 input via `--image-max-tokens 550` | 756×560 | 54×40 = 2160 | 540 | ~71× | ✅ tested on 12 MP input (~6.0 t/s) — practical Tegra X1 ceiling |
+| 4:3 input via `--image-max-tokens 550` | 756×560 | 54×40 = 2160 | 540 | ~71× | ✅ tested on 12 MP input (~6.0 t/s) |
+| 4:3 input via `--image-max-tokens 560` | 784×560 | 56×40 = 2240 | 560 | ~76× | ✅ tested on 12 MP input (~6.2 t/s) |
+| 4:3 input via `--image-max-tokens 570` | ~756×588 | 54×42 = 2268 | 567 | ~78× | ✅ tested on 12 MP input (~6.1 t/s) |
+| **4:3 input via `--image-max-tokens 575`** | **~756×588** | **54×42 = 2268** | **567** | **~78×** | **✅ tested on 12 MP input (~6.1 t/s) — confirmed practical Tegra X1 ceiling** |
 | 672×672 (square `--image-max-tokens 576`) | 672×672 | 48² = 2304 | 576 | ~81× | ❌ tested — `the launch timed out and was terminated` |
+| `--image-max-tokens 579` | varies (24×24 square or 27×21 4:3) | 2304 / 2268 | 576 / 567 | ~78–81× | ❌ tested — fails (likely picks the 24×24 square option which crosses the watchdog deadline) |
 | 768×768 | 756×756 | 54² = 2916 | 729 | ~130× | likely fails without `jetson_clocks` |
 | 1024×1024 | 1008×1008 | 72² = 5184 | 1296 | ~410× | always fails |
 | 4032×3024 (12 MP, no flags) | auto-clamped by default cap to ≈ 2072×1540 | 148×110 = 16280 | 4070 | ~4000× | fails — the model's *own* default cap is still way over budget for Tegra X1 |
 
-Empirical Tegra X1 stock-clock ceiling sits **between 540 and 576 LLM tokens** (~75× baseline encoder cost). 540 is confirmed working, 576 is confirmed failing. Use `--image-max-tokens 540` if you want the most detail you can get without `nvpmodel -m 0 && jetson_clocks`. Use `--image-max-tokens 256` if you want margin to spare.
+Empirical Tegra X1 stock-clock ceiling sits **between 575 and 579 LLM tokens** (~78–81× baseline encoder cost). Anything that snaps to ≤ 567 LLM tokens (4:3 input, `--image-max-tokens` ≤ 575) is reliably stable; the 24×24 square at 576 tokens consistently trips the GPU watchdog. The boundary is sharp because we are right at the per-kernel watchdog deadline; expect occasional jitter near the edge.
+
+Recommended values:
+
+- **`--image-max-tokens 575`** — max detail without `nvpmodel -m 0 && jetson_clocks`.
+- **`--image-max-tokens 324`** — match the 512×512 baseline.
+- **`--image-max-tokens 256`** — margin to spare.
 
 The 12 MP row is the punchline of why "but llama.cpp already resizes" doesn't save you: Qwen-VL's default `image_max_pixels` is **4096 LLM tokens**, which downsamples a 12 MP phone photo to ~2072×1540 — but 4070 tokens is still ~12× the 512×512 baseline in token count and ~150× in encoder work. The model's idea of a sensible cap and the Tegra X1's idea of a survivable workload disagree by two orders of magnitude.
 
@@ -216,7 +226,7 @@ rllama-cli -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
 # > /image /home/diikorr/IMG_20260503_022544_883.jpg
 ```
 
-`--image-max-tokens 256` corresponds to ≈ 448×448 worth of patches — comfortably below the 512×512 baseline. Tested working values on Tegra X1 (no `jetson_clocks`): **324** (matches 512×512 baseline), **529** (square `~644×644`, ~6.2 t/s), **540** (4:3 input, ~6.0 t/s — practical ceiling). 576 already trips the watchdog; don't push higher than 540 without `nvpmodel -m 0 && jetson_clocks`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of input image size.
+`--image-max-tokens 256` corresponds to ≈ 448×448 worth of patches — comfortably below the 512×512 baseline. Tested working values on Tegra X1 (no `jetson_clocks`, 4:3 phone-photo input): **324** (matches 512×512 baseline), **529**, **540**, **560**, **570**, **575** (~6.0–6.2 t/s gen across the lot). **576 and 579 trip the watchdog**; don't push higher than 575 without `nvpmodel -m 0 && jetson_clocks`. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of input image size.
 
 For fixed-resolution vision encoders the flag is a no-op (they downsample internally to their fixed input regardless), so it's safe to leave on.
 
@@ -229,6 +239,61 @@ convert IMG_in.jpg -resize 512x512\> -strip IMG_resized.jpg
 ```
 
 ImageMagick + `--image-max-tokens` are independent; either alone is sufficient on a Jetson Nano. `--image-max-tokens` is recommended because it works for any input you point at the model without a separate preprocessing step.
+
+#### Tuning per request via the server API
+
+The CLI flags above are read once at startup and frozen afterwards: `tools/cli/cli.cpp:228-235` only registers seven slash-commands (`/audio /clear /exit /glob /image /read /regen`) — **no `/reasoning` or `/image-max-tokens`** — and `tools/server/server-context.cpp:819-820` bakes `image_min_tokens` / `image_max_tokens` into the multimodal context at model load time. So the **image cap stays fixed for the lifetime of the process**, both in CLI and in server mode.
+
+The reasoning-related knobs *can* be overridden per-request through `llama-server`, by a body field that wins over the server-startup default — but only when the server was started without that flag (so its default stays at the unset sentinel). Example (`tools/server/server-common.cpp:1132-1145`):
+
+```cpp
+int reasoning_budget = opt.reasoning_budget;
+if (reasoning_budget == -1 && body.contains("thinking_budget_tokens")) {
+    reasoning_budget = json_value(body, "thinking_budget_tokens", -1);
+}
+```
+
+So a useful runtime-tunable server setup looks like this:
+
+```sh
+# Start the server with the image cap fixed and the reasoning budget left
+# at the default (-1 = unrestricted), so each request can override it:
+rllama-server -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
+    --n-gpu-layers 99 \
+    --image-max-tokens 575 \
+    --host 0.0.0.0 --port 8080
+```
+
+Then per request, hit `POST /v1/chat/completions` (OpenAI-compatible) with extra fields in the body:
+
+```jsonc
+{
+  "model": "qwen3.5",
+  "messages": [
+    {"role": "user", "content": [
+      {"type": "text",      "text": "describe the image"},
+      {"type": "image_url", "image_url": {"url": "data:image/jpeg;base64,..."}}
+    ]}
+  ],
+
+  // Per-request reasoning controls
+  "thinking_budget_tokens": 128,         // -1 unlimited, 0 = no thinking, N = budget
+  "chat_template_kwargs": {
+    "enable_thinking": false             // or "true" — overrides --reasoning at the template level
+  }
+}
+```
+
+What can and can't be overridden per-request:
+
+| Knob | Per-request override | Notes |
+|---|---|---|
+| reasoning budget (token count) | ✅ `thinking_budget_tokens` | Only effective if server started without `--reasoning-budget`. |
+| reasoning on/off (template) | ✅ `chat_template_kwargs.enable_thinking` | Hits the Jinja template; useful when `--reasoning auto` was the startup default. |
+| `--reasoning-budget-message` | ❌ | Set once at server startup, baked into the sampler. |
+| `--image-max-tokens` / `--image-min-tokens` | ❌ | Baked into the multimodal context at model load. |
+
+Practical pattern on a Jetson Nano: pin `--image-max-tokens 575` at startup (the most you can do reliably), let `thinking_budget_tokens` vary per request — large for tasks that benefit from chain-of-thought, `0` for "just answer" requests where you don't want to wait through ~30 s of thinking.
 
 ## 6. (Optional) Run from anywhere via prefixed symlinks
 
