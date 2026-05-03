@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use base64::Engine;
+use chrono::Local;
 use rmcp::{
     ErrorData as McpError,
     model::{CallToolResult, Content, Role},
@@ -31,32 +32,33 @@ impl CameraServer {
         description = "Capture a single frame from the CSI camera and return it as a base64-encoded JPEG (mimeType image/jpeg). Takes no parameters."
     )]
     async fn capture_frame(&self) -> Result<CallToolResult, McpError> {
-        tracing::info!(
-            output_dir = %self.config.output_dir.display(),
-            "capture_frame called",
-        );
+        tracing::info!("capture_frame called");
 
-        let path = self
-            .capture
-            .capture(&self.config.output_dir)
-            .map_err(|e| {
-                tracing::error!(error = %e, "capture failed");
-                McpError::internal_error(format!("capture failed: {e:#}"), None)
-            })?;
-
-        let bytes = std::fs::read(&path).map_err(|e| {
-            tracing::error!(error = %e, path = %path.display(), "read-back of captured JPEG failed");
-            McpError::internal_error(format!("read {}: {e:#}", path.display()), None)
+        let bytes = self.capture.capture().map_err(|e| {
+            tracing::error!(error = %e, "capture failed");
+            McpError::internal_error(format!("capture failed: {e:#}"), None)
         })?;
+
+        // Optional debug write — only when --output-dir was set on startup.
+        // A failed disk write is logged at warn but does NOT fail the tool
+        // call: the response still carries the base64 payload, and disk save
+        // is purely a debug aid.
+        if let Some(ref dir) = self.config.output_dir {
+            let ts = Local::now().format("%Y%m%d-%H%M%S%3f");
+            let path = dir.join(format!("capture-{ts}.jpg"));
+            match std::fs::write(&path, &bytes) {
+                Ok(()) => tracing::info!(path = %path.display(), "debug-saved capture"),
+                Err(e) => tracing::warn!(
+                    error = %e,
+                    path = %path.display(),
+                    "debug-save to --output-dir failed",
+                ),
+            }
+        }
 
         let b64 = base64::engine::general_purpose::STANDARD.encode(&bytes);
 
-        tracing::info!(
-            path = %path.display(),
-            bytes = bytes.len(),
-            b64_len = b64.len(),
-            "capture_frame ok",
-        );
+        tracing::info!(bytes = bytes.len(), b64_len = b64.len(), "capture_frame ok");
 
         Ok(CallToolResult::success(vec![
             Content::image(b64, "image/jpeg")

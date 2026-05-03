@@ -24,14 +24,15 @@ struct Cli {
     #[arg(long, default_value = "0.0.0.0:8777")]
     listen: String,
 
-    /// Directory where captured JPEGs are written.
-    #[arg(long, default_value = "/tmp/mcp-csi")]
-    output_dir: PathBuf,
+    /// Optional debug aid: save every captured JPEG to this directory as
+    /// `capture-<timestamp>.jpg`. If unset, frames live only in the inline
+    /// base64 image content of the MCP response — nothing is written to disk.
+    #[arg(long)]
+    output_dir: Option<PathBuf>,
 
-    /// Phase-1 mock: optional source JPEG to copy on each capture. If set,
-    /// every `capture_frame` call produces a decodable JPEG (copy of this
-    /// file). If unset, the mock writes a short sentinel byte sequence
-    /// instead — fine for plumbing tests, useless to a vision LLM.
+    /// Phase-1 mock: optional source JPEG whose bytes the server returns on
+    /// each capture. If unset, the mock returns a short sentinel byte
+    /// sequence — fine for plumbing tests, useless to a vision LLM.
     #[arg(long)]
     mock_image: Option<PathBuf>,
 }
@@ -46,8 +47,10 @@ async fn main() -> Result<()> {
 
     let cli = Cli::parse();
 
-    std::fs::create_dir_all(&cli.output_dir)
-        .with_context(|| format!("create output dir {}", cli.output_dir.display()))?;
+    if let Some(ref dir) = cli.output_dir {
+        std::fs::create_dir_all(dir)
+            .with_context(|| format!("create output dir {}", dir.display()))?;
+    }
 
     if let Some(ref src) = cli.mock_image {
         anyhow::ensure!(
@@ -91,8 +94,8 @@ async fn main() -> Result<()> {
     tracing::info!(
         listen = %cli.listen,
         endpoint = "/mcp",
-        output_dir = %cli.output_dir.display(),
-        mock_image = ?cli.mock_image.as_ref().map(|p| p.display().to_string()),
+        output_dir = ?cli.output_dir,
+        mock_image = ?cli.mock_image,
         "starting MCP server (Streamable HTTP)",
     );
 
