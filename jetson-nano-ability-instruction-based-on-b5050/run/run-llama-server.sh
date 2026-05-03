@@ -19,6 +19,7 @@ set -euo pipefail
 #   ./run-llama-server.sh <hf-model> -- <llama-server args...>
 #
 # Examples:
+#   bash ../llama.cpp-b9006/jetson-nano-ability-instruction-based-on-b5050/run/run-llama-server.sh unsloth/Qwen3.5-0.8B-GGUF:Q8_0 -- --n-gpu-layers 99 --port 8776 --host 0.0.0.0 --reasoning-budget 128 --reasoning-budget-message "Time to summarize and answer."
 #   ./run-llama-server.sh unsloth/Qwen3.5-0.8B-GGUF:Q8_0 -- \
 #     --n-gpu-layers 99 \
 #     --port 8776 \
