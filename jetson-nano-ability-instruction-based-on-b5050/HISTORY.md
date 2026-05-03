@@ -129,6 +129,21 @@ Patched `common/http.h::common_http_client()` to, for HTTPS scheme:
 
 Wrapped in `#ifdef CPPHTTPLIB_OPENSSL_SUPPORT`, so it's a no-op when llama.cpp is built without TLS.
 
+## Phase 5 — Runtime BF16 cuBLAS path (`1fe748ab6`)
+
+Spotted later when running a multimodal model (`unsloth/Qwen3.5-0.8B-GGUF:Q8_0`) with a BF16 vision projector (`mmproj-BF16.gguf` is the multimodal projector and it ships in BF16). Text generation worked fine, but on `/image` followed by a question:
+
+```
+CUDA error: CUBLAS_STATUS_NOT_SUPPORTED
+  in function ggml_cuda_op_mul_mat_cublas at ggml-cuda.cu:1531
+  cublasGemmEx(... ((cudaDataType_t) 14), ...
+               CUBLAS_COMPUTE_32F, CUBLAS_GEMM_DEFAULT_TENSOR_OP)
+```
+
+The Round-3 fix (`#define CUDA_R_16BF ((cudaDataType_t) 14)` in `cuda_bf16.h`) made the source *compile*, but `cublasGemmEx` in CUDA 10.2 was released before `CUDA_R_16BF` existed and rejects the value at runtime. The note from Round 3 ("BF16 cuBLAS branch is not exercised on sm_50/sm_61 in practice") held until a multimodal model was actually loaded.
+
+Fix: `ggml-cuda.cu` — gate `supports_bf16` on `CUDART_VERSION >= 11000`. On CUDA 10.2 the runtime check now reports false, the `if (supports_bf16 && src0->type == GGML_TYPE_BF16 …)` branch is skipped, and BF16 src0 falls through to the fp32 path (`ggml_get_to_fp32_cuda(GGML_TYPE_BF16)` → `convert_unary_cont_cuda<nv_bfloat16>` → which under our `GGML_CUDA_BF16_IS_HALF2` typedef is just half→float, then `cublasSgemm`). Slower than dedicated BF16 tensor cores, but correct, and Tegra X1 doesn't have BF16 tensor cores anyway. The companion `use_batched_cublas_bf16` path is already gated by `bf16_mma_hardware_available(cc)` which requires Ampere — never true on Tegra X1 (CC 5.3) — so it needs no patch.
+
 ## Result
 
 ```
