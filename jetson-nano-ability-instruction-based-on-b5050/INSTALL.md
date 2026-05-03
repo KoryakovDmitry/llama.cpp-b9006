@@ -151,16 +151,46 @@ Numbers below are from this build (`b9061-7b27754cc` and similar) on a stock SD-
 
 Larger models (≥ 2B parameters, especially multimodal) are at or past the 4 GB ceiling and will OOM at load. Try Q3_K / IQ2_M variants if you need bigger, or live with `--n-gpu-layers 20`-style partial offload.
 
-### Vision: pre-resize big phone photos
+### Vision: cap the patch count for big photos
 
-On full-resolution phone photos (12+ MP), the CPU-side JPEG decode plus bilinear downsample to the model's native input size (224×224 or 336×336) creates a transient ~100–150 MB raw RGB buffer and can — combined with the vision-encoder GPU kernels — push the run past the Jetson's GPU watchdog (~2 s) and abort with `the launch timed out and was terminated`. Easy fix: downscale once with ImageMagick:
+Modern vision encoders fall into two camps with very different reactions to large inputs:
+
+- **Fixed-resolution** (CLIP / SigLIP — used by LLaVA-1.5, Phi-Vision, Gemma 3 vision, etc.) always downsample to a hard-coded square (224×224, 336×336, 896×896). GPU work is **constant** regardless of input size.
+- **Dynamic-resolution** (Qwen2-VL, Qwen3-VL, InternVL, etc.) preserve the input aspect ratio and emit a number of 14×14 patches **proportional to input area**, capped only by the model's `max_pixels`. GPU work scales **linearly with megapixels**.
+
+`unsloth/Qwen3.5-*-GGUF` is the second kind. A 12 MP phone photo on the Tegra X1 produces tens of thousands of patches; the resulting vision-encoder kernels run for many seconds and trip the Jetson's ~2 s GPU watchdog → `the launch timed out and was terminated`.
+
+| Input image | Patches (14×14) | Relative GPU work | Verdict on Jetson Nano |
+|---|---|---|---|
+| 224×224 | 256 | 1× | trivially OK |
+| 448×448 | 1024 | 4× | OK |
+| 512×512 | 1296 | ~5× | OK (confirmed on Qwen3.5-0.8B Q8_0 at ~6 t/s) |
+| 768×768 | 2916 | ~12× | borderline, OK with `jetson_clocks` |
+| 1024×1024 | 5329 | ~20× | usually fails |
+| 4032×3024 | 62208 | ~240× | fails immediately |
+
+The principled fix is to ask llama.cpp to bound the patch count itself, via the multimodal preprocessor flag:
+
+```sh
+rllama-cli -hf unsloth/Qwen3.5-0.8B-GGUF:Q8_0 \
+    --n-gpu-layers 99 --reasoning-budget 0 \
+    --image-max-tokens 1024
+# > /image /home/diikorr/IMG_20260503_022544_883.jpg
+```
+
+`--image-max-tokens 1024` corresponds to ≈ 448×448 patches and works on Tegra X1 in our tests. Bump up to 1296 if you want a bit more detail, drop to 256 (= 224×224) if you want it as fast as possible. The flag overrides whatever default the model's metadata declares, so the same number applies regardless of the input image size.
+
+For fixed-resolution vision encoders the flag is a no-op (they downsample internally to their fixed input regardless), so it's safe to leave on.
+
+If you would rather not pass an extra CLI flag every time, ImageMagick still works:
 
 ```sh
 sudo apt install -y imagemagick
 convert IMG_in.jpg -resize 512x512\> -strip IMG_resized.jpg
+# > /image /home/diikorr/IMG_resized.jpg
 ```
 
-Then point `/image` at `IMG_resized.jpg`. Llama.cpp will downsample again to model-native — that's fine, the second pass is tiny.
+ImageMagick + `--image-max-tokens` are independent; either alone is sufficient on a Jetson Nano. `--image-max-tokens` is recommended because it works for any input you point at the model without a separate preprocessing step.
 
 ## 6. (Optional) Run from anywhere via prefixed symlinks
 
@@ -189,7 +219,7 @@ rllama-cli --version   # new b9006
 | `cuda_bf16.h: No such file or directory` while building CUDA backend | Stubs not copied to `/usr/local/cuda/include/` | Re-run §2 |
 | `error: gcc versions later than 8 are not supported!` | Toolchain mismatch — nvcc 10.2 forbids gcc ≥ 9 unless the host_config.h hack is applied | Either install gcc 8.5, or edit `/usr/local/cuda/targets/aarch64-linux/include/crt/host_config.h` line 136 (change 8 → 9) |
 | Inference much slower than ~7 t/s | Forgot `--n-gpu-layers 99`, or model didn't fit in unified memory | Verify with `jtop` that the GPU is actually loaded |
-| Vision: `the launch timed out and was terminated` after `/image …` | GPU watchdog hit during preprocessing of a high-res photo | Pre-resize the image to ~512 px (`convert in.jpg -resize 512x512\> -strip out.jpg`), then `/image out.jpg` |
+| Vision: `the launch timed out and was terminated` after `/image …` | Dynamic-resolution vision encoder (Qwen-VL etc.) emitted too many patches → vision encoder kernel ran past the Jetson's ~2 s GPU watchdog | Pass `--image-max-tokens 1024` to bound the patch count, or pre-resize the input to ~512 px |
 | Vision: model emits `??????…` instead of describing the image | The bit-correct BF16 → fp16/fp32 conversion in `convert.cu` was reverted/lost | Confirm `bf16_bits_to_fp{16,32}_cuda` exist in `ggml/src/ggml-cuda/convert.cu` and the `GGML_TYPE_BF16` cases in `ggml_get_to_fp{16,32}_cuda` route to them under `CUDART_VERSION < 11000` |
 | Vision: `CUBLAS_STATUS_NOT_SUPPORTED` from `cublasGemmEx ... CUDA_R_16BF` | `supports_bf16` not gated on `CUDART_VERSION` | Confirm the `#if CUDART_VERSION < 11000` guard around `supports_bf16` in `ggml/src/ggml-cuda/ggml-cuda.cu` is intact |
 
