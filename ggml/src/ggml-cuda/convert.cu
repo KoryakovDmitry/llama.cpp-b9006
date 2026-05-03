@@ -2,6 +2,7 @@
 #include "dequantize.cuh"
 
 #include <cstdint>
+#include <cstring>
 
 #define CUDA_Q8_0_NE_ALIGN 2048
 
@@ -698,6 +699,60 @@ static void convert_unary_cont_cuda(const void * vx, dst_t * y, const int64_t k,
     convert_unary_cuda<src_t>(vx, y, k, 1, 1, 1, k, k, k, stream);
 }
 
+#if CUDART_VERSION < 11000
+// When the cuda_bf16.h stub typedefs nv_bfloat16 onto __half (the trick that
+// lets b9006 source compile against nvcc 10.2 without a real BF16 type),
+// convert_unary_cont_cuda<nv_bfloat16, __half> degenerates into a no-op
+// T->T copy: ggml_cuda_cast<__half, __half>(x) matches its identity branch
+// and returns x unchanged. The bytes in src actually carry BF16-encoded
+// values (the model loader writes raw GGUF BF16 bytes into the device
+// buffer), so downstream cuBLAS reads them as fp16 and produces numerical
+// garbage. With Qwen3.5-0.8B-GGUF + mmproj-BF16.gguf this manifested as
+// the model emitting "??????" instead of describing the image.
+//
+// These kernels reinterpret the 16-bit storage as actual BF16
+// (1 sign + 8 exponent + 7 mantissa) and convert numerically to fp16/fp32.
+//   BF16 -> fp32: place the 16 BF16 bits as the upper half of an fp32 word.
+//   BF16 -> fp16: BF16 -> fp32 -> fp16 (the second step uses CUDA's
+//                  __float2half, which exists for any CC).
+
+static __global__ void k_bf16_bits_to_fp32(const __half * __restrict__ src, float * __restrict__ dst, int64_t k) {
+    const int64_t i = (int64_t) blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= k) return;
+    uint16_t bf16_bits;
+    memcpy(&bf16_bits, &src[i], sizeof(bf16_bits));
+    const uint32_t f32_bits = (uint32_t) bf16_bits << 16;
+    float v;
+    memcpy(&v, &f32_bits, sizeof(v));
+    dst[i] = v;
+}
+
+static __global__ void k_bf16_bits_to_fp16(const __half * __restrict__ src, __half * __restrict__ dst, int64_t k) {
+    const int64_t i = (int64_t) blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= k) return;
+    uint16_t bf16_bits;
+    memcpy(&bf16_bits, &src[i], sizeof(bf16_bits));
+    const uint32_t f32_bits = (uint32_t) bf16_bits << 16;
+    float v;
+    memcpy(&v, &f32_bits, sizeof(v));
+    dst[i] = __float2half(v);
+}
+
+static void bf16_bits_to_fp32_cuda(const void * vx, float * y, const int64_t k, cudaStream_t stream) {
+    const int     block_size = 256;
+    const int64_t num_blocks = (k + block_size - 1) / block_size;
+    k_bf16_bits_to_fp32<<<num_blocks, block_size, 0, stream>>>(
+        reinterpret_cast<const __half *>(vx), y, k);
+}
+
+static void bf16_bits_to_fp16_cuda(const void * vx, __half * y, const int64_t k, cudaStream_t stream) {
+    const int     block_size = 256;
+    const int64_t num_blocks = (k + block_size - 1) / block_size;
+    k_bf16_bits_to_fp16<<<num_blocks, block_size, 0, stream>>>(
+        reinterpret_cast<const __half *>(vx), y, k);
+}
+#endif // CUDART_VERSION < 11000
+
 to_bf16_cuda_t ggml_get_to_bf16_cuda(ggml_type type) {
     switch (type) {
         case GGML_TYPE_F32:
@@ -761,7 +816,13 @@ to_fp16_cuda_t ggml_get_to_fp16_cuda(ggml_type type) {
         case GGML_TYPE_F32:
             return convert_unary_cont_cuda<float>;
         case GGML_TYPE_BF16:
+#if CUDART_VERSION < 11000
+            // See bf16_bits_to_fp16_cuda above for why the templated path
+            // is wrong under our cuda_bf16.h typedef stub.
+            return bf16_bits_to_fp16_cuda;
+#else
             return convert_unary_cont_cuda<nv_bfloat16>;
+#endif
         default:
             return nullptr;
     }
@@ -816,7 +877,13 @@ to_fp32_cuda_t ggml_get_to_fp32_cuda(ggml_type type) {
         case GGML_TYPE_F16:
             return convert_unary_cont_cuda<half>;
         case GGML_TYPE_BF16:
+#if CUDART_VERSION < 11000
+            // See bf16_bits_to_fp32_cuda above for why the templated path
+            // is wrong under our cuda_bf16.h typedef stub.
+            return bf16_bits_to_fp32_cuda;
+#else
             return convert_unary_cont_cuda<nv_bfloat16>;
+#endif
         default:
             return nullptr;
     }
