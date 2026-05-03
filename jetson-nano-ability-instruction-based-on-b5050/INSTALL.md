@@ -345,6 +345,17 @@ rllama-cli --version   # new b9006
 
 `~/.local/bin` is in PATH on default Ubuntu setups; if not, the script prints the line to add to `~/.bashrc`. RPATH stays valid because the linker resolves it from the binary's real path, not the symlink. Re-run the script after rebuilds — it's idempotent (`ln -sfn`). Use `--prefix ""` and `--target /usr/local/bin` if you want unprefixed system-wide install instead.
 
+## 7. (Optional) CSI camera for live vision input
+
+If you have a Raspberry Pi Camera v2.1 (Sony IMX219) connected to the J13 / J49 CSI connector and want to feed live frames to the multimodal `rllama-server` from §5, see [`CSI_CAMERA.md`](CSI_CAMERA.md). It covers:
+
+- Physical install (ribbon orientation and latching on the dev kit B01).
+- The device-tree overlay step (`jetson-io.py` → `Camera IMX219 Dual` → reboot).
+- The verification ladder (`dmesg`, `i2cdetect`, `/dev/video*`).
+- A validated `nvarguscamerasrc → nvvidconv → nvjpegenc → filesink` capture pipeline at sensor-mode 3 (1640×1232 @ 30 fps, 4:3, 2×2 binned) — the same pipeline that the upcoming MCP server (branch `mcp-csi-camera-jetson-nano`) will hold open as a long-lived gstreamer graph.
+- The IMX219 sensor-mode and `flip-method` reference tables.
+- The recovery procedure for the common `-121 EREMOTEIO` ribbon-oxidation failure mode that bites after an OS reflash or long downtime — software / DT looks clean, but the gold-plated ribbon contacts have oxidized passively and need a soft-eraser pass on both ends.
+
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
@@ -356,6 +367,7 @@ rllama-cli --version   # new b9006
 | `error: gcc versions later than 8 are not supported!` | Toolchain mismatch — nvcc 10.2 forbids gcc ≥ 9 unless the host_config.h hack is applied | Either install gcc 8.5, or edit `/usr/local/cuda/targets/aarch64-linux/include/crt/host_config.h` line 136 (change 8 → 9) |
 | Inference much slower than ~7 t/s | Forgot `--n-gpu-layers 99`, or model didn't fit in unified memory | Verify with `jtop` that the GPU is actually loaded |
 | Vision: `the launch timed out and was terminated` after `/image …` or on first server image POST | Dynamic-resolution vision encoder (Qwen-VL etc.) emitted too many patches → vision encoder kernel ran past the Jetson's ~2 s GPU watchdog. With Qwen3.5 (`patch_size=16`) the trip-wire is 48×48 = 2304 patches = 576 LLM tokens, which the preprocessor picks for square inputs at any `--image-max-tokens ≥ 576`. | Pass **`--image-max-tokens 529`** (the largest 23² square-aligned grid; safe across any input aspect — square→529, 4:3→520, 16:9→510 actual tokens) |
+| CSI camera: `dmesg` shows `imx219 ...: imx219_board_setup: error during i2c read probe (-121)` after a fresh OS install or long downtime; `i2cdetect -y -r 7` empty on row `10:`; `/dev/video*` absent | DT overlay missing **and / or** ribbon contact oxidation (gold plating develops surface oxide passively). | (1) Apply `Camera IMX219 Dual` overlay via `sudo /opt/nvidia/jetson-io/jetson-io.py` (DT side). (2) Power off, clean ribbon's golden contacts with a soft white eraser on **both** ends along the contact-strip direction (electrical side). Full procedure in [`CSI_CAMERA.md`](CSI_CAMERA.md). |
 | Vision: model emits `??????…` instead of describing the image | The bit-correct BF16 → fp16/fp32 conversion in `convert.cu` was reverted/lost | Confirm `bf16_bits_to_fp{16,32}_cuda` exist in `ggml/src/ggml-cuda/convert.cu` and the `GGML_TYPE_BF16` cases in `ggml_get_to_fp{16,32}_cuda` route to them under `CUDART_VERSION < 11000` |
 | Vision: `CUBLAS_STATUS_NOT_SUPPORTED` from `cublasGemmEx ... CUDA_R_16BF` | `supports_bf16` not gated on `CUDART_VERSION` | Confirm the `#if CUDART_VERSION < 11000` guard around `supports_bf16` in `ggml/src/ggml-cuda/ggml-cuda.cu` is intact |
 

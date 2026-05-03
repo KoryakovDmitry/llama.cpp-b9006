@@ -2,7 +2,7 @@
 
 Chronology of porting the [b5050 procedure](llama.cpp-jetson/README.md) to b9006 (commit `c5a3bc39b`) on a 2019 Jetson Nano Devkit (Tegra X1, sm_53, 4 GB unified memory, JetPack 4.6.x, CUDA 10.2, gcc 8.5). Branch: `jetson-nano-b9006`. Final result: `llama-cli -hf ggml-org/gemma-3-1b-it-GGUF --n-gpu-layers 99` runs at ~7 t/s.
 
-The whole arc breaks down into five phases. Each phase ends with a build that gets a bit further than the previous one.
+The build arc breaks down into five phases — each ending with a build that gets a bit further than the previous one. Phase 6 (separate branch `mcp-csi-camera-jetson-nano`) is the bring-up of a CSI camera that feeds live vision input into the working stack — see [`CSI_CAMERA.md`](CSI_CAMERA.md) for the runbook.
 
 ## Phase 0 — Setup (`c9bd434cf`, `06f4d5d42`)
 
@@ -209,6 +209,69 @@ Based on the image, here is a description of what can be seen:
 CUDA acceleration on, both text and vision modalities working, generation rate matches the device's ceiling, fp16 cuBLAS path engaged through `bf16_bits_to_fp16_cuda`. Memory breakdown reported `1999 MiB` total CUDA usage (`763` model + `748` context + `487` compute) with ~459 MiB headroom on the 3963 MiB unified pool. Description quality on a 0.8B model has the usual hallucinations on details — that's the model size, not the build.
 
 A 12 MP phone photo can still trip the GPU watchdog because Qwen-VL-style **dynamic-resolution** vision encoders emit a patch count proportional to input area (the patch grid is 14×14 pixels for Qwen2-VL/2.5-VL, **16×16 for Qwen3-VL/Qwen3.5** — read from each model's GGUF metadata), and tens of thousands of patches make a single vision-encoder kernel run past the Jetson's ~2 s deadline. The watchdog edge for Qwen3.5 sits at exactly the `48×48 = 768×768` square grid (576 LLM tokens after the 2×2 spatial merge). The principled cap for production use is `--image-max-tokens 529` (`= 23²`, the largest square-aligned grid that fits below the edge; uniform across any input aspect ratio); for known-wide CLI inputs you can push to `540` to extract a bit more 4:3 detail. Manually downsampling the image to ~512 px is an equivalent fallback. See `INSTALL.md` § "Vision: cap the patch count for big photos" for the full table of patches vs LLM tokens vs feasibility, including the per-family `patch_size`/`n_merge` numbers and the recommendation rationale.
+
+## Phase 6 — CSI camera bring-up (branch `mcp-csi-camera-jetson-nano`)
+
+Adding a vision-input pipeline: the Raspberry Pi Camera v2.1 (Sony IMX219, 8 MP) on the same Jetson, to feed `rllama-server` for live vision inference. Branched off `jetson-nano-b9006` into `mcp-csi-camera-jetson-nano`. The full bring-up runbook is in [`CSI_CAMERA.md`](CSI_CAMERA.md); this section captures the diagnostic chronology of what blocked it.
+
+The catch: the camera had worked on this same Jetson under a previous OS install. After re-flashing JetPack `R32.7.6`, with nothing physically changed, it stopped responding. The failure mode looked software-like and took several rounds of layer-peeling to confirm it was actually mechanical contact degradation.
+
+### 6.1 — DT overlay was missing (necessary, but not sufficient)
+
+Initial symptoms after fresh install:
+- `/dev/video*` absent.
+- `dmesg | grep imx219`: `error during i2c read probe (-121)` on both `imx219 7-0010` and `imx219 8-0010`.
+- `i2cdetect -y -r 7`: row `10:` empty (no `UU`, no `10`).
+- `gst-launch-1.0 ... nvarguscamerasrc`: `No cameras available`.
+
+Hypothesis: JetPack 4.6 default DT didn't have the IMX219-specific overlay applied. Pi Cam v2.1 needs `rbpcv2_imx219_*` nodes (with the right pin / regulator / reset-line config), not the generic `imx219` placeholder.
+
+Applied via `jetson-io.py` → `Configure Jetson Nano CSI Connector` → `Camera IMX219 Dual` → `Save and reboot`. After reboot, `/boot/extlinux/extlinux.conf` pointed at `/boot/kernel_tegra210-p3448-0000-p3449-0000-b00-user-custom.dtb`, and `/proc/device-tree/cam_i2cmux/i2c@0/` now contained `rbpcv2_imx219_a@10` (correct Pi Cam v2.1 binding).
+
+Did **not** fix the issue. Same `-121` errors. So overlay was a necessary step (DT now correct), but insufficient — sensor still electrically silent.
+
+### 6.2 — Confirming the software side is clean
+
+Drilled into runtime state to rule out remaining software / configuration issues:
+
+- `/sys/kernel/debug/regulator/regulator_summary` — `vdd-3v3-sys` (3300 mV) enabled. On Nano dev kit B01 the CSI camera is powered from this always-on rail; there is no separate `vdd-cam` regulator on this board.
+- `/sys/kernel/debug/gpio` — no camera-labeled GPIOs claimed steady-state. Expected: tegracam's `imx219_board_setup` releases requested GPIOs/regulators on probe failure, so steady-state sysfs doesn't show them.
+- `sudo i2cget -y 7 0x10 0x00 b` → `Error: Read failed`, exit 2. A direct read of register `0x00` (CHIP_ID high byte) gets no ACK, confirming the issue is at the **i2c-electrical layer**, not in the driver state machine.
+
+Conclusion: DT correct, regulators present, driver flow correct. Sensor doesn't ACK on i2c → physical/electrical issue.
+
+### 6.3 — Root cause: ribbon contact oxidation
+
+The camera worked on a prior OS install with the same ribbon and the same physical setup. With nothing physically changed, software-side validated to clean, and `-121` persisting, the most likely candidate was passive contact degradation. CSI ribbon contacts are gold-plated at ≤ 0.5 µm; over months in humid storage the surface develops an oxide/sulfide layer that's visually invisible but raises contact resistance enough to break the i2c handshake.
+
+Fix: pencil eraser on the ribbon's golden contacts, **both ends** (Nano-side and camera-side), **along the contact strip direction**, 5–10 light passes. Eraser dust blown out before reseating. **No liquids** — water-based cleaners with surfactants leave conductive films, and acetone attacks the polyimide ribbon backing.
+
+After cleaning + reseating in J13:
+- `dmesg | grep imx219` → `tegracam sensor driver:imx219_v2.0.6` followed by `vi 54080000.vi: subdev imx219 7-0010 bound`. No `-121`.
+- `i2cdetect -y -r 7` row `10:` → `UU` (driver claimed sensor at 0x10).
+- `/dev/video0` present.
+- `nvgstcapture-1.0` opens at `Camera index = 0`, sensor-mode 5 (1280×720 @ 120 fps) — full pipeline alive, live preview frame visible.
+
+### 6.4 — Validated capture pipeline
+
+End-to-end gstreamer pipeline using the NVIDIA hardware ISP (no CPU work) at the chosen MCP-server defaults:
+
+```sh
+time gst-launch-1.0 -e nvarguscamerasrc num-buffers=1 sensor-id=0 sensor-mode=3 \
+    ! 'video/x-raw(memory:NVMM),width=1640,height=1232,framerate=30/1' \
+    ! nvvidconv flip-method=2 \
+    ! nvjpegenc \
+    ! filesink location=/tmp/csi-mode3.jpg
+```
+
+Sensor mode 3 (`1640×1232 @ 30 fps`, 2×2 binned, 4:3 aspect) chosen as default for vision LLM use:
+- 4:3 aligns with the `--image-max-tokens 529` budget from Phase 5 (Qwen3.5: `patch_size=16`, `n_merge=2`, ~688×512 effective input for the 529-token budget). The camera output is comfortably above that, so no upsample artefacts.
+- 2×2 binning = lower noise in indoor lighting, less ISP work.
+- ~2 MP source > preprocessed input, so the model uses what it actually wants and downsamples once.
+
+`flip-method=2` rotates the captured frame 180° (the camera mounted upside-down on a desk arm); rotation is hardware-accelerated through `nvvidconv`, not CPU.
+
+Phase 6 sets the stage for the MCP server work (separate branch, planned). The full bring-up runbook is in [`CSI_CAMERA.md`](CSI_CAMERA.md), including the recovery procedure for the ribbon-oxidation failure mode — so the next person hitting `-121` after a reflash doesn't have to repeat the layer-peeling above.
 
 ## Helper / tooling commits (out of band)
 

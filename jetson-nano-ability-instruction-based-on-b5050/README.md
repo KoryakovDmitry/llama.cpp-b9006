@@ -7,7 +7,8 @@ Adaptation of the b5050 Jetson Nano procedure (original at [`llama.cpp-jetson/RE
 | If you want to… | Read |
 |---|---|
 | **Build it on a fresh Jetson Nano right now** | [`INSTALL.md`](INSTALL.md) — 5-step runbook (prereqs → clone → bf16 stubs → cmake → run), plus a benchmark table of which models actually fit |
-| Understand *why* each patch exists, with commit hashes and the actual error messages we hit | [`HISTORY.md`](HISTORY.md) — chronology in 5 phases incl. the BF16 numerics fix that made vision work |
+| Understand *why* each patch exists, with commit hashes and the actual error messages we hit | [`HISTORY.md`](HISTORY.md) — chronology in 5 build phases incl. the BF16 numerics fix that made vision work, plus Phase 6 on the CSI camera bring-up |
+| **Bring up a CSI camera (Pi Cam v2.1 / IMX219) for live vision input** | [`CSI_CAMERA.md`](CSI_CAMERA.md) — physical install, DT overlay step, validated `nvarguscamerasrc` capture pipeline at sensor-mode 3, recovery from the `-121` ribbon-oxidation failure mode |
 | See the original task brief | [`TASK.md`](TASK.md) |
 | Read the original (now-superseded) b5050 procedure | [`llama.cpp-jetson/README.md`](llama.cpp-jetson/README.md) |
 
