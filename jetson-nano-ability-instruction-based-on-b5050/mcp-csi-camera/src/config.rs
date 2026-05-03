@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct Config {
     /// If `Some`, every capture is also written to this directory as a
     /// `capture-<timestamp>.jpg` file (debug aid). If `None`, captures live
