@@ -101,6 +101,14 @@ struct Cli {
     /// request forever.
     #[arg(long, default_value_t = 10)]
     pull_timeout_secs: u64,
+
+    /// `--source gstreamer` only: timeout for the `/healthz` liveness probe
+    /// in milliseconds. Kept much smaller than `--pull-timeout-secs` because
+    /// the watchdog timer fires every 30 s and a slow probe would itself
+    /// block the recovery loop. Default 500 ms is comfortably above one
+    /// frame interval at 30 fps even with concurrent capture requests.
+    #[arg(long, default_value_t = 500)]
+    health_probe_timeout_ms: u64,
 }
 
 #[tokio::main]
@@ -144,6 +152,7 @@ async fn main() -> Result<()> {
                 framerate: cli.framerate,
                 pull_timeout_secs: cli.pull_timeout_secs,
                 warmup_frames: cli.warmup_frames,
+                health_probe_timeout_ms: cli.health_probe_timeout_ms,
             };
             Arc::new(
                 GstreamerCapture::new(gst_cfg)
@@ -197,8 +206,28 @@ async fn main() -> Result<()> {
         .allow_headers(Any)
         .expose_headers(Any);
 
+    // Liveness endpoint for the systemd watchdog timer. Cheap by design:
+    // does a pipeline-state check + a single short-timeout `try_pull_sample`
+    // (see `GstreamerCapture::is_healthy`). Returns 200 when a frame can be
+    // produced right now, 503 when the pipeline is stuck — which is how the
+    // watchdog distinguishes "process alive but camera dead" from "process
+    // happy" without having to call the full MCP `view_scene` tool.
+    let healthz_capture = capture.clone();
+    let healthz =
+        axum::routing::get(move || {
+            let capture = healthz_capture.clone();
+            async move {
+                if capture.is_healthy() {
+                    (axum::http::StatusCode::OK, "ok\n")
+                } else {
+                    (axum::http::StatusCode::SERVICE_UNAVAILABLE, "stuck\n")
+                }
+            }
+        });
+
     let router = axum::Router::new()
         .nest_service("/mcp", service)
+        .route("/healthz", healthz)
         .layer(cors);
 
     let listener = tokio::net::TcpListener::bind(&cli.listen)

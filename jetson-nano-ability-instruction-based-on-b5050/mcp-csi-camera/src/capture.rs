@@ -10,6 +10,15 @@ use gstreamer_app as gst_app;
 /// debug-save) and for base64-wrapping the result for the MCP response.
 pub trait CaptureSource: Send + Sync {
     fn capture(&self) -> Result<Vec<u8>>;
+
+    /// Liveness probe used by the `/healthz` HTTP endpoint and the watchdog
+    /// timer. Must answer in well under a second — the watchdog fires every
+    /// 30 s and a slow probe would itself become a stall. The contract is
+    /// "right now, can this source produce a frame": for `GstreamerCapture`
+    /// that means a real `try_pull_sample` with a small timeout (catches the
+    /// `dmabuf_fd -1` host1x-stuck case where the pipeline reports `Playing`
+    /// but no buffers flow); for `MockCapture` it is trivially true.
+    fn is_healthy(&self) -> bool;
 }
 
 /// Phase-1 stand-in. Returns either the bytes of `source_image` (when set —
@@ -32,6 +41,10 @@ impl CaptureSource for MockCapture {
                 .with_context(|| format!("read mock source {}", src.display())),
             None => Ok(b"MOCK JPEG -- mcp-csi-camera placeholder.\n".to_vec()),
         }
+    }
+
+    fn is_healthy(&self) -> bool {
+        true
     }
 }
 
@@ -57,6 +70,12 @@ pub struct GstreamerConfig {
     /// frame comes out yellow/green-tinted and underexposed. 30 frames at
     /// 30 fps ≈ 1 s, which empirically lets AE/AWB converge.
     pub warmup_frames: u32,
+    /// Timeout for the `/healthz` liveness probe — much tighter than
+    /// `pull_timeout_secs` because the watchdog fires every 30 s and a slow
+    /// probe is itself a stall. At 30 fps a fresh frame arrives every ~33 ms,
+    /// so 500 ms is comfortably above the worst-case wait when contending
+    /// with a concurrent `capture()` call (appsink has `max-buffers=1`).
+    pub health_probe_timeout_ms: u64,
 }
 
 impl Default for GstreamerConfig {
@@ -70,6 +89,7 @@ impl Default for GstreamerConfig {
             framerate: 30,
             pull_timeout_secs: 10,
             warmup_frames: 30,
+            health_probe_timeout_ms: 500,
         }
     }
 }
@@ -84,6 +104,7 @@ pub struct GstreamerCapture {
     pipeline: gst::Pipeline,
     appsink: gst_app::AppSink,
     pull_timeout: gst::ClockTime,
+    health_probe_timeout: gst::ClockTime,
 }
 
 impl GstreamerCapture {
@@ -123,6 +144,8 @@ impl GstreamerCapture {
             .context("set pipeline state to Playing")?;
 
         let pull_timeout = gst::ClockTime::from_seconds(cfg.pull_timeout_secs);
+        let health_probe_timeout =
+            gst::ClockTime::from_mseconds(cfg.health_probe_timeout_ms);
 
         // Warm up: drain the first N frames so the IMX219 ISP's 3A
         // (auto-exposure, auto-white-balance) has time to converge. Without
@@ -148,6 +171,7 @@ impl GstreamerCapture {
             pipeline,
             appsink,
             pull_timeout,
+            health_probe_timeout,
         })
     }
 }
@@ -176,5 +200,34 @@ impl CaptureSource for GstreamerCapture {
             .map_err(|_| anyhow!("buffer.map_readable failed"))?;
 
         Ok(map.as_slice().to_vec())
+    }
+
+    fn is_healthy(&self) -> bool {
+        // Two-step probe. First, quick check that the pipeline at least
+        // claims to be PLAYING — if not, there is no point waiting on the
+        // appsink. `state(0)` is non-blocking (zero timeout): we are asking
+        // for the *cached* current state, not driving a state change.
+        let (_, current, _) = self.pipeline.state(gst::ClockTime::ZERO);
+        if current != gst::State::Playing {
+            tracing::warn!(?current, "healthz: pipeline not Playing");
+            return false;
+        }
+
+        // Then the active probe — pulls one real frame from the appsink with
+        // a tight timeout. Catches the host1x/NVMM stuck case where the
+        // pipeline reports `Playing` but no buffers ever arrive (the
+        // `nvbuf_utils: dmabuf_fd -1` failure mode). Steals one frame from
+        // any concurrent `capture()`, but at 30 fps the next one arrives in
+        // ~33 ms, so the cost is negligible.
+        match self.appsink.try_pull_sample(self.health_probe_timeout) {
+            Some(_) => true,
+            None => {
+                tracing::warn!(
+                    timeout_ms = self.health_probe_timeout.mseconds(),
+                    "healthz: no sample within probe timeout — pipeline stuck",
+                );
+                false
+            }
+        }
     }
 }

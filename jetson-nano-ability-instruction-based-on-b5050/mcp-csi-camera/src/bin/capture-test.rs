@@ -71,6 +71,7 @@ fn main() -> Result<()> {
         framerate: cli.framerate,
         pull_timeout_secs: cli.pull_timeout_secs,
         warmup_frames: cli.warmup_frames,
+        health_probe_timeout_ms: 500,
     };
 
     tracing::info!(?cfg, output = %cli.output.display(), "starting capture-test");
