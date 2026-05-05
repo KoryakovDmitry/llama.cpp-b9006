@@ -222,7 +222,7 @@ write_default_if_missing "$DEFAULT_DIR/mcp-csi-camera" \
 
 # Extra flags passed verbatim. Whitespace-split by systemd.
 # Set --allowed-host to the IP/hostname your MCP clients dial in from.
-#MCP_CSI_EXTRA_ARGS=--allowed-host 192.168.178.59
+MCP_CSI_EXTRA_ARGS=--allowed-host 192.168.178.59
 
 # Rust log filter (e.g. info, debug, mcp_csi_camera=debug).
 #RUST_LOG=info
