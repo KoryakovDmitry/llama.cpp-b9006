@@ -6,6 +6,12 @@ systemd-юниты с авто-стартом при загрузке и авт�
 дёргает `/healthz` и при провале эскалирует по лесенке вплоть до
 автоматического `reboot` (с rate-limit 1 раз в час).
 
+> После установки прогони чек-лист в [`TESTING.md`](TESTING.md) — это
+> 5 фаз smoke + recovery-тестов на синтетических сбоях, которые
+> подтверждают что watchdog действительно реагирует на типовые failure
+> mode'ы. Background к решениям дизайна и расшифровка симптомов —
+> в [`../CSI_CAMERA.md` § "Recovery: host1x channel stuck"](../CSI_CAMERA.md#recovery-host1x-channel-stuck-after-nvbuf_utils-dmabuf_fd--1).
+
 ## Что устанавливается
 
 ```

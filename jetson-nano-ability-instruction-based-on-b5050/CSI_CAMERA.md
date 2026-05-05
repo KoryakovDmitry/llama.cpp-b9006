@@ -184,6 +184,66 @@ If the camera previously worked on this Jetson, has not been touched physically,
 
 In practice, a soft-eraser pass is sufficient ~95 % of the time on dry oxidation. Reach for a wet alternative only if a pure eraser pass leaves the i2c link still down.
 
+## Recovery: host1x channel stuck after `nvbuf_utils: dmabuf_fd -1`
+
+A different recovery path: the camera worked moments ago, the ribbon is fine, `i2cdetect` still sees `0x10` on the bus — yet `gst-launch-1.0 ... nvarguscamerasrc` (or our `mcp-csi-camera` server) hangs producing no buffers, and stderr shows one of the two characteristic strings:
+
+- early in the failure: `Failed to create CaptureSession` (gstnvarguscamerasrc.cpp:751);
+- after enough retries: `nvbuf_utils: dmabuf_fd -1 mapped entry NOT found` followed by `Can not get HW buffer from FD... Exiting...`.
+
+Concurrently `dmesg` is full of ISP syncpoint timeouts:
+
+```
+isp 54680000.isp:     TIMEOUT     10000
+isp 54680000.isp:     SYNCPT_ID   17
+isp 54680000.isp:     SYNCPT_VAL  175068
+... (repeated for many syncpoint values)
+```
+
+This is **not** a hardware fault — the i2c link is healthy. What's stuck is a software / kernel-side pipeline state: the ISP block submitted host1x jobs that never got a syncpoint completion, the kernel's nvhost driver doesn't reset the channel automatically, and once a few jobs have accumulated dead the channel is poisoned for any new work. New `CaptureSession`s fail because the daemon can't get a clean channel; later in the failure, even re-instantiated pipelines that get past `CaptureSession` creation can't allocate NVMM buffers because the ISP is still chewing on stale work.
+
+### Why it gets worse if you keep retrying
+
+Every failed `nvarguscamerasrc` warmup submits more host1x jobs at the moment of `set_state(Playing)`. Those jobs also time out and pile onto the channel. So a failure that starts as just `Failed to create CaptureSession` (level-1, daemon-side) progresses into `nvbuf_utils: dmabuf_fd -1` (level-3, kernel-side) after ~3–5 retries. **The recovery ladder is order-sensitive: catch it early or you walk yourself into a deeper failure that requires a full reboot.**
+
+### Manual recovery ladder
+
+Try in order; stop at the first one that restores `gst-launch-1.0 ... nvarguscamerasrc num-buffers=1 ! fakesink`:
+
+1. **Restart `nvargus-daemon`** (the userspace half of the Argus stack):
+   ```bash
+   sudo systemctl restart nvargus-daemon
+   ```
+   Fixes the level-1 case (CaptureSession refused). Cheapest, ~1 s downtime, doesn't touch kernel state.
+
+2. **Unbind/rebind the IMX219 i2c driver** in addition to step 1:
+   ```bash
+   echo 7-0010 | sudo tee /sys/bus/i2c/drivers/imx219/unbind
+   sleep 1
+   echo 7-0010 | sudo tee /sys/bus/i2c/drivers/imx219/bind
+   sleep 1
+   sudo systemctl restart nvargus-daemon
+   ```
+   On a B01 with the dual-IMX219 overlay the device is `7-0010` (cam0/J13) or `8-0010` (cam1/J49) — confirm with `ls /sys/bus/i2c/drivers/imx219/`. This re-initialises the sensor side and *sometimes* indirectly nudges the kernel to reset host1x jobs from this client. Doesn't help once `nvbuf_utils: dmabuf_fd -1` is already showing.
+
+3. **Reboot the host**:
+   ```bash
+   sudo reboot
+   ```
+   On Tegra210 (Jetson Nano), the host1x driver does **not** expose a per-channel reset to userspace — `/sys/devices/platform/50000000.host1x/` has no children visible at the level we'd need to unbind. Higher-end Tegras (Xavier, Orin) do expose this; Nano does not. Once the channel is poisoned, only the SoC reset that comes with a full reboot reliably clears it.
+
+### What does NOT work on Tegra210
+
+- **`echo 1 > /sys/class/...../unbind` for `tegra-vi4`** — vi4 is the Tegra186+ VI driver. On Tegra210 the corresponding driver is empty in sysfs and not bound to anything.
+- **`rmmod nv_imx219`** — on JetPack 4.6 the IMX219 driver is built into the kernel (`CONFIG_VIDEO_IMX219=y`), no module to unload.
+- **Just waiting** — host1x doesn't time out the stale jobs out of the channel. We've left it for 30+ minutes; the channel stays poisoned indefinitely.
+
+### Automated recovery in production
+
+The MCP server's systemd setup (`systemd/`) ships a watchdog timer that runs the same ladder automatically: every 30 s it probes `/healthz`, and on persistent failure it walks stage 1 (restart `mcp-csi-camera`) → stage 2 (also restart `nvargus-daemon`) → stage 3 (`systemctl reboot`, rate-limited to once per hour). See [`systemd/README.md`](systemd/README.md) for the full table and [`systemd/TESTING.md`](systemd/TESTING.md) for synthetic-failure tests that verify each stage actually fires.
+
+The rate-limit on stage 3 exists specifically because hardware-real failures (oxidised ribbon — the previous recovery section, or a dead sensor) look identical to the watchdog: probe fails forever. Without the cooldown a reboot loop on a genuinely broken camera would hammer the SD-card filesystem journal indefinitely.
+
 ## MCP server
 
 The capture pipeline above is wrapped in a Rust MCP server so an agent (Claude Code, Claude Desktop, or anything speaking MCP) can ask for a camera view and feed it to the local `rllama-server` for vision inference. Lives in [`mcp-csi-camera/`](mcp-csi-camera/) on branch `mcp-csi-camera-jetson-nano`; see that crate's [README](mcp-csi-camera/README.md) for build/run/test instructions.
