@@ -1,0 +1,64 @@
+[Unit]
+# MCP server that exposes the Jetson Nano CSI camera (IMX219) as the
+# `view_scene` tool. Source: jetson-nano-ability-instruction-based-on-b5050/
+# mcp-csi-camera. Manual launch script: run/run-mcp-csi-camera-server.sh
+# (left in place for one-off / debug runs; this unit replaces it for prod).
+
+Description=MCP CSI camera server (IMX219 -> /mcp endpoint)
+Documentation=file://@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/mcp-csi-camera/README.md
+
+# nvargus-daemon is the userspace half of the Argus stack the gstreamer
+# pipeline talks to. If it isn't up yet our `nvarguscamerasrc` warmup loop
+# fails immediately with `Failed to create CaptureSession`. `Wants=` means
+# we ask for it to be started but don't fail if it's missing (e.g. when
+# running with --source mock).
+After=network-online.target nvargus-daemon.service
+Wants=network-online.target nvargus-daemon.service
+
+[Service]
+Type=simple
+User=@@SERVICE_USER@@
+Group=@@SERVICE_USER@@
+
+# Defaults below match the production args baked into
+# run/run-mcp-csi-camera-server.sh. Override by editing
+# /etc/default/mcp-csi-camera — that file is loaded *after* these
+# Environment= lines, so anything set there wins.
+Environment=MCP_CSI_LISTEN=0.0.0.0:8777
+Environment=MCP_CSI_SOURCE=gstreamer
+Environment=MCP_CSI_EXTRA_ARGS=--allowed-host 192.168.178.59
+Environment=RUST_LOG=info
+EnvironmentFile=-/etc/default/mcp-csi-camera
+
+# `$MCP_CSI_EXTRA_ARGS` (no braces) is split on whitespace by systemd, so
+# multi-flag overrides in /etc/default/mcp-csi-camera Just Work without a
+# bash wrapper. `${MCP_CSI_LISTEN}` (with braces) is a single token — fine,
+# it has no spaces.
+ExecStart=@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/mcp-csi-camera/target/release/mcp-csi-camera \
+    --listen ${MCP_CSI_LISTEN} \
+    --source ${MCP_CSI_SOURCE} \
+    $MCP_CSI_EXTRA_ARGS
+
+# Crash recovery: restart on non-zero exit, but cap retries so we don't
+# hammer a genuinely dead camera. After 3 failures within 2 min the unit
+# is parked in `failed` state; the watchdog timer (mcp-csi-camera-
+# watchdog.service) sees that and escalates to nvargus-daemon restart
+# and, if still bad, to a rate-limited reboot.
+Restart=on-failure
+RestartSec=5s
+StartLimitBurst=3
+StartLimitIntervalSec=120
+
+# Mild hardening. We still need /dev/video0, /dev/nvhost-*, /dev/i2c-*
+# and the GPU, so most "Protect..." knobs would break us. PrivateTmp is
+# safe and useful (gstreamer caches go there).
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+# Cap journald spam — RUST_LOG=debug under load can dump tens of
+# thousands of lines/min, which fills the SD card's journal.
+LogRateLimitIntervalSec=60s
+LogRateLimitBurst=5000
+
+[Install]
+WantedBy=multi-user.target

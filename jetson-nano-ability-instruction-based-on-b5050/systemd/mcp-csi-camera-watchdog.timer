@@ -1,0 +1,30 @@
+[Unit]
+# Drives mcp-csi-camera-watchdog.service on a periodic schedule. This is
+# the unit you `systemctl enable` — it pulls the .service unit in via
+# `Unit=`, which itself is not enabled standalone (Type=oneshot doesn't
+# want to be enabled — it's invoked).
+
+Description=mcp-csi-camera watchdog timer (probes /healthz every 30s)
+
+[Timer]
+# Wait 2 min after boot before the first probe. The mcp-csi-camera unit
+# itself takes a few seconds to come up (gstreamer warmup ~1 s, plus
+# nvargus-daemon settling); 2 min is generous and avoids spurious stage-1
+# restarts during a normal boot sequence.
+OnBootSec=2min
+
+# Then probe every 30 s relative to the *finish* of the previous run.
+# Using OnUnitActiveSec= (not OnUnitInactiveSec=) means a slow probe
+# doesn't compound into a backlog of overdue runs.
+OnUnitActiveSec=30s
+
+# Explicit so a future rename of the .service file doesn't silently break
+# the binding.
+Unit=mcp-csi-camera-watchdog.service
+
+# Don't accumulate missed runs after laptop sleep / system suspend. We're
+# a liveness probe, not a cron job — only the *next* tick matters.
+Persistent=false
+
+[Install]
+WantedBy=timers.target

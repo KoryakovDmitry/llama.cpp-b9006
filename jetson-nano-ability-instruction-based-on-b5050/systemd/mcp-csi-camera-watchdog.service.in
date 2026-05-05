@@ -1,0 +1,28 @@
+[Unit]
+# One-shot service that runs mcp-csi-camera-watchdog.sh once. Triggered by
+# mcp-csi-camera-watchdog.timer on a 30 s cadence; not enabled directly.
+# The script handles its own logging and exit codes; non-zero from
+# escalation runs is intentional (makes them stand out in `journalctl`).
+
+Description=mcp-csi-camera liveness watchdog (one-shot probe + escalation)
+Documentation=file://@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/watchdog/mcp-csi-camera-watchdog.sh
+
+# Don't bother probing until the unit it watches is at least allowed to
+# start. We don't add `Requires=` because we *want* to keep watching even
+# if the unit is in failed state — that's exactly when escalation should
+# fire.
+After=mcp-csi-camera.service
+
+[Service]
+Type=oneshot
+# Root: the script needs to call `systemctl restart`, `systemctl reboot`.
+# Running as root sidesteps the sudoers gymnastics and concentrates the
+# privileged action in a small, audited shell file.
+User=root
+EnvironmentFile=-/etc/default/mcp-csi-camera-watchdog
+ExecStart=@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/watchdog/mcp-csi-camera-watchdog.sh
+
+# We deliberately exit non-zero on escalation (see script) so journald
+# tags those runs differently. Don't let systemd treat that as "service
+# failed and needs restart" — the timer will fire it again anyway.
+SuccessExitStatus=0 1

@@ -1,0 +1,55 @@
+[Unit]
+# llama-server (the `rllama-server` symlink installed by INSTALL.md §6 into
+# ~/.local/bin/) running as a systemd service. Stateless HTTP server, so
+# Restart=on-failure is all the recovery we need — no separate watchdog
+# unit (mcp-csi-camera has one only because its CSI pipeline can hang
+# while the process stays alive; this server has no such failure mode).
+
+Description=llama.cpp HTTP inference server (rllama-server)
+Documentation=file://@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/INSTALL.md
+
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=@@SERVICE_USER@@
+Group=@@SERVICE_USER@@
+
+# Required: HF model id (e.g. `unsloth/Qwen3.5-0.8B-GGUF:Q8_0`). The unit
+# refuses to start if /etc/default/llama-server is missing — see the `-`-
+# less EnvironmentFile= below.
+#
+# Optional: LLAMA_ARGS — anything else you'd pass to `rllama-server`.
+# Unquoted `$LLAMA_ARGS` (no braces) is split on whitespace by systemd, so
+# `LLAMA_ARGS=--n-gpu-layers 99 --port 8776 --host 0.0.0.0` works as
+# expected without a shell wrapper.
+EnvironmentFile=/etc/default/llama-server
+
+# rllama-server is installed via the symlink scheme described in
+# INSTALL.md §6 ("install-llama-symlinks") — this resolves through the
+# user's PATH at runtime, hence the explicit absolute path here so we
+# don't depend on systemd's PATH inheritance.
+ExecStart=@@LLAMA_BIN@@ \
+    -hf ${LLAMA_HF_MODEL} \
+    $LLAMA_ARGS
+
+# `rllama-server` allocates the full GGUF on startup (multi-second on a
+# Nano), so a too-aggressive restart loop would just trash the SD with
+# repeated weight reads. 10 s gap + max 5 retries / 5 min before parking.
+Restart=on-failure
+RestartSec=10s
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+# Stateless inference server, no on-disk session state to protect.
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+# llama.cpp logs every request body when verbose; rate-limit just in case
+# someone bumps verbosity in production.
+LogRateLimitIntervalSec=60s
+LogRateLimitBurst=5000
+
+[Install]
+WantedBy=multi-user.target
