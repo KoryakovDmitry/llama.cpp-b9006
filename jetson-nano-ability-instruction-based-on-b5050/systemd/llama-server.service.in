@@ -1,9 +1,13 @@
 [Unit]
 # llama-server (the `rllama-server` symlink installed by INSTALL.md §6 into
-# ~/.local/bin/) running as a systemd service. Stateless HTTP server, so
-# Restart=on-failure is all the recovery we need — no separate watchdog
-# unit (mcp-csi-camera has one only because its CSI pipeline can hang
-# while the process stays alive; this server has no such failure mode).
+# ~/.local/bin/) running as a systemd service.
+#
+# Restart=on-failure handles crashes; for live-but-hung situations (stuck
+# inference, deadlocked multimodal pipeline, KV-cache wedged after an
+# OOM neighbour) llama-server-watchdog.timer probes /health every 30 s
+# and `systemctl restart llama-server` on failure. Simpler than the
+# camera watchdog because llama-server is stateless — no escalation
+# ladder, no host reboot, just one button.
 
 Description=llama.cpp HTTP inference server (rllama-server)
 Documentation=file://@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/INSTALL.md

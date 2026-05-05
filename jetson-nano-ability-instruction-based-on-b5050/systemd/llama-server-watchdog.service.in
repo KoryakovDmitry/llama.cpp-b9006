@@ -1,0 +1,23 @@
+[Unit]
+# One-shot service that runs llama-server-watchdog.sh once. Triggered by
+# llama-server-watchdog.timer on a 30 s cadence; not enabled directly.
+# Much simpler counterpart to mcp-csi-camera-watchdog: no state machine,
+# no escalation, no reboot — llama-server is stateless and `systemctl
+# restart` is the only recovery action that ever makes sense for it.
+
+Description=llama-server liveness watchdog (one-shot probe + restart on /health failure)
+Documentation=file://@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/watchdog/llama-server-watchdog.sh
+
+After=llama-server.service
+
+[Service]
+Type=oneshot
+# Root because the script needs `systemctl restart llama-server`. Same
+# reasoning as the camera watchdog: keeps sudoers off the recovery path.
+User=root
+EnvironmentFile=-/etc/default/llama-server-watchdog
+ExecStart=@@REPO_ROOT@@/jetson-nano-ability-instruction-based-on-b5050/watchdog/llama-server-watchdog.sh
+
+# Script exits non-zero whenever it issued a restart — informational, not
+# a failure to be retried by systemd. The timer fires it again anyway.
+SuccessExitStatus=0 1

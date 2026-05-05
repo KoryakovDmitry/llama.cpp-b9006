@@ -11,6 +11,8 @@ systemd-юниты с авто-стартом при загрузке и авт�
 ```
 /etc/systemd/system/
   llama-server.service               # rllama-server + Restart=on-failure
+  llama-server-watchdog.service      # one-shot, вызывается из таймера
+  llama-server-watchdog.timer        # каждые 30s после OnBootSec=2min
   mcp-csi-camera.service             # mcp-csi-camera + Restart=on-failure
   mcp-csi-camera-watchdog.service    # one-shot, вызывается из таймера
   mcp-csi-camera-watchdog.timer      # каждые 30s после OnBootSec=2min
@@ -75,24 +77,28 @@ sudo systemctl restart mcp-csi-camera
 
 ```bash
 # юниты живые
-systemctl status mcp-csi-camera llama-server mcp-csi-camera-watchdog.timer
+systemctl status mcp-csi-camera llama-server \
+                 mcp-csi-camera-watchdog.timer llama-server-watchdog.timer
 
-# /healthz отвечает
+# /healthz отвечает (camera, активный probe)
 curl -i http://127.0.0.1:8777/healthz       # 200 ok / 503 stuck
 
-# llama-server отвечает
-curl http://127.0.0.1:8776/health            # llama.cpp built-in
+# /health отвечает (llama-server, встроенный)
+curl http://127.0.0.1:8776/health            # {"status":"ok"} при загрузке - 503
 
 # когда watchdog в следующий раз стрельнёт
-systemctl list-timers mcp-csi-camera-watchdog
+systemctl list-timers '*-watchdog.timer'
 
 # логи
-journalctl -u mcp-csi-camera -f                  # live
-journalctl -u mcp-csi-camera-watchdog -e         # последние пробы
-journalctl -u llama-server -e
+journalctl -u mcp-csi-camera -f                  # live camera
+journalctl -u mcp-csi-camera-watchdog -e         # последние пробы camera
+journalctl -u llama-server -f                    # live llama
+journalctl -u llama-server-watchdog -e           # последние пробы llama
 ```
 
-## Что делает watchdog (recap)
+## Что делают watchdog-и (recap)
+
+### Камера (`mcp-csi-camera-watchdog`)
 
 Каждые 30 секунд:
 1. `curl http://127.0.0.1:8777/healthz` с таймаутом 5с
@@ -114,6 +120,26 @@ journalctl -u llama-server -e
 ловит ровно ту проблему которая на Tegra210 не лечится `Restart=on-failure`:
 процесс жив, MCP отвечает на handshake, но из-за `nvbuf_utils: dmabuf_fd -1`
 (host1x stuck) ни один `view_scene` не возвращает кадр.
+
+### llama-server (`llama-server-watchdog`)
+
+Каждые 30 секунд:
+1. `curl http://127.0.0.1:8776/health` с таймаутом 5с
+2. Ветвление по HTTP-коду + телу:
+
+| код   | тело                          | действие |
+|-------|-------------------------------|----------|
+| 200   | `{"status":"ok"}`             | healthy, выход |
+| 200   | что-то другое                 | reverse-proxy mismatch, restart |
+| 503   | `{"error":"Loading model"}`   | модель грузится, **не трогаем** |
+| 000   | (curl упал — таймаут / refused) | dead, restart |
+| 4xx/5xx прочие | —                    | restart |
+
+503-ветка важна: на Nano загрузка GGUF в RAM+VRAM занимает 10-30с, и без
+этой ветки watchdog рестартил бы сервер прямо во время загрузки —
+бесконечный цикл. Без state-машины и rate-limit — llama stateless,
+рестарт чинит всё что чинится; если модель сломана / CUDA лежит — unit
+паркуется в failed после `StartLimitBurst=5/300s`.
 
 ## Типичные операции
 

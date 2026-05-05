@@ -112,9 +112,11 @@ UNITS=(
   mcp-csi-camera.service
   mcp-csi-camera-watchdog.service
   llama-server.service
+  llama-server-watchdog.service
 )
 TIMERS=(
   mcp-csi-camera-watchdog.timer
+  llama-server-watchdog.timer
 )
 
 # ---------------- uninstall path
@@ -191,14 +193,17 @@ echo "    llama-bin:  $LLAMA_BIN"
 render "$SCRIPT_DIR/mcp-csi-camera.service.in"          "$SYSTEMD_DIR/mcp-csi-camera.service"
 render "$SCRIPT_DIR/mcp-csi-camera-watchdog.service.in" "$SYSTEMD_DIR/mcp-csi-camera-watchdog.service"
 render "$SCRIPT_DIR/llama-server.service.in"            "$SYSTEMD_DIR/llama-server.service"
+render "$SCRIPT_DIR/llama-server-watchdog.service.in"   "$SYSTEMD_DIR/llama-server-watchdog.service"
 
-# Timer file has no placeholders — copy as-is.
-if [[ "$DRY_RUN" -eq 1 ]]; then
-  echo "----- would copy $SCRIPT_DIR/mcp-csi-camera-watchdog.timer -> $SYSTEMD_DIR/mcp-csi-camera-watchdog.timer -----"
-else
-  install -m 0644 "$SCRIPT_DIR/mcp-csi-camera-watchdog.timer" "$SYSTEMD_DIR/mcp-csi-camera-watchdog.timer"
-  echo "  wrote $SYSTEMD_DIR/mcp-csi-camera-watchdog.timer"
-fi
+# Timer files have no placeholders — copy as-is.
+for t in "${TIMERS[@]}"; do
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    echo "----- would copy $SCRIPT_DIR/$t -> $SYSTEMD_DIR/$t -----"
+  else
+    install -m 0644 "$SCRIPT_DIR/$t" "$SYSTEMD_DIR/$t"
+    echo "  wrote $SYSTEMD_DIR/$t"
+  fi
+done
 
 # ---------------- /etc/default/* stubs
 
@@ -270,8 +275,9 @@ echo "==> enabling units"
 systemctl enable mcp-csi-camera.service
 systemctl enable mcp-csi-camera-watchdog.timer
 systemctl enable llama-server.service
+systemctl enable llama-server-watchdog.timer
 
-echo "==> starting units (mcp-csi-camera + watchdog timer; llama-server only if env file is configured)"
+echo "==> starting units (mcp-csi-camera + watchdog timers; llama-server only if env file is configured)"
 systemctl start mcp-csi-camera.service || \
   echo "  (mcp-csi-camera failed to start — check 'journalctl -u mcp-csi-camera')"
 systemctl start mcp-csi-camera-watchdog.timer
@@ -281,13 +287,17 @@ systemctl start mcp-csi-camera-watchdog.timer
 # kept the stub model that's fine — they can `systemctl restart` later.
 systemctl start llama-server.service || \
   echo "  (llama-server failed to start — edit /etc/default/llama-server and 'systemctl restart llama-server')"
+systemctl start llama-server-watchdog.timer
 
 echo
 echo "==> done. Status check:"
-echo "  systemctl status mcp-csi-camera mcp-csi-camera-watchdog.timer llama-server"
+echo "  systemctl status mcp-csi-camera mcp-csi-camera-watchdog.timer llama-server llama-server-watchdog.timer"
 echo
 echo "==> useful follow-ups:"
 echo "  journalctl -u mcp-csi-camera -f                # live camera logs"
-echo "  journalctl -u mcp-csi-camera-watchdog -e       # last watchdog runs"
-echo "  curl -i http://127.0.0.1:8777/healthz          # manual probe"
-echo "  systemctl list-timers mcp-csi-camera-watchdog  # next probe time"
+echo "  journalctl -u mcp-csi-camera-watchdog -e       # last camera watchdog runs"
+echo "  journalctl -u llama-server -f                  # live llama-server logs"
+echo "  journalctl -u llama-server-watchdog -e         # last llama watchdog runs"
+echo "  curl -i http://127.0.0.1:8777/healthz          # manual camera probe"
+echo "  curl -i http://127.0.0.1:8776/health           # manual llama probe"
+echo "  systemctl list-timers '*-watchdog.timer'       # next probe times"

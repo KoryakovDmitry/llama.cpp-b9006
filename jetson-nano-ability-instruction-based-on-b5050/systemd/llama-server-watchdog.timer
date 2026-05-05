@@ -1,0 +1,21 @@
+[Unit]
+# Drives llama-server-watchdog.service on a periodic schedule. Mirrors
+# mcp-csi-camera-watchdog.timer one-for-one: enable this timer, not the
+# .service it triggers.
+
+Description=llama-server watchdog timer (probes /health every 30s)
+
+[Timer]
+# Generous initial delay — on a Nano, a fresh boot has to load the GGUF
+# from SD into RAM and onto the GPU, which routinely takes 30-60 s for
+# small Q8_0 models. 2 min keeps us out of that window for the first
+# probe; subsequent activations are caught by the script's
+# `is-active` check and the explicit 503-loading branch.
+OnBootSec=2min
+OnUnitActiveSec=30s
+
+Unit=llama-server-watchdog.service
+Persistent=false
+
+[Install]
+WantedBy=timers.target
